@@ -312,7 +312,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.tableWidget_geometry_place.update()
         search_dict = {
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
-            #'name_feat': "'" + str(self.comboBox_name_site.currentText()) + "'"
+            'name_feat': "'" + str(self.comboBox_name_site.currentText()) + "'"
         }
     
         geometry_vl = self.DB_MANAGER.query_bool(search_dict,'SITE_POLYGON')
@@ -323,7 +323,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         
         search_dict1 = {
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
-            #'name_f_l': "'" + str(self.comboBox_name_site.currentText()) + "'"
+            'name_f_l': "'" + str(self.comboBox_name_site.currentText()) + "'"
         }
     
         geometry_vl_1 = self.DB_MANAGER.query_bool(search_dict1,'SITE_LINE')
@@ -333,7 +333,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             
         search_dict2 = {
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
-            #'name_f_p': "'" + str(self.comboBox_name_site.currentText()) + "'"
+            'name_f_p': "'" + str(self.comboBox_name_site.currentText()) + "'"
         }
     
         geometry_vl_2 = self.DB_MANAGER.query_bool(search_dict2,'SITE_POINT')
@@ -477,11 +477,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateHP8.def_editable('True')
             self.tableWidget_site_interpretation_cert.setItemDelegateForColumn(0,self.delegateHP8)
             
-            # valuesHP9 = ["Negligible", "Low", "Medium", "High", "Definite",""]
-            # self.delegateHP9 = ComboBoxDelegate()
-            # self.delegateHP9.def_values(valuesHP9)
-            # self.delegateHP9.def_editable('True')
-            # self.tableWidget_overall_arch_cert.setItemDelegateForColumn(0,self.delegateHP9)
+            valuesHP9 = ["","Negligible", "Low", "Medium", "High", "Definite"]
+            self.comboBox_overall_arch_cert.clear()
+            self.comboBox_overall_arch_cert.addItems(valuesHP9)
             
             valuesHP10 = ["Possible", "Probable", "Definite","Not Applicable",""]
             self.delegateHP10 = ComboBoxDelegate()
@@ -519,11 +517,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateFT1.def_editable('True')
             self.tableWidget_site_feature_arrangement_type.setItemDelegateForColumn(0,self.delegateFT1)
             
-            # valuesMT1 = ["Negative/Cut/Dug Feature","Positive/Built Feature","Surface Feature","Unknown",""]
-            # self.delegateMT1 = ComboBoxDelegate()
-            # self.delegateMT1.def_values(valuesMT1)
-            # self.delegateMT1.def_editable('True')
-            # self.tableWidget_overall_site_morph.setItemDelegateForColumn(0,self.delegateMT1)
+            valuesMT1 = ["","Negative/Cut/Dug Feature","Positive/Built Feature","Surface Feature","Unknown"]
+            self.comboBox_overall_site_morph.clear()
+            self.comboBox_overall_site_morph.addItems(valuesMT1)
             
             valuesRS = ["Bank/Earthwork","Bank/Wall","Cave","Cleared Area","Colour/Texture Difference","Craft/Vessel/Vehicle","Depression/Hollow","Ditch/Trench","Large Mound","Modified Rock Surface","Multi-Component","Object","Paved/Laid Surface","Pit/Shaft/Tunnel","Plant/Tree","Platform/Terrace","Pyramid/Ziggurat","Rubble Spread/Architectural Fragments","Scatter","Small Mound/Cairn","Structure","Tower","Unknown","Upright Stone","Wall","Waterfront",""]
             self.delegateRS = ComboBoxDelegate()
@@ -569,17 +565,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_contruction_tech.clear()
             self.comboBox_contruction_tech.addItems(construction_type)
            
-            # valuesMT4 = ["Good","Fair","Poor","Very Bad","Destroyed","Unknow",""]
-            # self.delegateMT4 = ComboBoxDelegate()
-            # self.delegateMT4.def_values(valuesMT4)
-            # self.delegateMT4.def_editable('True')
-            # self.tableWidget_overall_condition_state.setItemDelegateForColumn(0,self.delegateMT4)
+            valuesMT4 = ["","Good","Fair","Poor","Very Bad","Destroyed","Unknow"]
+            self.comboBox_overall.clear()
+            self.comboBox_overall.addItems(valuesMT4)
             
-            # valuesMT5 = ["No Visible/Known","1-10%","11-30%","31-60%","61-90%","91-100%","Unknow",""]
-            # self.delegateMT5 = ComboBoxDelegate()
-            # self.delegateMT5.def_values(valuesMT5)
-            # self.delegateMT5.def_editable('True')
-            # self.tableWidget_damage.setItemDelegateForColumn(0,self.delegateMT5)
+            valuesMT5 = ["","No Visible/Known","1-10%","11-30%","31-60%","61-90%","91-100%","Unknow"]
+            self.comboBox_damage.clear()
+            self.comboBox_damage.addItems(valuesMT5)
            
             valuesMT6 = ["Animal/Pest Infestation","Aquaculture","Breaking/Smashing","Cable/Pipe Laying","Clearance (Bulldozing/Levelling)","Clearance (Hand)","Clearance (Unclassified)","Coastal Advance/Accretion","Coastal Erosion/Retreat","Conservation","Construction","Demolition/Destruction","Dissolved Salt","Dredging","Drilling","Drought","Dumping","Excavation (Bulldozing/Machinery)","Excavation (Hand)","Excavation (Unclassified)","Explosion/Heavy Weaponry","Fire","Flooding","Grafitti","Grazing/Animal Movement","Gunfire/Light Weaponry","Human Movement/Trampling","Inundation","Irrigation (Unclassified)","Irrigation (Channels)","Irrigation (Centre Pivot System)","Lack of Maintenance/Management/Legal Measures and Activities", "Land/Rock Slide","Landmines","Landscaping","Maintenance/Management Activities","Mining/Quarrying (Unclassified)","Mining/Quarrying (Surface)","Mining/Quarrying (Open Trench/Pit)","Mining/Quarrying (Underground)","Mooring/Anchoring","No Visible/Known","Occupation/Continued Use","Ploughing","Pollution","Precipitation","Railway","Recession of water","Reconstruction","Refurbishment","Restoration","Road/Track","Salvage","Seismic Activity","Stationary Vehicle","Structural Robbing","Temperature/Humidity Change","Theft/Unauthorised Removal of Objects","Trawling","Tunelling","Vegetation/Crops/Trees","Volcanic Eruption","Water Action","Water and/or Wind Action","Wind Action","Unknown",""]
             self.delegateMT6 = ComboBoxDelegate()
@@ -636,8 +628,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableWidget_threat_category.setItemDelegateForColumn(0,self.delegatetg)
             
             dg = ["","Animal/Pest Infestation","Aquaculture","Breaking/Smashing","Cable/Pipe Laying","Clearance (Bulldozing/Levelling)","Clearance (Hand)","Clearance (Unclassified)","Coastal Advance/Accretion","Coastal Erosion/Retreat","Conservation","Construction","Demolition/Destruction","Dissolved Salt","Dredging","Drilling","Drought","Dumping","Excavation (Bulldozing/Machinery)","Excavation (Hand)","Excavation (Unclassified)","Explosion/Heavy Weaponry","Fire","Flooding","Grafitti","Grazing/Animal Movement","Gunfire/Light Weaponry","Human Movement/Trampling","Inundation","Irrigation (Unclassified)","Irrigation (Channels)","Irrigation (Centre Pivot System)","Lack of Maintenance/Management/Legal Measures and Activities","Land/Rock Slide","Landmines","Landscaping","Maintenance/Management Activities","Mining/Quarrying (Unclassified)","Mining/Quarrying (Surface)","Mining/Quarrying (Open Trench/Pit)","Mining/Quarrying (Underground)","Mooring/Anchoring","No Visible/Known","Occupation/Continued Use","Ploughing","Pollution","Precipitation","Railway","Recession of water","Reconstruction","Refurbishment","Restoration","Road/Track","Salvage","Seismic Activity","Stationary Vehicle","Structural Robbing","Temperature/Humidity Change","Theft/Unauthorised Removal of Objects","Trawling","Tunelling","Vegetation/Crops/Trees","Volcanic Eruption","Water Action","Water and/or Wind Action","Wind Action","Unknown"]
-            self.comboBox_disturbance_cause_category.clear()
-            self.comboBox_disturbance_cause_category.addItems(dg)
+            self.delegatedg = ComboBoxDelegate()
+            self.delegatedg.def_values(dg)
+            self.delegatedg.def_editable('True')
+            self.tableWidget_disturbance_causa_category.setItemDelegateForColumn(0,self.delegatedg)
             
             dtypy = ["","Biological Mean Sea Levelng","Chart Datum","Clearance (Hand)","Mean High Water","Mean Low Water","Mean Sea Level","Other","Regional/Local Datum","Unknown"]
             self.comboBox_datum_type.clear()
@@ -660,8 +654,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_depositional.addItems(depositional_process)
             
             surficial = ["","Coarse Sediment","Mixed Sediment","Mud (Clay and Silt)","Organic sediment/deposit","Palaeontological remains (macro)","Palaeontological remains (micro)","Rock and Boulders","Sand","Archaeological Deposit/Artefact Bearing Deposit"]
-            self.comboBox_surficial.clear()
-            self.comboBox_surficial.addItems(surficial)
+            self.delegatesu = ComboBoxDelegate()
+            self.delegatesu.def_values(surficial)
+            self.delegatesu.def_editable('True')
+            self.tableWidget_surficial.setItemDelegateForColumn(0,self.delegatesu)
             
             badrock = ["","Igenous (undefined)","Basalt","Conglomerate","Granite","Limestone/Chalk/Dolomite","Marble","Metamorphic (undefined)","Mudstone/Siltstone","Organic sedimentary rock","Sandstone","Sedimentary (undefined)","Slate","Tuff"]
             self.comboBox_bedrock.clear()
@@ -680,34 +676,34 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:         
             QMessageBox.warning(self, "Error", "Error 2 \n" + str(e), QMessageBox.Ok)
     def charge_list(self):
-        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'name_site', 'SITE'))
+        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('eamena_table', 'location', 'EAMENA'))
         try:
             sito_vl.remove('')
         except :
             pass
-        self.comboBox_name_site.clear()
-        sito_vl.sort()
-        self.comboBox_name_site.addItems(sito_vl)
-        
-        
-        location_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-        try:
-            location_vl.remove('')
-        except :
-            pass
         self.comboBox_location.clear()
+        sito_vl.sort()
+        self.comboBox_location.addItems(sito_vl)
         
-        location_vl.sort()
-        self.comboBox_location.addItems(location_vl)
         
-        adress_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-        try:
-            adress_vl.remove('')
-        except :
-            pass
-        self.comboBox_Address.clear()
-        adress_vl.sort()
-        self.comboBox_Address.addItems(adress_vl)
+        # location_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
+        # try:
+            # location_vl.remove('')
+        # except :
+            # pass
+        # self.comboBox_location.clear()
+        
+        # location_vl.sort()
+        # self.comboBox_location.addItems(location_vl)
+        
+        # adress_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
+        # try:
+            # adress_vl.remove('')
+        # except :
+            # pass
+        # self.comboBox_Address.clear()
+        # adress_vl.sort()
+        # self.comboBox_Address.addItems(adress_vl)
         
         
         # #lista years reference
@@ -801,7 +797,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                     self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
                     self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), len(self.DATA_LIST) - 1
                     self.set_rec_counter(self.REC_TOT, self.REC_CORR + 1)
-                    self.setComboBoxEnable(["self.comboBox_name_site"], "False")
+                    #self.setComboBoxEnable(["self.comboBox_name_site"], "False")
                     self.setComboBoxEnable(["self.comboBox_location"], "False")
                     self.fill_fields(self.REC_CORR)
                     self.enable_button(1)
@@ -810,8 +806,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
     def data_error_check(self):
         test = 0
         EC = Error_check()
-        if EC.data_is_empty(str(self.comboBox_name_site.currentText())) == 0:
-            QMessageBox.warning(self, "WARNING", "Name site \n The field must not be empty", QMessageBox.Ok)
+        if EC.data_is_empty(str(self.comboBox_location.currentText())) == 0:
+            QMessageBox.warning(self, "WARNING", "ID Unique \n The field must not be empty", QMessageBox.Ok)
             test = 1
         return test
     def insert_new_rec(self):
@@ -828,10 +824,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         country_type= self.table2dict("self.tableWidget_country_type") 
         #overall_condition_state = self.table2dict("self.tableWidget_overall_condition_state") 
         #damage= self.table2dict("self.tableWidget_damage") 
-        disturbance_cause_category= self.table2dict("self.tableWidget_disturbance_causa_category") 
+        disturbance_causa_category= self.table2dict("self.tableWidget_disturbance_causa_category") 
         disturbance_date_from= self.table2dict("self.tableWidget_disturbance_date_from")
         disturbance_date_to= self.table2dict("self.tableWidget_disturbance_date_to") 
-        disturbance_date_occurred_before= self.table2dict("self.tableWidget_date_occurred_before")
+        disturbance_date_occurred_before= self.table2dict("self.tableWidget_disturbance_date_occurred_before")
         disturbance_date_occurred_on= self.table2dict("self.tableWidget_disturbance_date_occurred_on")
         disturbance_cause= self.table2dict("self.tableWidget_disturbance_cause") 
         disturbance_cause_2= self.table2dict("self.tableWidget_disturbance_cause_2") 
@@ -900,8 +896,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(self.comboBox_administrative_subvision.currentText()),  # 4 - comune
                 str(self.comboBox_administrative_subvision_type.currentText()), 
                 str(self.comboBox_overall_arch_cert.currentText()),
-                str(osm),
                 str(self.comboBox_overall_site_morph.currentText()),
+                str(osm),
                 str(cpc),
                 str(cspc),
                 str(spc),
@@ -932,7 +928,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(dt), 
                 str(mst),        
                 str(self.comboBox_related_geoarch.currentText()),
-                str(self.comboBox_overall_condition_state.currentText()),
+                str(self.comboBox_overall.currentText()),
                 str(self.comboBox_damage.currentText()),
                 str(disturbance_causa_category),  # 4 - comune
                 str(disturbance_cause),
@@ -947,7 +943,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(threat_category),  # 4 - comune
                 str(threat_type),
                 str(threat_probability),
-                
+                str(self.comboBox_threat.currentText()),
                 str(self.comboBox_int_activity_type.currentText()),  # 4 - comune
                 str(self.comboBox_raccomandation.currentText()),  # 4 - comune
                 str(self.comboBox_priority.currentText()),  # 4 - comune
@@ -965,9 +961,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(self.lineEdit_depth_min.text()),  # 4 - comune
                 str(self.comboBox_datum_type.currentText()),  # 4 - comune
                 str(self.comboBox_datum_description.currentText()),  # 4 - comune
-                str(self.comboBox_restricted.currentText()),  # 4 - comune
-               
-                )
+                str(self.comboBox_restricted.currentText()))
+                
             try:
                 self.DB_MANAGER.insert_data_session(data)
                 return 1
@@ -1361,7 +1356,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                     self.fill_fields(self.REC_CORR)
                     self.BROWSE_STATUS = "b"
                     self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
-                    self.setComboBoxEnable(["self.comboBox_name_site"], "False")
+                    #self.setComboBoxEnable(["self.comboBox_name_site"], "False")
                 else:
                     self.DATA_LIST = []
                     for i in res:
@@ -1388,7 +1383,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                             self.pyQGIS.charge_eamena_pol_layers(self.DATA_LIST)
                             self.pyQGIS.charge_eamena_line_layers(self.DATA_LIST)
                             self.pyQGIS.charge_eamena_point_layers(self.DATA_LIST)
-                    self.setComboBoxEnable(["self.comboBox_name_site"], "False")
+                    #self.setComboBoxEnable(["self.comboBox_name_site"], "False")
                     QMessageBox.warning(self, "Message", "%s %d %s" % strings, QMessageBox.Ok)
         self.enable_button_search(1)
     # def on_pushButton_draw_pressed(self):
@@ -1482,7 +1477,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         disturbance_causa_category= self.tableWidget_disturbance_causa_category.rowCount() 
         disturbance_date_from= self.tableWidget_disturbance_date_from.rowCount()
         disturbance_date_to= self.tableWidget_disturbance_date_to.rowCount() 
-        disturbance_date_occurred_before= self.tableWidget_date_occurred_before.rowCount()
+        disturbance_date_occurred_before= self.tableWidget_disturbance_date_occurred_before.rowCount()
         disturbance_date_occurred_on= self.tableWidget_disturbance_date_occurred_on.rowCount()
         disturbance_cause= self.tableWidget_disturbance_cause.rowCount() 
         disturbance_cause_2= self.tableWidget_disturbance_cause_2.rowCount() 
@@ -1678,13 +1673,15 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         #self.insert_new_row("self.tableWidget_effect_certainty")
         for i in range(threat_category):
             self.tableWidget_threat_category.removeRow(0)
+        
         for i in range(threat_type):
             self.tableWidget_threat_type.removeRow(0)
+        
         #self.insert_new_row("self.tableWidget_threat_type")
         for i in range(threat_probability):
             self.tableWidget_threat_probability.removeRow(0)
         #self.insert_new_row("self.tableWidget_threat_probability")
-        #self.comboBox_threat.setEditText('')  # 4 - comune
+        self.comboBox_threat.setEditText('')  # 4 - comune
         self.comboBox_int_activity_type.setEditText('')  # 4 - comune
         self.comboBox_raccomandation.setEditText('')  # 4 - comune
         self.comboBox_priority.setEditText('')  # 4 - comune
@@ -1776,7 +1773,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableInsertData("self.tableWidget_dimension_type", self.DATA_LIST[self.rec_num].dimension_type) 
             self.tableInsertData("self.tableWidget_measurement_siurce_type", self.DATA_LIST[self.rec_num].measurement_source_type)   
             str(self.comboBox_related_geoarch.setEditText(self.DATA_LIST[self.rec_num].related_geoarch_palaeo))
-            str(self.comboBox_overall_condition_state.setEditText(self.DATA_LIST[self.rec_num].overall_condition_state))
+            str(self.comboBox_overall.setEditText(self.DATA_LIST[self.rec_num].overall_condition_state))
             str(self.comboBox_damage.setEditText(self.DATA_LIST[self.rec_num].damage_extent_type))
             self.tableInsertData("self.tableWidget_disturbance_causa_category", self.DATA_LIST[self.rec_num].disturbance_cause_category_type)
             self.tableInsertData("self.tableWidget_disturbance_cause", self.DATA_LIST[self.rec_num].disturbance_cause_type)
@@ -1788,7 +1785,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             str(self.comboBox_disturbance_cause_ass.setEditText(self.DATA_LIST[self.rec_num].disturbance_cause_assignment_assessor_name))
             self.tableInsertData("self.tableWidget_effect_type", self.DATA_LIST[self.rec_num].effect_type)
             self.tableInsertData("self.tableWidget_effect_certainty", self.DATA_LIST[self.rec_num].effect_certainty)
-            self.tableInsertData("self.tableWidget_threat_category", self.DATA_LIST[self.rec_num].threat_category)  # 4 - comune
+            self.tableInsertData("self.tableWidget_threat_category", self.DATA_LIST[self.rec_num].threat_category)  # 4 -
             self.tableInsertData("self.tableWidget_threat_type", self.DATA_LIST[self.rec_num].threat_type)
             self.tableInsertData("self.tableWidget_threat_probability", self.DATA_LIST[self.rec_num].threat_probability)
             str(self.comboBox_threat.setEditText(self.DATA_LIST[self.rec_num].threat_inference_making_assessor_name))  # 4 - comune
@@ -1836,10 +1833,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         country_type= self.table2dict("self.tableWidget_country_type") 
         #overall_condition_state = self.table2dict("self.tableWidget_overall_condition_state") 
         #damage= self.table2dict("self.tableWidget_damage") 
-        disturbance_cause_category= self.table2dict("self.tableWidget_disturbance_causa_category") 
+        disturbance_causa_category= self.table2dict("self.tableWidget_disturbance_causa_category") 
         disturbance_date_from= self.table2dict("self.tableWidget_disturbance_date_from")
         disturbance_date_to= self.table2dict("self.tableWidget_disturbance_date_to") 
-        disturbance_date_occurred_before= self.table2dict("self.tableWidget_date_occurred_before")
+        disturbance_date_occurred_before= self.table2dict("self.tableWidget_disturbance_date_occurred_before")
         disturbance_date_occurred_on= self.table2dict("self.tableWidget_disturbance_date_occurred_on")
         disturbance_cause= self.table2dict("self.tableWidget_disturbance_cause") 
         disturbance_cause_2= self.table2dict("self.tableWidget_disturbance_cause_2") 
@@ -1904,8 +1901,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(self.comboBox_administrative_subvision.currentText()),  # 4 - comune
                 str(self.comboBox_administrative_subvision_type.currentText()), 
                 str(self.comboBox_overall_arch_cert.currentText()),
-                str(osm),
+                
                 str(self.comboBox_overall_site_morph.currentText()),
+                str(osm),
                 str(cpc),
                 str(cspc),
                 str(spc),
@@ -1936,7 +1934,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(dt), 
                 str(mst),        
                 str(self.comboBox_related_geoarch.currentText()),
-                str(self.comboBox_overall_condition_state.currentText()),
+                str(self.comboBox_overall.currentText()),
                 str(self.comboBox_damage.currentText()),
                 str(disturbance_causa_category),  # 4 - comune
                 str(disturbance_cause),
@@ -1951,7 +1949,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(threat_category),  # 4 - comune
                 str(threat_type),
                 str(threat_probability),
-                
+                str(self.comboBox_threat.currentText()),  # 4 - comune
                 str(self.comboBox_int_activity_type.currentText()),  # 4 - comune
                 str(self.comboBox_raccomandation.currentText()),  # 4 - comune
                 str(self.comboBox_priority.currentText()),  # 4 - comune
