@@ -308,8 +308,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             QMessageBox.warning(self, "Connection system", str(e), QMessageBox.Ok)
         self.mDockWidget.setHidden(True)
         self.toolButton_import_excel.clicked.connect(self.setPathexcel)
-        sito = self.comboBox_name_site.currentText()
-        self.comboBox_name_site.setEditText(sito)
+        
         
         self.model = QStandardItemModel()
         self.customize_GUI()
@@ -538,7 +537,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.tableWidget_geometry_place.update()
         search_dict = {
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
-            'name_feat': "'" + str(self.comboBox_name_site.currentText()) + "'"
+            #'name_feat': "'" + str(self.comboBox_name_site.currentText()) + "'"
         }
     
         geometry_vl = self.DB_MANAGER.query_bool(search_dict,'SITE_POLYGON')
@@ -552,7 +551,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             # pass
         search_dict1 = {
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
-            'name_f_l': "'" + str(self.comboBox_name_site.currentText()) + "'"
+            #'name_f_l': "'" + str(self.comboBox_name_site.currentText()) + "'"
         }
     
         geometry_vl_1 = self.DB_MANAGER.query_bool(search_dict1,'SITE_LINE')
@@ -565,7 +564,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             # pass    
         search_dict2 = {
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
-            'name_f_p': "'" + str(self.comboBox_name_site.currentText()) + "'"
+            #'name_f_p': "'" + str(self.comboBox_name_site.currentText()) + "'"
         }
     
         geometry_vl_2 = self.DB_MANAGER.query_bool(search_dict2,'SITE_POINT')
@@ -910,6 +909,18 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateTP4.def_editable('True')
             self.tableWidget_topography_type.setItemDelegateForColumn(0,self.delegateTP4)
             
+            values_nome_type = ["Alternative Reference","Designation","Toponym",""]
+            self.delegate_nome_type = ComboBoxDelegate()
+            self.delegate_nome_type.def_values(values_nome_type)
+            self.delegate_nome_type.def_editable('True')
+            self.tableWidget_resource_type.setItemDelegateForColumn(0,self.delegate_nome_type)
+        
+            values_designation = ["Managed Site","Enhanced Protection List of the Hague Convention","UNESCO World Heritage List","UNESCO World Heritage Tentative List","UNESCO World Heritage in Danger List","National Register","Local Register","JADIS (Jordan Antiquities Database and Information System)","MEGA-Jordan (Middle Eastern Geodatabase for Antiquities)","Saudi Commission for Tourism and National Heritage (SCTH)","Carte Nationale des Sites Archéologiques et des Monuments Historiques (Tunisia)","Iran's National Heritage List","PADIS (Palestine Archaeological Databank and Information System)","Other",""]
+            self.delegate_designation = ComboBoxDelegate()
+            self.delegate_designation.def_values(values_designation)
+            self.delegate_designation.def_editable('True')
+            self.tableWidget_designation.setItemDelegateForColumn(0,self.delegate_designation)
+        
         except Exception as e:         
             QMessageBox.warning(self, "Error", "Error 2 \n" + str(e), QMessageBox.Ok)
     def charge_list(self):
@@ -996,8 +1007,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.BROWSE_STATUS = "n"
             self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
             self.empty_fields()
-            self.setComboBoxEnable(["self.comboBox_name_site"], "True")
-            self.setComboBoxEditable(["self.comboBox_name_site"], 1)
+            # self.setComboBoxEnable(["self.comboBox_name_site"], "True")
+            # self.setComboBoxEditable(["self.comboBox_name_site"], 1)
             self.setComboBoxEnable(["self.comboBox_location"], "True")
             self.setComboBoxEditable(["self.comboBox_location"], 1)
             self.SORT_STATUS = "n"
@@ -1098,7 +1109,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         ge=  self.table2dict("self.tableWidget_mDateEdit_1")
         general_description_type= self.table2dict("self.tableWidget_general_description_type")
         general_description = self.table2dict("self.tableWidget_general_description")
-        
+        resource_name=  self.table2dict("self.tableWidget_resource_name")
+        name_type= self.table2dict("self.tableWidget_resource_type")
+        designation = self.table2dict("self.tableWidget_designation")
         
         try:
             data = self.DB_MANAGER.insert_eamena_values(
@@ -1112,14 +1125,14 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(ge), # 8 - path
                 str(self.comboBox_information_resource_used.currentText()),  # 3 - regione
                 str(self.mDateEdit_2.text()), # 8 - path
-                str(self.comboBox_name_site.currentText()),  
-                str(self.comboBox_resource_type.currentText()),  
+                str(resource_name),  
+                str(name_type),  
                 str(hplacetype),
                 str(general_description_type), 
                 str(general_description),  
                 str(hplacefuntion),
                 str(hplacefunctioncertainty),
-                str(self.comboBox_designation.currentText()),
+                str(designation),
                 str(self.mDateEdit_3.text()), 
                 str(self.mDateEdit_4.text()),
                 str(geometry_place),
@@ -1237,6 +1250,16 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.remove_row('self.tableWidget_hplacetype')
         self.remove_row('self.tableWidget_hplacefuntion')
         self.remove_row('self.tableWidget_hplacefunctioncertainty')
+    def on_pushButton_add_resource_2_pressed(self):
+        self.insert_new_row('self.tableWidget_resource_name')
+        self.insert_new_row('self.tableWidget_resource_type')
+        self.insert_new_row('self.tableWidget_designation')
+    def on_pushButton_remove_resource_2_pressed(self):
+        self.remove_row('self.tableWidget_resource_name')
+        self.remove_row('self.tableWidget_resource_type')
+        self.remove_row('self.tableWidget_designation')
+    
+    
     def on_pushButton_add_geometry_pressed(self):
         self.insert_new_row('self.tableWidget_geometry_place')
         self.insert_new_row('self.tableWidget_geometry_extent')
@@ -1521,7 +1544,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 self.BROWSE_STATUS = "f"
                 self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
                 
-                self.setComboBoxEnable(["self.comboBox_name_site"], "True")
+                #self.setComboBoxEnable(["self.comboBox_name_site"], "True")
                 
                 self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
                 self.set_rec_counter('', '')
@@ -1535,14 +1558,14 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         else:
             search_dict = {
                 self.TABLE_FIELDS[0]:"'" +  str(self.comboBox_location.currentText()) +"'",  # 1 - Sito
-                self.TABLE_FIELDS[9]:"'" +  str(self.comboBox_name_site.currentText()) +"'",  # 2 - nazione
+                #self.TABLE_FIELDS[9]:"'" +  str(self.comboBox_name_site.currentText()) +"'",  # 2 - nazione
                 self.TABLE_FIELDS[5]:"'" +  str(self.comboBox_ge_assessment.currentText()) +"'",  # 3 - regione
                 #self.TABLE_FIELDS[6]:"'" +  str(self.mDateEdit_1.text()) +"'", # 8 - path
                 self.TABLE_FIELDS[7]:"'" +  str(self.comboBox_information_resource_used.currentText()) +"'",  # 3 - regione
                 self.TABLE_FIELDS[8]:"'" +  str(self.mDateEdit_2.text()) +"'", # 8 - path
-                self.TABLE_FIELDS[10]:"'" + str(self.comboBox_resource_type.currentText()) +"'",  # 3 - regione
+                #self.TABLE_FIELDS[10]:"'" + str(self.comboBox_resource_type.currentText()) +"'",  # 3 - regione
                 #self.TABLE_FIELDS[12]:"'" + str(self.comboBox_general_description_type.currentText()) +"'",  # 3 - regione
-                self.TABLE_FIELDS[16]:"'" + str(self.comboBox_designation.currentText()) +"'",  # 3 - regione
+                #self.TABLE_FIELDS[16]:"'" + str(self.comboBox_designation.currentText()) +"'",  # 3 - regione
                 self.TABLE_FIELDS[17]:"'" + str(self.mDateEdit_3.text()) +"'",  # 3 - regione
                 self.TABLE_FIELDS[18]:"'" + str(self.mDateEdit_4.text()) +"'",  # 3 - regione
                 #self.TABLE_FIELDS[13]:"'" + str(self.textEdit_general_description.toPlainText()) +"'",  # 3 - regione
@@ -1748,7 +1771,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         ge=  self.tableWidget_mDateEdit_1.rowCount()
         general_description_type= self.tableWidget_general_description_type.rowCount()
         general_description = self.tableWidget_general_description.rowCount()
-        
+        resource_name= self.tableWidget_resource_name.rowCount()
+        name_type= self.tableWidget_resource_type.rowCount()
+        designation = self.tableWidget_designation.rowCount()
         self.comboBox_location.setEditText('')  # 1 - Sito
         for i in range(investigator):
             self.tableWidget_investigator.removeRow(0)
@@ -1767,10 +1792,14 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableWidget_mDateEdit_1.removeRow(0)
         self.comboBox_information_resource_used.setEditText('')  # 3 - regione
         self.mDateEdit_2.clear() # 8 - path
-        self.comboBox_name_site.setEditText('')  
-        self.comboBox_resource_type.setEditText('')  
         
         
+        for i in range(resource_name):
+            self.tableWidget_resource_name.removeRow(0)
+        
+        for i in range(name_type):
+            self.tableWidget_resource_type.removeRow(0)
+            
         for i in range(hplacetype):
             self.tableWidget_hplacetype.removeRow(0)
         #self.insert_new_row("self.tableWidget_hplacetype")
@@ -1784,7 +1813,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         for i in range(hplacefunctioncertainty):
             self.tableWidget_hplacefunctioncertainty.removeRow(0)
         #self.insert_new_row("self.tableWidget_hplacefunctioncertainty")
-        self.comboBox_designation.setEditText('')
+        for i in range(designation):
+            self.tableWidget_designation.removeRow(0)
         self.mDateEdit_3.clear() 
         self.mDateEdit_4.clear()
         for i in range(geometry_place):
@@ -1957,14 +1987,14 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableInsertData("self.tableWidget_mDateEdit_1" , self.DATA_LIST[self.rec_num].ge_imagery_acquisition_date) 
             str(self.comboBox_information_resource_used.setEditText(self.DATA_LIST[self.rec_num].information_resource_used)) 
             self.mDateEdit_2.setText(self.DATA_LIST[self.rec_num].information_resource_acquisition_date) # 8 - path
-            str(self.comboBox_name_site.setEditText(self.DATA_LIST[self.rec_num].resource_name))  
-            str(self.comboBox_resource_type.setEditText(self.DATA_LIST[self.rec_num].name_type))  
+            self.tableInsertData("self.tableWidget_resource_name", self.DATA_LIST[self.rec_num].resource_name) 
+            self.tableInsertData("self.tableWidget_resource_type", self.DATA_LIST[self.rec_num].name_type)
             self.tableInsertData("self.tableWidget_hplacetype", self.DATA_LIST[self.rec_num].heritage_place_type)
             self.tableInsertData("self.tableWidget_general_description_type" , self.DATA_LIST[self.rec_num].general_description_type) 
             self.tableInsertData("self.tableWidget_general_description" , self.DATA_LIST[self.rec_num].general_description) 
             self.tableInsertData("self.tableWidget_hplacefuntion", self.DATA_LIST[self.rec_num].heritage_place_function)
             self.tableInsertData("self.tableWidget_hplacefunctioncertainty", self.DATA_LIST[self.rec_num].heritage_place_function_certainty)
-            str(self.comboBox_designation.setEditText(self.DATA_LIST[self.rec_num].designation))
+            self.tableInsertData("self.tableWidget_designation", self.DATA_LIST[self.rec_num].designation)
             self.mDateEdit_3.setText(self.DATA_LIST[self.rec_num].designation_from_date) 
             self.mDateEdit_4.setText(self.DATA_LIST[self.rec_num].designation_to_date)
             self.tableInsertData("self.tableWidget_geometry_place", self.DATA_LIST[self.rec_num].geometric_place_expression)
@@ -2107,6 +2137,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         ge=  self.table2dict("self.tableWidget_mDateEdit_1")
         general_description_type= self.table2dict("self.tableWidget_general_description_type")
         general_description = self.table2dict("self.tableWidget_general_description")
+        resource_name=  self.table2dict("self.tableWidget_resource_name")
+        name_type= self.table2dict("self.tableWidget_resource_type")
+        designation = self.table2dict("self.tableWidget_designation")
+        
         self.DATA_LIST_REC_TEMP = [
             str(self.comboBox_location.currentText()),  # 1 - Sito
                 str(investigator),
@@ -2117,14 +2151,14 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(ge), # 8 - path
                 str(self.comboBox_information_resource_used.currentText()),  # 3 - regione
                 str(self.mDateEdit_2.text()), # 8 - path
-                str(self.comboBox_name_site.currentText()),  
-                str(self.comboBox_resource_type.currentText()),  
+                str(resource_name),  
+                str(name_type),
                 str(hplacetype),
                 str(general_description_type), 
                 str(general_description),  
                 str(hplacefuntion),
                 str(hplacefunctioncertainty),
-                str(self.comboBox_designation.currentText()),
+                str(designation),
                 str(self.mDateEdit_3.text()), 
                 str(self.mDateEdit_4.text()),
                 str(geometry_place),
@@ -2141,7 +2175,6 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(self.comboBox_administrative_subvision.currentText()),  # 4 - comune
                 str(self.comboBox_administrative_subvision_type.currentText()), 
                 str(self.comboBox_overall_arch_cert.currentText()),
-                
                 str(self.comboBox_overall_site_morph.currentText()),
                 str(osm),
                 str(cpc),

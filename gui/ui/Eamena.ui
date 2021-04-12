@@ -33,462 +33,495 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_8">
-   <item row="2" column="0" colspan="2">
-    <layout class="QGridLayout" name="gridLayout_20">
-     <item row="1" column="1">
-      <widget class="QComboBox" name="comboBox_location">
-       <property name="enabled">
-        <bool>true</bool>
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout_5">
+     <item row="0" column="8">
+      <widget class="QLabel" name="label_29">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>DBMS Toolbar</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="6">
+      <widget class="QPushButton" name="pushButton_sort">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize">
-        <size>
-         <width>300</width>
-         <height>0</height>
-        </size>
-       </property>
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>30</width>
          <height>30</height>
         </size>
        </property>
        <property name="font">
         <font>
-         <pointsize>8</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
+         <pointsize>9</pointsize>
         </font>
-       </property>
-       <property name="mouseTracking">
-        <bool>true</bool>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Order by</string>
        </property>
-       <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t=50s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Doc&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-       <property name="currentText">
+       <property name="text">
         <string/>
        </property>
-       <property name="maxVisibleItems">
-        <number>99999</number>
-       </property>
-       <property name="maxCount">
-        <number>2147483647</number>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="3">
-      <widget class="QComboBox" name="comboBox_name_site">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>1</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="mouseTracking">
-        <bool>true</bool>
-       </property>
-       <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t=50s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Doc&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-       <property name="currentText">
-        <string/>
-       </property>
-       <property name="maxVisibleItems">
-        <number>99999</number>
-       </property>
-       <property name="maxCount">
-        <number>2147483647</number>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
        </property>
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Restricted Access</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <widget class="QComboBox" name="comboBox_Address">
-       <property name="font">
-        <font>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="4">
-      <widget class="QLabel" name="label_20">
-       <property name="font">
-        <font>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Adress type</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="comboBox_restricted">
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-       <item>
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Yes</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>No</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Directorate General of Antiquities of Lebanon</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>MarEA Staff, EAMENA/MarEA staff</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Grid</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label">
+      <widget class="QPushButton" name="pushButton_save">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="maximumSize">
         <size>
-         <width>53</width>
-         <height>16777215</height>
+         <width>30</width>
+         <height>30</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Save</string>
+       </property>
        <property name="text">
-        <string>ID Unique</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/b_save.png</normaloff>:/icons/b_save.png</iconset>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="label_6">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton_export_excel">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Export Excel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="text">
-        <string>Resource name</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/excel-export.png</normaloff>:/icons/excel-export.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QPushButton" name="pushButton_view_all">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>View alls records</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButton_prev_rec">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Prev rec</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="pushButton_open_dir">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/directoryExp.png</normaloff>:/icons/directoryExp.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QPushButton" name="pushButton_new_rec">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>New record</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="pushButton_import_excel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/import-excel.png</normaloff>:/icons/import-excel.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButton_first_rec">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>First rec</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="pushButton_last_rec">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Last rec</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="pushButton_next_rec">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Next rec</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QPushButton" name="pushButton_connect">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>CT</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="pushButton_delete">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Delete record</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
        </property>
       </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QLabel" name="label_25">
-       <property name="font">
-        <font>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
+      <widget class="QPushButton" name="pushButton_new_search">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="text">
-        <string>Address</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="5">
-      <widget class="QComboBox" name="comboBox_grid">
-       <property name="minimumSize">
+       <property name="maximumSize">
         <size>
-         <width>200</width>
-         <height>0</height>
+         <width>30</width>
+         <height>30</height>
         </size>
        </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-       <item>
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-11</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-12</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-13</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-14</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-21</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-23</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-24</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-31</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-32</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-33</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-34</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-41</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-42</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-43</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N33-44</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-11</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-12</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-13</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-14</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-21</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-22</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-23</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-24</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-31</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-32</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-41</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E35N34-42</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N33-31</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N33-33</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N33-34</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N34-11</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N34-12</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N34-13</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N34-14</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N34-21</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N34-23</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N34-31</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>E36N34-32</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="2" column="5">
-      <widget class="QComboBox" name="comboBox_address_type">
        <property name="font">
         <font>
-         <weight>50</weight>
-         <bold>false</bold>
+         <pointsize>9</pointsize>
         </font>
        </property>
-       <property name="editable">
+       <property name="toolTip">
+        <string>new search</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QPushButton" name="pushButton_search_go">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>search !!!</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QPushButton" name="pushButton_eamena_geometry">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/iconsus.png</normaloff>:/icons/iconsus.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="6">
+      <widget class="QToolButton" name="toolButton_draw_siti">
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/GIS.png</normaloff>:/icons/GIS.png</iconset>
+       </property>
+       <property name="checkable">
         <bool>true</bool>
        </property>
-       <item>
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Alternative</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Primary</string>
-        </property>
-       </item>
       </widget>
      </item>
     </layout>
@@ -1171,158 +1204,7 @@
            <string>Resource Summary</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_6">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_26">
-             <property name="text">
-              <string>Name Type</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="label_30">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Designation</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_31">
-             <property name="text">
-              <string>From date</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QLabel" name="label_32">
-             <property name="text">
-              <string>To date</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QComboBox" name="comboBox_resource_type">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="editable">
-              <bool>true</bool>
-             </property>
-             <item>
-              <property name="text">
-               <string/>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Alternative Reference</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Designation</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Toponym</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QComboBox" name="comboBox_designation">
-             <property name="editable">
-              <bool>true</bool>
-             </property>
-             <item>
-              <property name="text">
-               <string/>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Managed Site</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Enhanced Protection List of the Hague Convention</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UNESCO World Heritage List</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UNESCO World Heritage Tentative List</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UNESCO World Heritage in Danger List</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>JADIS</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>MEGA-Jordan</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Saudi Commission for Tourism and National Heritage (SCTH)</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Carte Nationale des Sites Archéologiques et des Monuments Historiques (Tunisia)</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Iran's National Heritage List</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Other</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>PADIS</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLineEdit" name="mDateEdit_3"/>
-           </item>
-           <item row="1" column="3">
-            <widget class="QLineEdit" name="mDateEdit_4"/>
-           </item>
-           <item row="2" column="0" colspan="4">
+           <item row="0" column="0" colspan="2">
             <widget class="QToolBox" name="toolBox_2">
              <property name="font">
               <font>
@@ -1351,13 +1233,138 @@
              <property name="currentIndex">
               <number>0</number>
              </property>
+             <widget class="QWidget" name="page_14">
+              <attribute name="label">
+               <string>Resource Name</string>
+              </attribute>
+              <widget class="QLabel" name="label_31">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>1</y>
+                 <width>507</width>
+                 <height>13</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>From date</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="mDateEdit_3">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>20</y>
+                 <width>507</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="mDateEdit_4">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>60</y>
+                 <width>511</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_32">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>41</y>
+                 <width>1020</width>
+                 <height>13</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>To date</string>
+               </property>
+              </widget>
+              <widget class="QWidget" name="">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>91</y>
+                 <width>791</width>
+                 <height>223</height>
+                </rect>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_44">
+                <item row="1" column="0" colspan="3">
+                 <widget class="QTableWidget" name="tableWidget_resource_name">
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>247</number>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>Resource Name</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="pushButton_add_resource_2">
+                  <property name="maximumSize">
+                   <size>
+                    <width>30</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>+</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QTableWidget" name="tableWidget_resource_type">
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>247</number>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>Name Type</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+                <item row="1" column="4">
+                 <widget class="QTableWidget" name="tableWidget_designation">
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>249</number>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>Designation</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="pushButton_remove_resource_2">
+                  <property name="maximumSize">
+                   <size>
+                    <width>30</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>-</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </widget>
              <widget class="QWidget" name="page_4">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
                 <width>1026</width>
-                <height>400</height>
+                <height>435</height>
                </rect>
               </property>
               <attribute name="label">
@@ -3180,15 +3187,15 @@
               </sizepolicy>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_7">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>834</width>
-                <height>197</height>
+                <width>1026</width>
+                <height>408</height>
                </rect>
               </property>
               <attribute name="label">
@@ -4097,340 +4104,31 @@
      </widget>
     </widget>
    </item>
-   <item row="0" column="0">
-    <layout class="QGridLayout" name="gridLayout_5">
-     <item row="0" column="8">
-      <widget class="QLabel" name="label_29">
+   <item row="2" column="0" colspan="2">
+    <layout class="QGridLayout" name="gridLayout_20">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>DBMS Toolbar</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="6">
-      <widget class="QPushButton" name="pushButton_sort">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>Order by</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QPushButton" name="pushButton_save">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>Save</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/b_save.png</normaloff>:/icons/b_save.png</iconset>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="pushButton_export_excel">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Export Excel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/excel-export.png</normaloff>:/icons/excel-export.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QPushButton" name="pushButton_view_all">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>View alls records</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QPushButton" name="pushButton_prev_rec">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Prev rec</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QPushButton" name="pushButton_open_dir">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
+         <width>53</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/directoryExp.png</normaloff>:/icons/directoryExp.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="3">
-      <widget class="QPushButton" name="pushButton_new_rec">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>New record</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
+        <string>ID Unique</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QPushButton" name="pushButton_import_excel">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/import-excel.png</normaloff>:/icons/import-excel.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="pushButton_first_rec">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>First rec</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="pushButton_last_rec">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Last rec</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QPushButton" name="pushButton_next_rec">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Next rec</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QPushButton" name="pushButton_connect">
+      <widget class="QComboBox" name="comboBox_location">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -4438,154 +4136,367 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>300</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
+         <width>16777215</width>
          <height>30</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t=50s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Doc&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
+       <property name="maxVisibleItems">
+        <number>99999</number>
+       </property>
+       <property name="maxCount">
+        <number>2147483647</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QComboBox" name="comboBox_restricted">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Yes</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>No</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Directorate General of Antiquities of Lebanon</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>MarEA Staff, EAMENA/MarEA staff</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>CT</string>
+        <string>Restricted Access</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QComboBox" name="comboBox_grid">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-11</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-12</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-13</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-14</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-21</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-23</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-24</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-31</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-32</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-33</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-34</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-41</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-42</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-43</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N33-44</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-11</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-12</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-13</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-14</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-21</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-22</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-23</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-24</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-31</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-32</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-41</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E35N34-42</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N33-31</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N33-33</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N33-34</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N34-11</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N34-12</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N34-13</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N34-14</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N34-21</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N34-23</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N34-31</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>E36N34-32</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Grid</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_25">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Address</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QPushButton" name="pushButton_delete">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
+      <widget class="QComboBox" name="comboBox_Address">
        <property name="font">
         <font>
-         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
-       <property name="toolTip">
-        <string>Delete record</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+       <property name="editable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QPushButton" name="pushButton_new_search">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
+      <widget class="QLabel" name="label_20">
        <property name="font">
         <font>
-         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
-       <property name="toolTip">
-        <string>new search</string>
-       </property>
        <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
+        <string>Adress type</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="3">
-      <widget class="QPushButton" name="pushButton_search_go">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
+     <item row="2" column="3" colspan="3">
+      <widget class="QComboBox" name="comboBox_address_type">
        <property name="font">
         <font>
-         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
-       <property name="toolTip">
-        <string>search !!!</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="4">
-      <widget class="QPushButton" name="pushButton_eamena_geometry">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/iconsus.png</normaloff>:/icons/iconsus.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="6">
-      <widget class="QToolButton" name="toolButton_draw_siti">
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/GIS.png</normaloff>:/icons/GIS.png</iconset>
-       </property>
-       <property name="checkable">
+       <property name="editable">
         <bool>true</bool>
        </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alternative</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Primary</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
