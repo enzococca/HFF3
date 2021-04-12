@@ -2264,7 +2264,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             
             cur1 = conn.cursor()
             
-            name_= '%s' % ('hffsystem_TO_maremeana' +  time.strftime('%Y%m%d_') + '.xlsx')
+            name_= '%s' % ('hffsystem_TO_maremeana' +  time.strftime('_%Y-%m-%d_') + '.xlsx')
             dump_dir=os.path.join(sito_path, name_)
             writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
             workbook  = writer.book
