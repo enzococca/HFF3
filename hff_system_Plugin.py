@@ -149,13 +149,23 @@ class HffPlugin_s(object):
         
 
         self.siteToolButton.addActions(
-            [self.actionSite, self.actionEamena])
+            [self.actionSite])
         self.siteToolButton.setDefaultAction(self.actionSite)
 
         self.toolBar.addWidget(self.siteToolButton)
 
         self.toolBar.addSeparator()
         
+        self.emeanaToolButton = QToolButton(self.toolBar)
+        self.emeanaToolButton.setPopupMode(QToolButton.MenuButtonPopup)
+        
+        self.emeanaToolButton.addActions(
+            [self.actionEamena])
+        self.emeanaToolButton.setDefaultAction(self.actionEamena)
+
+        self.toolBar.addWidget(self.emeanaToolButton)
+
+        self.toolBar.addSeparator()
         ######  Section dedicated to the UnderWater data entry
         # add Actions data
         icon_UW = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'snorkel.png'))
@@ -298,9 +308,13 @@ class HffPlugin_s(object):
 
         # MENU
         self.menu = QMenu("HFF")
-        self.menu.addActions([self.actionSite, self.actionEamena])
+        self.menu.addActions([self.actionSite])
         
         self.menu.addSeparator()
+        self.menu.addActions([self.actionEamena])
+        
+        self.menu.addSeparator()
+        
         self.menu.addActions([self.actionShipwreck])
         self.menu.addSeparator()
         self.menu.addActions([self.actionUW, self.actionART, self.actionANC, self.actionPottery])
@@ -422,7 +436,7 @@ class HffPlugin_s(object):
         self.iface.removeToolBarIcon(self.actionShipwreck)
         
         self.iface.removeToolBarIcon(self.actionSite)
-       
+        self.iface.removeToolBarIcon(self.actionEamena)
         self.iface.removeToolBarIcon(self.actionimageViewer)
         self.iface.removeToolBarIcon(self.actionImages_Directory_export)
         self.iface.removeToolBarIcon(self.actionexcelExp)

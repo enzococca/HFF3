@@ -414,7 +414,7 @@ class Hff_pyqgis(QDialog):
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
 
-            uri.setDataSource('','eamena_poligon_view', 'the_geom', gidstr, "ROWIND")
+            uri.setDataSource('','emeana_poligon_view', 'the_geom', gidstr, "ROWIND")
             layer_eamena_poligon=QgsVectorLayer(uri.uri(), 'EAMENA Poligon View', 'spatialite')
 
             if layer_eamena_poligon.isValid() == True:
@@ -436,7 +436,7 @@ class Hff_pyqgis(QDialog):
                     gidstr += "OR id_eamena = " + str(data[i].id_eamena)
             srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
 
-            uri.setDataSource("public","eamena_poligon_view","the_geom",gidstr,"gid")
+            uri.setDataSource("public","emeana_poligon_view","the_geom",gidstr,"gid")
             layerGRAB = QgsVectorLayer(uri.uri(), "EAMENA Poligon View", "postgres")
             #QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon available",QMessageBox.Ok)
         
@@ -472,7 +472,7 @@ class Hff_pyqgis(QDialog):
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
 
-            uri.setDataSource('','eamena_line_view', 'the_geom', gidstr, "ROWIND")
+            uri.setDataSource('','emeana_line_view', 'the_geom', gidstr, "ROWIND")
             layer_eamena_line=QgsVectorLayer(uri.uri(), 'EAMENA Line View', 'spatialite')
 
             if layer_eamena_line.isValid() == True:
@@ -494,7 +494,7 @@ class Hff_pyqgis(QDialog):
                     gidstr += "OR id_eamena = " + str(data[i].id_eamena)
             srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
 
-            uri.setDataSource("public","eamena_line_view","the_geom",gidstr,"gid")
+            uri.setDataSource("public","emeana_line_view","the_geom",gidstr,"gid")
             layerGRAB = QgsVectorLayer(uri.uri(), "EAMENA Line View", "postgres")
             #QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon available",QMessageBox.Ok)
         
@@ -530,7 +530,7 @@ class Hff_pyqgis(QDialog):
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
 
-            uri.setDataSource('','eamena_point_view', 'the_geom', gidstr, "ROWIND")
+            uri.setDataSource('','emeana_point_view', 'the_geom', gidstr, "ROWIND")
             layer_eamena_point=QgsVectorLayer(uri.uri(), 'EAMENA Point View', 'spatialite')
 
             if layer_eamena_point.isValid() == True:
@@ -552,7 +552,7 @@ class Hff_pyqgis(QDialog):
                     gidstr += "OR id_eamena = " + str(data[i].id_eamena)
             srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
 
-            uri.setDataSource("public","eamena_point_view","the_geom",gidstr,"gid")
+            uri.setDataSource("public","emeana_point_view","the_geom",gidstr,"gid")
             layerGRAB = QgsVectorLayer(uri.uri(), "EAMENA Point View", "postgres")
             #QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon available",QMessageBox.Ok)
         

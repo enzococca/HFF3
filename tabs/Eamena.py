@@ -34,6 +34,15 @@ from qgis.PyQt.QtCore import QUrl, QVariant,Qt, QSize,QPersistentModelIndex
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox, QListWidget, QListView, QFrame, QAbstractItemView,QFileDialog, QTableWidgetItem, QListWidgetItem
 from qgis.PyQt.uic import loadUiType
 from qgis.core import QgsSettings
+from geoalchemy2 import *
+from sqlalchemy.event import listen
+from sqlalchemy.sql import select, func
+from geoalchemy2 import func as funcgeom
+from sqlalchemy import create_engine
+from sqlalchemy.dialects import postgresql
+from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.ext.compiler import compiles
+from sqlalchemy.sql.expression import *
 from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
 from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
@@ -285,28 +294,207 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         "restricted_access_record_designation",
     ]
     DB_SERVER = "not defined"  ####nuovo sistema sort
+    HOME = os.environ['HFF_HOME']
     def __init__(self, iface):
         super().__init__()
         self.iface = iface
         self.pyQGIS = Hff_pyqgis(iface)
         self.setupUi(self)
         self.currentLayerId = None
-        self.HOME = os.environ['HFF_HOME']
+        
         try:
             self.on_pushButton_connect_pressed()
         except Exception as e:
             QMessageBox.warning(self, "Connection system", str(e), QMessageBox.Ok)
+        self.mDockWidget.setHidden(True)
+        self.toolButton_import_excel.clicked.connect(self.setPathexcel)
         sito = self.comboBox_name_site.currentText()
         self.comboBox_name_site.setEditText(sito)
-        self.empty_fields()
-        self.fill_fields()
+        
         self.model = QStandardItemModel()
         self.customize_GUI()
-        if len(self.DATA_LIST)==0:
-            self.comboBox_location.setCurrentIndex(1)
-        else:
-            self.comboBox_location.setCurrentIndex(0)
+        # if len(self.DATA_LIST)==0:
+            # self.comboBox_location.setCurrentIndex(1)
+        # else:
+            # self.comboBox_location.setCurrentIndex(0)
+        self.tableWidget_geometry_place.update()
+        self.comboBox_location.currentTextChanged.connect(self.geometry_exp)
         self.comboBox_location.currentIndexChanged.connect(self.geometry_exp)
+        self.empty_fields()
+        self.fill_fields()
+        self.charge_records()
+    def setPathexcel(self):
+        
+        s = QgsSettings()
+        dbpath = QFileDialog.getOpenFileName(
+            self,
+            "Set file name",
+            self.HOME,
+            "Excel(*.xls, *.xlsx)"
+        )[0]
+        #filename=dbpath.split("/")[-1]
+        if dbpath:
+
+            self.lineEdit_path_excel.setText(dbpath)
+            s.setValue('',dbpath)
+    
+    
+    
+    # def pipe2list(self,x):
+        
+        # if isinstance(x,str) and eval(x).startswith('A'):# or x.startswith('B') or x.startswith('C') or x.startswith('D') or x.startswith('F') or x.startswith('G') or x.startswith('H') or x.startswith('I') or x.startswith('L') or x.startswith('M') or x.startswith('N') or x.startswith('O') or x.startswith('P') or x.startswith('Q') or x.startswith('R') or x.startswith('S') or x.startswith('T') or x.startswith('W') or x.startswith('V') or x.startswith('Z') or x.startswith('Y') or x.startswith('X')  in x:
+            
+            # return "[['".join(str(e) for e in str(x)).replace('|',"'],['")
+    # def pipe3list(self,x):        
+        # if isinstance(x,str) and x.endswith('a') or x.endswith('B') or x.endswith('C') or x.endswith('D') or x.endswith('F') or x.endswith('G') or x.endswith('H') or x.endswith('I') or x.endswith('L') or x.endswith('M') or x.endswith('N') or x.endswith('O') or x.endswith('P') or x.endswith('Q') or x.endswith('R') or x.endswith('S') or x.endswith('T') or x.endswith('W') or x.endswith('V') or x.endswith('Z') or x.endswith('Y') or x.endswith('X') in x:    
+            # return list(str(e) for e in str(x)[0])
+    
+    def on_pushButton_import_pressed(self):
+        '''import eamena excel file into HFF System'''
+        conn = Connection()
+        conn_str = conn.conn_str()
+        
+        try:
+            EXCEL_FILE_NAME = self.lineEdit_path_excel.text()
+            try:
+                wb = pd.read_excel(EXCEL_FILE_NAME,skiprows=2)#.applymap(self.pipe2list)
+                #wb=wb1.applymap(self.pipe3list)
+            except TypeError as e:
+                QMessageBox.warning(self, "Error", str(e),QMessageBox.Ok)
+            
+            wb.columns = [  "location",
+                            "assessment_investigator_actor",
+                            "investigator_role_type",
+                            "assessment_activity_type",
+                            "assessment_activity_date",
+                            "ge_assessment",
+                            "ge_imagery_acquisition_date",
+                            "information_resource_used",
+                            "information_resource_acquisition_date",
+                            "resource_name",
+                            "name_type",
+                            "heritage_place_type",
+                            "general_description_type",
+                            "general_description",
+                            "heritage_place_function",
+                            "heritage_place_function_certainty",
+                            "designation",
+                            "designation_from_date",
+                            "designation_to_date",
+                            "geometric_place_expression",
+                            "geometry_qualifier",
+                            "site_location_certainty",
+                            "geometry_extent_certainty",
+                            "site_overall_shape_type",
+                            "grid_id",
+                            "country_type",
+                            "cadastral_reference",
+                            "resource_orientation",
+                            "address",
+                            "address_type",
+                            "administrative_subdivision",
+                            "administrative_subdivision_type",
+                            "overall_archaeological_certainty_value",
+                            "overall_site_morphology_type",
+                            "cultural_period_type",
+                            "cultural_period_certainty",
+                            "cultural_subperiod_type",
+                            "cultural_subperiod_certainty",
+                            "date_inference_making_actor",
+                            "archaeological_date_from",
+                            "archaeological_date_to",
+                            "bp_date_from",
+                            "bp_date_to",
+                            "ah_date_from",
+                            "ah_date_to",
+                            "sh_date_from",
+                            "sh_date_to",
+                            "site_feature_form_type",
+                            "site_feature_form_type_certainty",
+                            "site_feature_shape_type",
+                            "site_feature_arrangement_type",
+                            "site_feature_number_type",
+                            "site_feature_interpretation_type",
+                            "site_feature_interpretation_number",
+                            "site_feature_interpretation_certainty",
+                            "built_component_related_resource",
+                            "hp_related_resource",
+                            "material_class",
+                            "material_type",
+                            "construction_technique",
+                            "measurement_number",
+                            "measurement_unit",
+                            "dimension_type",
+                            "measurement_source_type",
+                            "related_geoarch_palaeo",
+                            "overall_condition_state",
+                            "damage_extent_type",
+                            "disturbance_cause_category_type",
+                            "disturbance_cause_type",
+                            "disturbance_cause_certainty",
+                            "disturbance_date_from",
+                            "disturbance_date_to",
+                            "disturbance_date_occurred_before",
+                            "disturbance_date_occurred_on",
+                            "disturbance_cause_assignment_assessor_name",
+                            "effect_type",
+                            "effect_certainty",
+                            "threat_category",
+                            "threat_type",
+                            "threat_probability",
+                            "threat_inference_making_assessor_name",
+                            "intervention_activity_type",
+                            "recommendation_type",
+                            "priority_type",
+                            "related_detailed_condition_resource",
+                            "topography_type",
+                            "land_cover_type",
+                            "land_cover_assessment_date",
+                            "surficial_geology_type",
+                            "depositional_process",
+                            "bedrock_geology",
+                            "fetch_type",
+                            "wave_climate",
+                            "tidal_energy",
+                            "minimum_depth_max_elevation",
+                            "maximum_depth_min_elevation",
+                            "datum_type",
+                            "datum_description_epsg_code",
+                            "restricted_access_record_designation"]
+            
+            #wb.applymap(self.pipe2list)
+            wb.to_sql('eamena_table',conn_str, if_exists='append',index=False)
+            self.empty_fields()
+            self.charge_records()
+            self.fill_fields()
+            self.update()
+            QMessageBox.information(self, "INFO", "Import completed",
+                                QMessageBox.Ok)
+            
+        except TypeError as e:
+            QMessageBox.warning(self, "Error", str(e),QMessageBox.Ok)
+    
+    def longconvert(self):
+        t= self.table2dict("self.tableWidget_geometry_place")
+        #QMessageBox.warning(self, "Test Parametri Quant", str(b),  QMessageBox.Ok)
+        return str(t).replace(']]','').replace('[[','')
+    def insert_geom(self):
+        conn = Connection()
+        db_url = conn.conn_str()
+        try:
+            engine = create_engine(db_url, echo=True)
+            listen(engine, 'connect', self.load_spatialite)
+            c = engine.connect()
+        
+            
+            
+            site_point='INSERT INTO site_point (location,name_f_p,the_geom) VALUES ("%s", "%s",st_geomfromtext(%s,4326));'%( str(self.comboBox_location.currentText()), str(self.comboBox_name_site.currentText()),self.longconvert())
+            c.execute(site_point)
+            
+            
+        
+        except:
+            pass#QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok)
     def geometry_exp(self):
         
         self.tableWidget_geometry_place.update()
@@ -320,7 +508,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         
         for i in range(len(geometry_vl)):
             geometry_list.append(str(geometry_vl[i].coord))
-        
+        # try:
+            # geometry_vl.remove('')
+        # except:
+            # pass
         search_dict1 = {
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
             'name_f_l': "'" + str(self.comboBox_name_site.currentText()) + "'"
@@ -330,7 +521,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         geometry_list_1 = []
         for a in range(len(geometry_vl_1)):
             geometry_list_1.append(str(geometry_vl_1[a].coord))
-            
+        # try:
+            # geometry_vl_1.remove('')
+        # except:
+            # pass    
         search_dict2 = {
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
             'name_f_p': "'" + str(self.comboBox_name_site.currentText()) + "'"
@@ -340,15 +534,20 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         geometry_list_2 = []
         for b in range(len(geometry_vl_2)):
             geometry_list_1.append(str(geometry_vl_2[b].coord))
+        # try:
+            # geometry_vl_2.remove('')
+        # except:
+            # pass
         
-        a=geometry_list+geometry_list_1+geometry_list_2
+        self.tableWidget_geometry_place.clear()
+        pp=geometry_list+geometry_list_1+geometry_list_2
        
         self.delegateMater = ComboBoxDelegate()
-        self.delegateMater.def_values(a)
+        self.delegateMater.def_values(pp)
         self.delegateMater.def_editable('True')
        
         self.tableWidget_geometry_place.setItemDelegateForColumn(0,self.delegateMater)
-        
+        self.tableWidget_geometry_place.update()
     def enable_button(self, n):
         """This method Unable or Enable the GUI buttons on browse modality"""
         self.pushButton_connect.setEnabled(n)
@@ -778,6 +977,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                     self.update_if(QMessageBox.warning(self, 'Error',
                                                        "The record has been changed. Do you want to save the changes?",
                                                        QMessageBox.Ok | QMessageBox.Cancel))
+                    self.insert_geom()
                     self.empty_fields()
                     self.SORT_STATUS = "n"
                     self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
@@ -1807,7 +2007,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             str(self.comboBox_datum_type.setEditText(self.DATA_LIST[self.rec_num].datum_type))  # 4 - comune
             str(self.comboBox_datum_description.setEditText(self.DATA_LIST[self.rec_num].datum_description_epsg_code))  # 4 - comune
             str(self.comboBox_restricted.setEditText(self.DATA_LIST[self.rec_num].restricted_access_record_designation))
-        except:# AssertionError as e:
+        except:# Exception as e:
             pass#QMessageBox.warning(self, "Message",str(e), QMessageBox.Ok)
     
     
