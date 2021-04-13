@@ -1400,8 +1400,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1026</width>
-                <height>435</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1606,8 +1606,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1026</width>
-                <height>435</height>
+                <width>169</width>
+                <height>120</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2668,8 +2668,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1024</width>
-                <height>307</height>
+                <width>597</width>
+                <height>226</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2835,8 +2835,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1024</width>
-                <height>265</height>
+                <width>357</width>
+                <height>120</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2953,8 +2953,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1024</width>
-                <height>265</height>
+                <width>169</width>
+                <height>120</height>
                </rect>
               </property>
               <attribute name="label">
@@ -3040,8 +3040,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1024</width>
-                <height>265</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <attribute name="label">
@@ -3154,8 +3154,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1024</width>
-                <height>265</height>
+                <width>511</width>
+                <height>174</height>
                </rect>
               </property>
               <attribute name="label">
@@ -3535,8 +3535,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1026</width>
-                <height>408</height>
+                <width>798</width>
+                <height>120</height>
                </rect>
               </property>
               <attribute name="label">
@@ -3675,8 +3675,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1026</width>
-                <height>366</height>
+                <width>526</width>
+                <height>120</height>
                </rect>
               </property>
               <attribute name="label">
@@ -3774,8 +3774,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1026</width>
-                <height>366</height>
+                <width>271</width>
+                <height>196</height>
                </rect>
               </property>
               <attribute name="label">
@@ -3893,303 +3893,303 @@
           <attribute name="title">
            <string>Environment Assessment</string>
           </attribute>
-          <layout class="QGridLayout" name="gridLayout_42">
-           <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_29">
-             <item row="0" column="0">
-              <widget class="QPushButton" name="pushButton_add_topography">
-               <property name="maximumSize">
-                <size>
-                 <width>30</width>
-                 <height>16777215</height>
-                </size>
-               </property>
+          <widget class="QWidget" name="">
+           <property name="geometry">
+            <rect>
+             <x>9</x>
+             <y>9</y>
+             <width>258</width>
+             <height>223</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_11">
+            <item row="1" column="0" colspan="3">
+             <widget class="QTableWidget" name="tableWidget_topography_type">
+              <property name="minimumSize">
+               <size>
+                <width>250</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="alternatingRowColors">
+               <bool>true</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>245</number>
+              </attribute>
+              <attribute name="verticalHeaderDefaultSectionSize">
+               <number>37</number>
+              </attribute>
+              <column>
                <property name="text">
-                <string>+</string>
+                <string>Topography Type</string>
                </property>
-              </widget>
-             </item>
-             <item row="2" column="0" colspan="3">
-              <widget class="QTableWidget" name="tableWidget_surficial">
-               <property name="minimumSize">
-                <size>
-                 <width>250</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="alternatingRowColors">
-                <bool>true</bool>
-               </property>
-               <property name="selectionMode">
-                <enum>QAbstractItemView::SingleSelection</enum>
-               </property>
-               <attribute name="horizontalHeaderDefaultSectionSize">
-                <number>245</number>
-               </attribute>
-               <attribute name="verticalHeaderDefaultSectionSize">
-                <number>37</number>
-               </attribute>
-               <column>
-                <property name="text">
-                 <string>Surficial Geology Type</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item row="1" column="0" colspan="3">
-              <widget class="QTableWidget" name="tableWidget_topography_type">
-               <property name="minimumSize">
-                <size>
-                 <width>250</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="alternatingRowColors">
-                <bool>true</bool>
-               </property>
-               <property name="selectionMode">
-                <enum>QAbstractItemView::SingleSelection</enum>
-               </property>
-               <attribute name="horizontalHeaderDefaultSectionSize">
-                <number>245</number>
-               </attribute>
-               <attribute name="verticalHeaderDefaultSectionSize">
-                <number>37</number>
-               </attribute>
-               <column>
-                <property name="text">
-                 <string>Topography Type</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QPushButton" name="pushButton_remove_topography">
-               <property name="maximumSize">
-                <size>
-                 <width>30</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>-</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="0" column="1">
-            <layout class="QGridLayout" name="gridLayout_11">
-             <item row="11" column="0">
-              <spacer name="horizontalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="10" column="0">
-              <spacer name="horizontalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="13" column="3">
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="12" column="2">
-              <spacer name="horizontalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_69">
-               <property name="text">
-                <string>Wave Climate</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="3">
-              <widget class="QLabel" name="label_67">
-               <property name="text">
-                <string>Fetch Type</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0">
-              <widget class="QLabel" name="label_76">
-               <property name="text">
-                <string>Datum Type</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QLabel" name="label_70">
-               <property name="text">
-                <string>Bedrock Geology</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="3">
-              <widget class="QLabel" name="label_66">
-               <property name="text">
-                <string>Tidal Energy</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_71">
+              </column>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="pushButton_add_topography">
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>+</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="pushButton_remove_topography">
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="">
+           <property name="geometry">
+            <rect>
+             <x>9</x>
+             <y>270</y>
+             <width>520</width>
+             <height>223</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_29">
+            <item row="1" column="3">
+             <widget class="QTableWidget" name="tableWidget_depositional">
+              <property name="minimumSize">
+               <size>
+                <width>250</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="alternatingRowColors">
+               <bool>true</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>245</number>
+              </attribute>
+              <attribute name="verticalHeaderDefaultSectionSize">
+               <number>37</number>
+              </attribute>
+              <column>
                <property name="text">
                 <string>Depositional Process</string>
                </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_68">
+              </column>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="pushButton_add_topography_2">
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>+</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="3">
+             <widget class="QTableWidget" name="tableWidget_surficial">
+              <property name="minimumSize">
+               <size>
+                <width>250</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="alternatingRowColors">
+               <bool>true</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>245</number>
+              </attribute>
+              <attribute name="verticalHeaderDefaultSectionSize">
+               <number>37</number>
+              </attribute>
+              <column>
                <property name="text">
-                <string>Land Cover Type</string>
+                <string>Surficial Geology Type</string>
                </property>
-              </widget>
-             </item>
-             <item row="8" column="2">
-              <widget class="QComboBox" name="comboBox_datum_description">
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="3">
-              <widget class="QComboBox" name="comboBox_tidal_energy">
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="3">
-              <widget class="QLineEdit" name="lineEdit_depth_min"/>
-             </item>
-             <item row="4" column="2">
-              <widget class="QLabel" name="label_72">
-               <property name="text">
-                <string>Minimum Depth/Max Elevation(m)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="2">
-              <widget class="QComboBox" name="comboBox_bedrock">
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="3">
-              <widget class="QLabel" name="label_77">
-               <property name="text">
-                <string>Maximum Depth/Min Elevation(m)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="2">
-              <widget class="QLineEdit" name="lineEdit_depth_max"/>
-             </item>
-             <item row="0" column="2">
-              <widget class="QLabel" name="label_74">
-               <property name="text">
-                <string>Land Cover Assessment Date</string>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="0" colspan="2">
-              <widget class="QComboBox" name="comboBox_datum_type">
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <widget class="QLineEdit" name="lineEdit_land_cover_assessment"/>
-             </item>
-             <item row="5" column="0" colspan="2">
-              <widget class="QComboBox" name="comboBox_wave">
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="2">
-              <widget class="QLabel" name="label_73">
-               <property name="text">
-                <string>Datum Description/EPSG code</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" colspan="2">
-              <widget class="QComboBox" name="comboBox_land_cover_type">
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="3">
-              <widget class="QComboBox" name="comboBox_fetch">
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0" colspan="2">
-              <widget class="QComboBox" name="comboBox_depositional">
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="9" column="0">
-              <spacer name="verticalSpacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-          </layout>
+              </column>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="pushButton_remove_topography_2">
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="">
+           <property name="geometry">
+            <rect>
+             <x>275</x>
+             <y>11</y>
+             <width>741</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_37">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_68">
+              <property name="text">
+               <string>Land Cover Type</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_74">
+              <property name="text">
+               <string>Land Cover Assessment Date</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QComboBox" name="comboBox_land_cover_type">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="lineEdit_land_cover_assessment"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_70">
+              <property name="text">
+               <string>Bedrock Geology</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLabel" name="label_67">
+              <property name="text">
+               <string>Fetch Type</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QComboBox" name="comboBox_bedrock">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QComboBox" name="comboBox_fetch">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_72">
+              <property name="text">
+               <string>Minimum Depth/Max Elevation(m)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLabel" name="label_77">
+              <property name="text">
+               <string>Maximum Depth/Min Elevation(m)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLineEdit" name="lineEdit_depth_max"/>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="lineEdit_depth_min"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_76">
+              <property name="text">
+               <string>Datum Type</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLabel" name="label_73">
+              <property name="text">
+               <string>Datum Description/EPSG code</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QComboBox" name="comboBox_datum_type">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QComboBox" name="comboBox_datum_description">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_69">
+              <property name="text">
+               <string>Wave Climate</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLabel" name="label_66">
+              <property name="text">
+               <string>Tidal Energy</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0">
+             <widget class="QComboBox" name="comboBox_wave">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QComboBox" name="comboBox_tidal_energy">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </widget>
        </item>

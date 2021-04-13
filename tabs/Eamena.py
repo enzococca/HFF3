@@ -656,6 +656,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateMater.def_editable('True')
             self.tableWidget_role.setItemDelegateForColumn(0,self.delegateMater)
             
+            valuesdescription = ["Comments", "General Description", "Summary of Significance", "Architectural Description", "Primary", "Old ArchesID",""]
+            self.delegateD = ComboBoxDelegate()
+            self.delegateD.def_values(valuesdescription)
+            self.delegateD.def_editable('True')
+            self.tableWidget_general_description_type.setItemDelegateForColumn(0,self.delegateD)
+            
+            
             valuesMater2 = ["Desk Based","Aerial Survey","Archaeological Assessment/Ground Survey","Architectural Survey","Condition Assessment","Emergency Impact Assessment","Diver Survey","Marine Geophysical Survey","Risk Assessment","Salvage Recording","Emergency Impact Assessment (Image Interpretation)","Archaeological Assessment (Image Interpretation)","Archaeological Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Image Interpretation)","Risk Assessment (Image Interpretation)","Literature Interpretation/Digitisation","Data Cleaning/enhancing",""]
             self.delegateMater2 = ComboBoxDelegate()
             self.delegateMater2.def_values(valuesMater2)
@@ -807,7 +814,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableWidget_material_class.setItemDelegateForColumn(0,self.delegateS)
             
             
-            material_type = ["","Baked brick","Concrete (Breeze-block)","Concrete (Reinforced)","Concrete (Unspecified)","Corrugated Metal","Glass","Iron / Steel","Metal","Mud / Adobe (Blocks/Bricks)","Mud / Adobe (unshaped)","Stone (Cut)","Stone (Roughly cut)","Terracotta","Tile (Glazed)","Tile (Hollow)","Tile (Unclassified)","Tile (Unglazed)","Cement-based Render","Plaster","Roughcast/Pebbledash","Stucco","Bitumen","Brickearth","Gypsum","Mortar (Concrete)","Mortar (Unspecified)","Rubble stone","Other","Unknown"]
+            material_type = ["Baked brick","Concrete (Breeze-block)","Concrete (Reinforced)","Concrete (Unspecified)","Corrugated Metal","Glass","Iron / Steel","Metal","Mud / Adobe (Blocks/Bricks)","Mud / Adobe (unshaped)","Stone (Cut)","Stone (Roughly cut)","Terracotta","Tile (Glazed)","Tile (Hollow)","Tile (Unclassified)","Tile (Unglazed)","Cement-based Render","Plaster","Roughcast/Pebbledash","Stucco","Bitumen","Brickearth","Gypsum","Mortar (Concrete)","Mortar (Unspecified)","Rubble stone","Other","Unknown",""]
             self.delegateE = ComboBoxDelegate()
             self.delegateE.def_values(material_type)
             self.delegateE.def_editable('True')
@@ -875,13 +882,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_raccomandation.clear()
             self.comboBox_raccomandation.addItems(raccomandation_type)
             
-            tg = ["","(Agricultural/Pastoral)", "(Archaeological)", "(Building and Development)", "(Defensive/Fortification)", "(Domestic Use)", "(Funerary/Memorial)", "(Hunting/Fishing)", "(Hydraulic Use)", "(Industrial/Productive)", "(Infrastructure/Transport)", "(Looting/Illegal Activities)", "(Management and Institutional Factors)", "(Maritime)", "(Military/Armed Conflict)", "(Natural)", "(Public/Institutional Use)", "(Religious Activities)", "(Social/Cultural Uses of Heritage)", "(Status/Display/Monumental)", "(Tourism/Visitor Activities)", "(Trade/Commercial Use)", "(Utilties)", "(Unknown)", "(Vandalism )", "(Not Applicable)",]
+            tg = ["(Agricultural/Pastoral)", "(Archaeological)", "(Building and Development)", "(Defensive/Fortification)", "(Domestic Use)", "(Funerary/Memorial)", "(Hunting/Fishing)", "(Hydraulic Use)", "(Industrial/Productive)", "(Infrastructure/Transport)", "(Looting/Illegal Activities)", "(Management and Institutional Factors)", "(Maritime)", "(Military/Armed Conflict)", "(Natural)", "(Public/Institutional Use)", "(Religious Activities)", "(Social/Cultural Uses of Heritage)", "(Status/Display/Monumental)", "(Tourism/Visitor Activities)", "(Trade/Commercial Use)", "(Utilties)", "(Unknown)", "(Vandalism )", "(Not Applicable)",""]
             self.delegatetg = ComboBoxDelegate()
             self.delegatetg.def_values(tg)
             self.delegatetg.def_editable('True')
             self.tableWidget_threat_category.setItemDelegateForColumn(0,self.delegatetg)
             
-            dg = ["","(Agricultural/Pastoral)", "(Archaeological)", "(Building and Development)", "(Defensive/Fortification)", "(Domestic Use)", "(Funerary/Memorial)", "(Hunting/Fishing)", "(Hydraulic Use)", "(Industrial/Productive)", "(Infrastructure/Transport)", "(Looting/Illegal Activities)", "(Management and Institutional Factors)", "(Maritime)", "(Military/Armed Conflict)", "(Natural)", "(Public/Institutional Use)", "(Religious Activities)", "(Social/Cultural Uses of Heritage)", "(Status/Display/Monumental)", "(Tourism/Visitor Activities)", "(Trade/Commercial Use)", "(Utilties)", "(Unknown)", "(Vandalism )", "(Not Applicable)",]
+            dg = ["Agricultural/Pastoral", "Archaeological", "Building and Development", "Defensive/Fortification", "Domestic Use", "Funerary/Memorial", "Hunting/Fishing", "Hydraulic Use", "Industrial/Productive", "Infrastructure/Transport", "Looting/Illegal Activities", "Management and Institutional Factors", "Maritime", "Military/Armed Conflict", "Natural", "Public/Institutional Use", "Religious Activities", "Social/Cultural Uses of Heritage", "Status/Display/Monumental", "Tourism/Visitor Activities", "Trade/Commercial Use", "Utilties", "Unknown", "Vandalism ", "Not Applicable",""]
             self.delegatedg = ComboBoxDelegate()
             self.delegatedg.def_values(dg)
             self.delegatedg.def_editable('True')
@@ -903,11 +910,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_fetch.clear()
             self.comboBox_fetch.addItems(fetch)
             
-            depositional_process = ["","Aeolian","Biogenic","Chemical","Fluvial/Alluvial","Glacial","Lacustrine","Marine/Coastal","Organic","Slope","Volcanic/Igneous","Anthropogenic"]
-            self.comboBox_depositional.clear()
-            self.comboBox_depositional.addItems(depositional_process)
+            depositional_process = ["Aeolian","Biogenic","Chemical","Fluvial/Alluvial","Glacial","Lacustrine","Marine/Coastal","Organic","Slope","Volcanic/Igneous","Anthropogenic",""]
+            self.delegatedep = ComboBoxDelegate()
+            self.delegatedep.def_values(depositional_process)
+            self.delegatedep.def_editable('True')
+            self.tableWidget_depositional.setItemDelegateForColumn(0,self.delegatedep)
             
-            surficial = ["","Coarse Sediment","Mixed Sediment","Mud (Clay and Silt)","Organic sediment/deposit","Palaeontological remains (macro)","Palaeontological remains (micro)","Rock and Boulders","Sand","Archaeological Deposit/Artefact Bearing Deposit"]
+            surficial = ["Coarse Sediment","Mixed Sediment","Mud (Clay and Silt)","Organic sediment/deposit","Palaeontological remains (macro)","Palaeontological remains (micro)","Rock and Boulders","Sand","Archaeological Deposit/Artefact Bearing Deposit",""]
             self.delegatesu = ComboBoxDelegate()
             self.delegatesu.def_values(surficial)
             self.delegatesu.def_editable('True')
@@ -1133,6 +1142,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         material_class=  self.table2dict("self.tableWidget_material_class")
         material_type= self.table2dict("self.tableWidget_material_type")
         contruction = self.table2dict("self.tableWidget_construction_technique")
+        depositional = self.table2dict("self.tableWidget_depositional")
         try:
             data = self.DB_MANAGER.insert_eamena_values(
                 self.DB_MANAGER.max_num_id(self.MAPPER_TABLE_CLASS, self.ID_TABLE) + 1,
@@ -1225,7 +1235,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(self.comboBox_land_cover_type.currentText()),  # 4 - comune
                 str(self.lineEdit_land_cover_assessment.text()),  # 4 - comune
                 str(surficial),  # 4 - comune
-                str(self.comboBox_depositional.currentText()),  # 4 - comune
+                str(depositional),  # 4 - comune
                 str(self.comboBox_bedrock.currentText()),  # 4 - comune
                 str(self.comboBox_fetch.currentText()),  # 4 - comune
                 str(self.comboBox_wave.currentText()),  # 4 - comune
@@ -1356,10 +1366,17 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         
     def on_pushButton_add_topography_pressed(self):
         self.insert_new_row('self.tableWidget_topography_type')
-        self.insert_new_row('self.tableWidget_surficial')
+        
     def on_pushButton_remove_topography_pressed(self):
         self.remove_row('self.tableWidget_topography_type')
+        
+    def on_pushButton_add_topography_2_pressed(self):
+        self.insert_new_row('self.tableWidget_depositional')
+        self.insert_new_row('self.tableWidget_surficial')
+    def on_pushButton_remove_topography_2_pressed(self):
+        self.remove_row('self.tableWidget_depositional')
         self.remove_row('self.tableWidget_surficial')
+    
     def on_pushButton_add_arch_pressed(self):
         
         self.insert_new_row('self.tableWidget_site_features_from_type')
@@ -1667,7 +1684,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 #self.TABLE_FIELDS[83]:"'" + str(self.comboBox_priority.currentText()) +"'",  # 4 - comune
                 #self.TABLE_FIELDS[77]:"'" + str(self.comboBox_threat_category.currentText()) +"'",  # 4 - comune
                 self.TABLE_FIELDS[86]:"'" + str(self.comboBox_land_cover_type.currentText()) +"'",  # 4 - comune
-                self.TABLE_FIELDS[89]:"'" + str(self.comboBox_depositional.currentText()) +"'",  # 4 - comune
+                #self.TABLE_FIELDS[89]:"'" + str(self.comboBox_depositional.currentText()) +"'",  # 4 - comune
                 self.TABLE_FIELDS[92]:"'" + str(self.comboBox_wave.currentText()) +"'",  # 4 - comune
                 self.TABLE_FIELDS[96]:"'" + str(self.comboBox_datum_type.currentText()) +"'",  # 4 - comune
                 self.TABLE_FIELDS[87]:"'" + str(self.lineEdit_land_cover_assessment.text()) +"'",  # 4 - comune
@@ -1852,6 +1869,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         material_class=  self.tableWidget_material_class.rowCount()
         material_type= self.tableWidget_material_type.rowCount()
         contruction = self.tableWidget_construction_technique.rowCount()
+        depositional=self.tableWidget_depositional.rowCount()
         self.comboBox_location.setEditText('')  # 1 - Sito
         for i in range(investigator):
             self.tableWidget_investigator.removeRow(0)
@@ -2044,7 +2062,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.lineEdit_land_cover_assessment.clear()  # 4 - comune
         for i in range(surficial):
             self.tableWidget_surficial.removeRow(0)     
-        self.comboBox_depositional.setEditText('')  # 4 - comune
+        for i in range(depositional):
+            self.tableWidget_depositional.removeRow(0)     
         self.comboBox_bedrock.setEditText('')  # 4 - comune
         self.comboBox_fetch.setEditText('')  # 4 - comune
         self.comboBox_wave.setEditText('')  # 4 - comune
@@ -2148,7 +2167,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             str(self.comboBox_land_cover_type.setEditText(self.DATA_LIST[self.rec_num].land_cover_type))  # 4 - comune
             str(self.lineEdit_land_cover_assessment.setText(self.DATA_LIST[self.rec_num].land_cover_assessment_date))  # 4 - comune
             self.tableInsertData("self.tableWidget_surficial", self.DATA_LIST[self.rec_num].surficial_geology_type)  # 4 - comune
-            str(self.comboBox_depositional.setEditText(self.DATA_LIST[self.rec_num].depositional_process))  # 4 - comune
+            self.tableInsertData("self.tableWidget_depositional", self.DATA_LIST[self.rec_num].depositional_process)  # 4 - comune
             str(self.comboBox_bedrock.setEditText(self.DATA_LIST[self.rec_num].bedrock_geology))  # 4 - comune
             str(self.comboBox_fetch.setEditText(self.DATA_LIST[self.rec_num].fetch_type))  # 4 - comune
             str(self.comboBox_wave.setEditText(self.DATA_LIST[self.rec_num].wave_climate))  # 4 - comune
@@ -2224,7 +2243,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         material_class=  self.table2dict("self.tableWidget_material_class")
         material_type= self.table2dict("self.tableWidget_material_type")
         contruction = self.table2dict("self.tableWidget_construction_technique")
-        
+        depositional = self.table2dict("self.tableWidget_depositional")
         self.DATA_LIST_REC_TEMP = [
             str(self.comboBox_location.currentText()),  # 1 - Sito
                 str(investigator),
@@ -2315,7 +2334,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(self.comboBox_land_cover_type.currentText()),  # 4 - comune
                 str(self.lineEdit_land_cover_assessment.text()),  # 4 - comune
                 str(surficial),  # 4 - comune
-                str(self.comboBox_depositional.currentText()),  # 4 - comune
+                str(depositional),  # 4 - comune
                 str(self.comboBox_bedrock.currentText()),  # 4 - comune
                 str(self.comboBox_fetch.currentText()),  # 4 - comune
                 str(self.comboBox_wave.currentText()),  # 4 - comune
