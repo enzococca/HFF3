@@ -128,44 +128,35 @@ class HffPlugin_s(object):
 
         self.dataToolButton = QToolButton(self.toolBar)
         self.dataToolButton.setPopupMode(QToolButton.MenuButtonPopup)
-        
+        self.toolBar.addSeparator()
         
         
         ######  Section dedicated to the basic data entry
         # add Actions data
         self.siteToolButton = QToolButton(self.toolBar)
-        self.siteToolButton.setPopupMode(QToolButton.MenuButtonPopup)
+        #self.siteToolButton.setPopupMode(QToolButton.MenuButtonPopup)
         icon_site = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'iconSite.png'))
         self.actionSite = QAction(QIcon(icon_site), "Site", self.iface.mainWindow())
         self.actionSite.setWhatsThis("Site")
         self.actionSite.triggered.connect(self.runSite)
+        self.siteToolButton.addActions([self.actionSite])
+        self.siteToolButton.setDefaultAction(self.actionSite)
+        self.toolBar.addWidget(self.siteToolButton)
+        self.toolBar.addSeparator()
         
+        
+        self.emeanaToolButton = QToolButton(self.toolBar)
+        #self.emeanaToolButton.setPopupMode(QToolButton.MenuButtonPopup)
         icon_eamena = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'eamena.jpg'))
         self.actionEamena = QAction(QIcon(icon_eamena), "Eamena", self.iface.mainWindow())
         self.actionEamena.setWhatsThis("Eamena")
         self.actionEamena.triggered.connect(self.runEamena)
-        
-        icon_eamena_archaeology = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'eamena.jpg'))
-        
-
-        self.siteToolButton.addActions(
-            [self.actionSite])
-        self.siteToolButton.setDefaultAction(self.actionSite)
-
-        self.toolBar.addWidget(self.siteToolButton)
-
-        self.toolBar.addSeparator()
-        
-        self.emeanaToolButton = QToolButton(self.toolBar)
-        self.emeanaToolButton.setPopupMode(QToolButton.MenuButtonPopup)
-        
-        self.emeanaToolButton.addActions(
-            [self.actionEamena])
+        self.emeanaToolButton.addActions([self.actionEamena])
         self.emeanaToolButton.setDefaultAction(self.actionEamena)
-
         self.toolBar.addWidget(self.emeanaToolButton)
-
         self.toolBar.addSeparator()
+        
+        
         ######  Section dedicated to the UnderWater data entry
         # add Actions data
         icon_UW = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'snorkel.png'))
@@ -203,18 +194,11 @@ class HffPlugin_s(object):
         self.actionShipwreck = QAction(QIcon(icon_shipwreck), "Shipwreck", self.iface.mainWindow())
         self.actionShipwreck.setWhatsThis("Shipwreck")
         self.actionShipwreck.triggered.connect(self.runShipwreck)
-
-        self.ShipwreckToolButton.addActions(
-            [self.actionShipwreck])
+        self.ShipwreckToolButton.addActions([self.actionShipwreck])
         self.ShipwreckToolButton.setDefaultAction(self.actionShipwreck)
-
         self.toolBar.addWidget(self.ShipwreckToolButton)
-
         self.toolBar.addSeparator()
-       
-
-     
-
+ 
         ######  Section dedicated to the documentation
         # add Actions documentation
         self.docToolButton = QToolButton(self.toolBar)
