@@ -156,7 +156,17 @@ class HffPlugin_s(object):
         self.toolBar.addWidget(self.emeanaToolButton)
         self.toolBar.addSeparator()
         
-        
+        ######  Section dedicated to the shipwreck
+        # add Actions documentation
+        self.ShipwreckToolButton = QToolButton(self.toolBar)
+        icon_shipwreck = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'Shipwreck.png'))
+        self.actionShipwreck = QAction(QIcon(icon_shipwreck), "Shipwreck", self.iface.mainWindow())
+        self.actionShipwreck.setWhatsThis("Shipwreck")
+        self.actionShipwreck.triggered.connect(self.runShipwreck)
+        self.ShipwreckToolButton.addActions([self.actionShipwreck])
+        self.ShipwreckToolButton.setDefaultAction(self.actionShipwreck)
+        self.toolBar.addWidget(self.ShipwreckToolButton)
+        self.toolBar.addSeparator()
         ######  Section dedicated to the UnderWater data entry
         # add Actions data
         icon_UW = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'snorkel.png'))
@@ -187,17 +197,7 @@ class HffPlugin_s(object):
 
         self.toolBar.addSeparator()
         
-        ######  Section dedicated to the shipwreck
-        # add Actions documentation
-        self.ShipwreckToolButton = QToolButton(self.toolBar)
-        icon_shipwreck = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'Shipwreck.png'))
-        self.actionShipwreck = QAction(QIcon(icon_shipwreck), "Shipwreck", self.iface.mainWindow())
-        self.actionShipwreck.setWhatsThis("Shipwreck")
-        self.actionShipwreck.triggered.connect(self.runShipwreck)
-        self.ShipwreckToolButton.addActions([self.actionShipwreck])
-        self.ShipwreckToolButton.setDefaultAction(self.actionShipwreck)
-        self.toolBar.addWidget(self.ShipwreckToolButton)
-        self.toolBar.addSeparator()
+        
  
         ######  Section dedicated to the documentation
         # add Actions documentation
