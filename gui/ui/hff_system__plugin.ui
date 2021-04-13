@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>533</width>
-    <height>729</height>
+    <width>350</width>
+    <height>629</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,6 +15,12 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>350</width>
+    <height>629</height>
+   </size>
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/resources.qrc">
@@ -33,6 +39,9 @@ background-color: rgb(168, 168, 168);</string>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
+  </property>
+  <property name="floating">
+   <bool>false</bool>
   </property>
   <property name="features">
    <set>QDockWidget::AllDockWidgetFeatures</set>
@@ -67,8 +76,8 @@ background-color: rgb(168, 168, 168);</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>513</width>
-         <height>668</height>
+         <width>330</width>
+         <height>568</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -157,7 +166,7 @@ selection-color: rgb(140, 140, 105);</string>
                </url>
               </property>
               <property name="zoomFactor" stdset="0">
-               <double>1.000000000000000</double>
+               <double>0.500000000000000</double>
               </property>
              </widget>
             </item>
