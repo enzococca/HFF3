@@ -316,7 +316,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             # self.comboBox_location.setCurrentIndex(1)
         # else:
             # self.comboBox_location.setCurrentIndex(0)
-        self.tableWidget_geometry_place.update()
+        #self.tableWidget_geometry_place.update()
         self.comboBox_location.currentTextChanged.connect(self.geometry_exp)
         self.comboBox_location.currentIndexChanged.connect(self.geometry_exp)
         self.empty_fields()
@@ -534,7 +534,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             # QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok) 
     def geometry_exp(self):
         
-        self.tableWidget_geometry_place.update()
+        #self.tableWidget_geometry_place.update()
         search_dict = {
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
             #'name_feat': "'" + str(self.comboBox_name_site.currentText()) + "'"
@@ -656,7 +656,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateMater.def_editable('True')
             self.tableWidget_role.setItemDelegateForColumn(0,self.delegateMater)
             
-            valuesMater2 = ["Aerial Survey","Archaeological Assessment/Ground Survey","Architectural Survey","Condition Assessment","Emergency Impact Assessment","Diver Survey","Marine Geophysical Survey","Risk Assessment","Salvage Recording","Emergency Impact Assessment (Image Interpretation)","Archaeological Assessment (Image Interpretation)","Archaeological Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Image Interpretation)","Risk Assessment (Image Interpretation)","Literature Interpretation/Digitisation","Data Cleaning/enhancing",""]
+            valuesMater2 = ["Desk Based","Aerial Survey","Archaeological Assessment/Ground Survey","Architectural Survey","Condition Assessment","Emergency Impact Assessment","Diver Survey","Marine Geophysical Survey","Risk Assessment","Salvage Recording","Emergency Impact Assessment (Image Interpretation)","Archaeological Assessment (Image Interpretation)","Archaeological Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Image Interpretation)","Risk Assessment (Image Interpretation)","Literature Interpretation/Digitisation","Data Cleaning/enhancing",""]
             self.delegateMater2 = ComboBoxDelegate()
             self.delegateMater2.def_values(valuesMater2)
             self.delegateMater2.def_editable('True')
@@ -699,6 +699,12 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateHP6.def_values(valuesHP6)
             self.delegateHP6.def_editable('True')
             self.tableWidget_country_type.setItemDelegateForColumn(0,self.delegateHP6)
+            
+            valuesCP = ["Palaeolithic (Levant/Mesopotamia/Arabia)", "Palaeolithic (Iran)", "Palaeolithic (North Africa)", "Epipalaeolithic (Levant/Mesopotamia)", "Epipalaeolithic (Arabia)", "Epipalaeolithic (Iran)", "Epipalaeolithic (North Africa)", "Neolithic (Levant/Mesopotamia)", "Neolithic (Arabia)", "Neolithic (Iran)", "Neolithic (Maghreb)", "Neolithic (Egypt)", "Chalcolithic (Levant)", "Chalcolithic (Mesopotamia)", "Chalcolithic (Khuzestan, Iran)", "Chalcolithic (Central Zagros, Iran)", "Chalcolithic (Northern Iran)", "Chalcolithic (Southern Iran)", "Chalcolithic (Arabia)", "Pre-dynastic (Egypt)", "Bronze Age (Levant)", "Bronze Age (Northern Mesopotamia)", "Bronze Age (Southern Mesopotamia)", "Bronze Age (Central Zagros, Iran)", "Bronze Age (Khuzestan, Iran)", "Bronze Age (Northwest Iran)", "Bronze Age (Northeast Iran)", "Bronze Age (Southern Iran)", "Bronze Age (Arabia)", "Dynastic Egypt","Iron Age (Levant/Mesopotamia)", "Iron Age (Iran)", "Iron Age (Arabia)", "Iron Age (Maghreb)", "Classical/Pre-Islamic (Levant/Mesopotamia/Iran/Northern Arabia)", "South Arabian Period (Southern Arabia)", "Classical/Protohistoric/Pre-Islamic (North Africa)", "Islamic (Levant/Arabia)", "Islamic (Iraq)", "Islamic (Iran)", "Islamic (North Africa)", "Contemporary Islamic (MENA)",""]
+            self.delegateCP = ComboBoxDelegate()
+            self.delegateCP.def_values(valuesCP)
+            self.delegateCP.def_editable('True')
+            self.tableWidget_cultural_period_type.setItemDelegateForColumn(0,self.delegateCP)
             
             valuesHP7 = ["Palaeolithic, Lower (Levant/Arabia/Mesopotamia)","Palaeolithic, Middle (Levant/Arabia/Mesopotamia)","Palaeolithic, Upper (Levant/Arabia/Mesopotamia)","Palaeolithic, Lower (Iran)","Palaeolithic, Middle (Iran)","Palaeolithic, Upper (Iran)","Paleolithic, Lower (North Africa)","Paleolithic, Middle (North Africa)","Paleolithic, Upper (North Africa)","Epipalaeolithic, Early (Levant/Mesopotamia)","Epipalaeolithic, Late (Levant/Mesopotamia)","Epipalaeolithic, Early (Arabia)","Epipalaeolithic, Late (Arabia)","Epipalaeolithic, Early (Iran)","Epipalaeolithic, Late (Iran)","Epipalaeolithic (North Africa)","Neolithic, Early/Aceramic/Pre-Pottery (Levant/Mesopotamia)","Neolithic, Early/Aceramic/Pre-Pottery  A (Levant/Mesopotamia)","Neolithic, Early/Aceramic/Pre-Pottery  B (Levant/Mesopotamia)","Neolithic, Early/Aceramic/Pre-Pottery  C (South Levant)","Neolithic, Late/Ceramic/Pottery (Levant/Mesopotamia)","Neolithic, Late/Ceramic/Pottery, Early (Levant/Mesopotamia)","Neolithic, Late/Ceramic/Pottery, Late (Levant/Mesopotamia)","Neolithic, Early (Arabia)","Neolithic, Middle (Arabia)","Neolithic, Late (Arabia)","Neolithic, Early/Aceramic/Pre-pottery (Central Zagros, Iran)","Neolithic, Late/Ceramic (Central Zagros/Khuzestan, Iran)","Neolithic, Early/Aceramic/Pre-pottery (Khuzestan, Iran)","Neolithic, Early/Aceramic/Pre-pottery (Southern Zagros, Iran)","Neolithic, Late/Ceramic (Southern Zagros, Iran)","Neolithic, Early/Aceramic/Pre-pottery (Northeast Iran)","Neolithic, Late/Ceramic (Northern Iran)","Neolithic, Late/Ceramic (Southeast Iran)","Neolithic, Early (Maghreb)","Neolithic, Late (Maghreb)","Neolithic, Late (Mauritania)","Neolithic, Early (Egypt)","Neolithic, Late (Egypt)","Chalcolithic, Early (Levant)","Chalcolithic, Late (Levant)","Chalcolithic, Early/Ubaid (Mesopotamia)","Chalcolithic, Late/Uruk (Mesopotamia)","Chalcolithic, Late 1 (Northern Mesopotamia)","Chalcolithic, Late 2 (Northern Mesopotamia)","Chalcolithic, Late 3 (Northern Mesopotamia)","Chalcolithic, Late 4 (Northern Mesopotamia)","Chalcolithic, Late 5 (Northern Mesopotamia)","Chalcolithic, Early Susiana (Khuzestan, Iran)","Chalcolithic, Middle Susiana (Khuzestan, Iran)","Chalcolithic, Late Susiana (Khuzestan, Iran)","Chalcolithic, Susa I (Khuzestan, Iran)","Chalcolithic, Susa II/Uruk (Khuzestan, Iran)","Chalcolithic, Early (Central Zagros, Iran)","Chalcolithic, Middle (Central Zagros, Iran)","Chalcolithic, Late (Central Zagros, Iran)","Chalcolithic, Transitional (Northern Iran)","Chalcolithic, Early (Northern Iran)","Chalcolithic, Middle (Northern Iran)","Chalcolithic, Late (Northern Iran)","Chalcolithic, Early-Middle Bakun/Yahya VI-VB (Southern Iran)","Chalcolithic, Late Bakun/Yahya VA (Southern Iran)","Chalcolithic, Lapui/Yahya VA (Southern Iran)","Chalcolithic, Early Banesh/Yahya IVC (Southern Iran)","Chalcolithic, Middle Banesh/Yahya IVC (Southern Iran)","Chalcolithic, Early (Arabia)","Chalcolithic, Middle (Arabia)","Chalcolithic, Late (Arabia)","Pre-dynastic, Early (Egypt)","Pre-dynastic, Late (Egypt)","Early Bronze Age (Southern Levant)","Early Bronze Age 1 (Southern Levant)","Early Bronze Age 2 (Southern Levant)","Early Bronze Age 3 (Southern Levant)","Early Bronze Age 4 (Southern Levant)","Early Bronze Age (Northern Levant)","Early Bronze Age, 1-3 (Northern Levant)","Early Bronze Age, 4 (Northern Levant)","Middle Bronze Age (Levant)","Middle Bronze Age 1 (Levant)","Middle Bronze Age 2 (Levant)","Late Bronze Age (Levant)","Late Bronze Age 1 (Levant)","Late Bronze Age 2 (Levant)","Early Bronze Age (Northern Mesopotamia)","Early Bronze Age, Early (Northern Mesopotamia)","Early Bronze Age, Late (Northern Mesopotamia)","Middle Bronze Age/Old Assyrian (Northern Mesopotamia)","Middle Bronze Age 1 (Northern Mesopotamia)","Middle Bronze Age 2 (Northern Mesopotamia)","Late Bronze Age (Northern Mesopotamia)","Late Bronze Age 1/Mittani (Northern Mesopotamia)","Late Bronze Age 2/Middle Assyrian (Northern Mesopotamia)","Bronze Age, Jemdat Nasr (Southern Mesopotamia)","Bronze Age, Early Dynastic (Southern Mesopotamia)","Bronze Age, Early Dynastic I (Southern Mesopotamia)","Bronze Age, Early Dynastic II (Southern Mesopotamia)","Bronze Age, Early Dynastic III (Southern Mesopotamia)","Bronze Age, Akkadian (Southern Mesopotamia)","Bronze Age, Ur III Period (Southern Mesopotamia)","Bronze Age, Old Babylonian (Southern Mesopotamia)","Bronze Age, Kassite (Southern Mesopotamia)","Bronze Age, Middle Babylonian (Southern Mesopotamia)","Early Bronze Age (Central Zagros, Iran)","Middle Bronze Age (Central Zagros, Iran)","Late Bronze Age (Central Zagros, Iran)","Bronze Age, Susa III/Proto-Elamite (Khuzestan)","Bronze Age, Susa IV/ Old Elamite I (Khuzestan)","Bronze Age, Susa V/ Old Elamite II (Khuzestan)","Bronze Age, Susa VI/ Old Elamite III (Khuzestan)","Bronze Age, Middle Elamite (Khuzestan)","Early Bronze Age/Early Transcaucasian (Northwest Iran)","Middle Bronze Age I (Northwest Iran)","Middle Bronze Age II (Northwest Iran)","Middle Bronze Age III (Northwest Iran)","Late Bronze Age (Northwest Iran)","Early Bronze Age (Northeast Iran)","Middle Bronze Age (Northeast Iran)","Late Bronze Age (Northeast Iran)","Bronze Age, Late Banesh/Yayha IVB (Southern Iran)","Bronze Age, Kaftari/Yahya IVA (Southern Iran)","Bronze Age, Qaleh/Shogha-Teimuran (Southwest Iran)","Early Bronze Age (Arabia)","Late Bronze Age (Arabia)","Early Dynastic (Egypt)","Old Kingdom (Egypt)","First Intermediate (Egypt)","Middle Kingdom (Egypt)","Second Intermediate/New Kingdom (Egypt)","New Kingdom (Egypt)","Third Intermediate (Egypt)","Late Dynastic (Egypt)","Iron Age (Northern Levant)","Iron Age, Early (Northern Levant)","Iron Age, Middle (Northern Levant)","Iron Age, Late (Northern Levant)","Iron Age (Southern Levant)","Iron Age 1 (Southern Levant)","Iron Age 2 (Southern Levant)","Iron Age 3 (Southern Levant)","Iron Age, Middle Assyrian (Mesopotamia)","Iron Age, Late/Neo-Assyrian (Mesopotamia)","Iron Age, Neo-Babylonian (Mesopotamia)","Iron Age, Post-Assyrian/Achaemenid/Persian (Levant/Mesopotamia)","Early Iron Age (North Central Iran)","Iron Age I (Northwest Iran)","Iron Age II (Northwest Iran)","Iron Age III/Late Iron Age (Northern Iran)","Iron Age, Neo-Elamite I (Khuzestan/Southwest Iran)","Iron Age, Neo-Elamite II (Khuzestan/Southwest Iran)","Median (Central Zagros)","Iron Age, Yahya III (Southeast Iran)","Iron Age, Pre-Achaemenid (Southeast Iran)","Achaemenid/Iron Age IV (Iran)","Early Iron Age (Arabia)","Middle Iron Age (Arabia)","Late Iron Age (Arabia)","Proto South Arabian (Southern Arabia)","Iron Age, Early (Maghreb)","Iron Age, Late/Punic, Early (Maghreb)","Post-Achaemenid/Hellenistic/Seleucid (Levant/Mesopotamia/Iran)","Post-Achaemenid/Hellenistic/Seleucid, Early (Levant/Mesopotamia/Iran)","Hellenistic/Seleucid, Late (Levant/Mesopotamia)","Parthian (Levant/Mesopotamia/Iran)","Sasanian (Levant/Mesopotamia/Iran)","Nabataean (Levant/Northern Arabia)","Roman/Byzantine (Levant/Mesopotamia)","Roman Imperial (Levant/Mesopotamia)","Roman Imperial, Early (Levant/Mesopotamia)","Roman Imperial, Late (Levant/Mesopotamia)","Byzantine (Levant/Mesopotamia)","Early South Arabian (Southern Arabia)","Middle South Arabian (Southern Arabia)","Late South Arabian (Southern Arabia)","Protohistoric, Early (North Africa)","Protohistoric, Early (Mauritania)","Protohistoric, Middle (North Africa)","Protohistoric, Late (Mauritania)","Protohistoric, Late (North Africa)","Punic, Late (Maghreb)","Roman, Republican (Maghreb)","Classical (Cyrenaica)","Hellenistic/Ptolemaic (Cyrenaica/Egypt)","Roman/Late Antique (North Africa)","Roman Imperial (North Africa)","Roman Imperial, Early (North Africa)","Roman Imperial, Late (North Africa)","Vandal (Maghreb)","Byzantine (Maghreb)","Byzantine (Cyrenaica/Egypt)","Islamic, Early (Umayyad/Abbasid/Fatimid)"," (Levant/Arabia)","Islamic, Middle (Fatimid/Ayyubid) (Levant/Arabia)","Islamic, Late (Mamluk/Rasulid) (Levant/Arabia)","Islamic, Late (Ottoman) (Levant/Arabia)","Islamic, Early (Early Caliphate/Umayyad) (Iraq)","Islamic, Middle (Abbasid) (Iraq)","Islamic, Late (Post-Abbasid) (Iraq)","Islamic, Late (Ottoman) (Iraq)","Islamic, Early (Ummayad/Abbasid) (Iran)","Islamic, Early (Tahirid/Saffarid/Samanid/Buyids) (Iran)","Islamic, Middle (Ghaznavid/Seljuq/Khwarazmshah) (Iran)","Islamic, Middle (Mongol/Ilkhanid/Muzaffarid/Jalayrid) (Iran)","Islamic, Late (Timurid/Safavid/Qajar) (Iran)","Islamic, Early (Umayyad/Abbasid) (North Africa)","Islamic, Middle (Fatimid/Zirid/Hammadid/Almoravid/Almohad) (North Africa)","Islamic, Late (Ayyubid/Hafsid/Marinid/Zayyanid/Mamluk) (North Africa)","Islamic, Late (Ottoman/Saadi/Wattasid/Alaouite/Colonial) (North Africa)","Contemporary Islamic, Early 20th century (MENA)","First World War (MENA)","Second World War (MENA)","Contemporary Islamic, Modern (MENA)",""]
             self.delegateHP7 = ComboBoxDelegate()
@@ -763,7 +769,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateRS.def_editable('True')
             self.tableWidget_site_features_from_type.setItemDelegateForColumn(0,self.delegateRS)
             
-            valuesDoc = ["Not Applicable","Negligible","Low","Medium","High","Definite",""]
+            valuesDoc = ["Possible", "Probable", "Definite","Not Applicable",""]
             self.delegateDoc = ComboBoxDelegate()
             self.delegateDoc.def_values(valuesDoc)
             self.delegateDoc.def_editable('True')
@@ -793,13 +799,25 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateFT4.def_editable('True')
             self.tableWidget_measurement_unit.setItemDelegateForColumn(0,self.delegateFT4)
             
+            
+            material_class = ["","Raw material", "Clay", "Palm","Reed", "Sediment","slate","Stone", "Straw","Wood","Mixed Raw Materials","Other", "Unknow"]
+            self.delegateS = ComboBoxDelegate()
+            self.delegateS.def_values(material_class)
+            self.delegateS.def_editable('True')
+            self.tableWidget_material_class.setItemDelegateForColumn(0,self.delegateS)
+            
+            
             material_type = ["","Baked brick","Concrete (Breeze-block)","Concrete (Reinforced)","Concrete (Unspecified)","Corrugated Metal","Glass","Iron / Steel","Metal","Mud / Adobe (Blocks/Bricks)","Mud / Adobe (unshaped)","Stone (Cut)","Stone (Roughly cut)","Terracotta","Tile (Glazed)","Tile (Hollow)","Tile (Unclassified)","Tile (Unglazed)","Cement-based Render","Plaster","Roughcast/Pebbledash","Stucco","Bitumen","Brickearth","Gypsum","Mortar (Concrete)","Mortar (Unspecified)","Rubble stone","Other","Unknown"]
-            self.comboBox_material_type.clear()
-            self.comboBox_material_type.addItems(material_type)
+            self.delegateE = ComboBoxDelegate()
+            self.delegateE.def_values(material_type)
+            self.delegateE.def_editable('True')
+            self.tableWidget_material_type.setItemDelegateForColumn(0,self.delegateE)
             
             construction_type = ["","Beam-supported","Brick-laid Laying","Cob/Wet Applied Mud","Iron/Steel Construction","Masonry (Dry)","Masonry (Mortared)","Masonry (Unclassified)","Mosaic","Paving (Other)","Plastering","Post-supported","Pouring/Precasting","Rammed Earth/Pisé","Roofing (Dome)","Roofing (Flat)","Roofing (Sloping)","Roofing (Vaulted)","Rubble-filled walling","Stucco","Tiling (Roof)","Tiling (Wall/Floor)","Unknown","Waterproofing / rendering","Wattle-and-Daub","Wood Construction"]
-            self.comboBox_contruction_tech.clear()
-            self.comboBox_contruction_tech.addItems(construction_type)
+            self.delegateC = ComboBoxDelegate()
+            self.delegateC.def_values(construction_type)
+            self.delegateC.def_editable('True')
+            self.tableWidget_construction_technique.setItemDelegateForColumn(0,self.delegateC)
            
             valuesMT4 = ["","Good","Fair","Poor","Very Bad","Destroyed","Unknow"]
             self.comboBox_overall.clear()
@@ -857,13 +875,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_raccomandation.clear()
             self.comboBox_raccomandation.addItems(raccomandation_type)
             
-            tg = ["","Animal/Pest Infestation","Aquaculture","Breaking/Smashing","Cable/Pipe Laying","Clearance (Bulldozing/Levelling)","Clearance (Hand)","Clearance (Unclassified)","Coastal Advance/Accretion","Coastal Erosion/Retreat","Conservation","Construction","Demolition/Destruction","Dissolved Salt","Dredging","Drilling","Drought","Dumping","Excavation (Bulldozing/Machinery)","Excavation (Hand)","Excavation (Unclassified)","Explosion/Heavy Weaponry","Fire","Flooding","Grafitti","Grazing/Animal Movement","Gunfire/Light Weaponry","Human Movement/Trampling","Inundation","Irrigation (Unclassified)","Irrigation (Channels)","Irrigation (Centre Pivot System)","Lack of Maintenance/Management/Legal Measures and Activities","Land/Rock Slide","Landmines","Landscaping","Maintenance/Management Activities","Mining/Quarrying (Unclassified)","Mining/Quarrying (Surface)","Mining/Quarrying (Open Trench/Pit)","Mining/Quarrying (Underground)","Mooring/Anchoring","No Visible/Known","Occupation/Continued Use","Ploughing","Pollution","Precipitation","Railway","Recession of water","Reconstruction","Refurbishment","Restoration","Road/Track","Salvage","Seismic Activity","Stationary Vehicle","Structural Robbing","Temperature/Humidity Change","Theft/Unauthorised Removal of Objects","Trawling","Tunelling","Vegetation/Crops/Trees","Volcanic Eruption","Water Action","Water and/or Wind Action","Wind Action","Unknown"]
+            tg = ["","(Agricultural/Pastoral)", "(Archaeological)", "(Building and Development)", "(Defensive/Fortification)", "(Domestic Use)", "(Funerary/Memorial)", "(Hunting/Fishing)", "(Hydraulic Use)", "(Industrial/Productive)", "(Infrastructure/Transport)", "(Looting/Illegal Activities)", "(Management and Institutional Factors)", "(Maritime)", "(Military/Armed Conflict)", "(Natural)", "(Public/Institutional Use)", "(Religious Activities)", "(Social/Cultural Uses of Heritage)", "(Status/Display/Monumental)", "(Tourism/Visitor Activities)", "(Trade/Commercial Use)", "(Utilties)", "(Unknown)", "(Vandalism )", "(Not Applicable)",]
             self.delegatetg = ComboBoxDelegate()
             self.delegatetg.def_values(tg)
             self.delegatetg.def_editable('True')
             self.tableWidget_threat_category.setItemDelegateForColumn(0,self.delegatetg)
             
-            dg = ["","Animal/Pest Infestation","Aquaculture","Breaking/Smashing","Cable/Pipe Laying","Clearance (Bulldozing/Levelling)","Clearance (Hand)","Clearance (Unclassified)","Coastal Advance/Accretion","Coastal Erosion/Retreat","Conservation","Construction","Demolition/Destruction","Dissolved Salt","Dredging","Drilling","Drought","Dumping","Excavation (Bulldozing/Machinery)","Excavation (Hand)","Excavation (Unclassified)","Explosion/Heavy Weaponry","Fire","Flooding","Grafitti","Grazing/Animal Movement","Gunfire/Light Weaponry","Human Movement/Trampling","Inundation","Irrigation (Unclassified)","Irrigation (Channels)","Irrigation (Centre Pivot System)","Lack of Maintenance/Management/Legal Measures and Activities","Land/Rock Slide","Landmines","Landscaping","Maintenance/Management Activities","Mining/Quarrying (Unclassified)","Mining/Quarrying (Surface)","Mining/Quarrying (Open Trench/Pit)","Mining/Quarrying (Underground)","Mooring/Anchoring","No Visible/Known","Occupation/Continued Use","Ploughing","Pollution","Precipitation","Railway","Recession of water","Reconstruction","Refurbishment","Restoration","Road/Track","Salvage","Seismic Activity","Stationary Vehicle","Structural Robbing","Temperature/Humidity Change","Theft/Unauthorised Removal of Objects","Trawling","Tunelling","Vegetation/Crops/Trees","Volcanic Eruption","Water Action","Water and/or Wind Action","Wind Action","Unknown"]
+            dg = ["","(Agricultural/Pastoral)", "(Archaeological)", "(Building and Development)", "(Defensive/Fortification)", "(Domestic Use)", "(Funerary/Memorial)", "(Hunting/Fishing)", "(Hydraulic Use)", "(Industrial/Productive)", "(Infrastructure/Transport)", "(Looting/Illegal Activities)", "(Management and Institutional Factors)", "(Maritime)", "(Military/Armed Conflict)", "(Natural)", "(Public/Institutional Use)", "(Religious Activities)", "(Social/Cultural Uses of Heritage)", "(Status/Display/Monumental)", "(Tourism/Visitor Activities)", "(Trade/Commercial Use)", "(Utilties)", "(Unknown)", "(Vandalism )", "(Not Applicable)",]
             self.delegatedg = ComboBoxDelegate()
             self.delegatedg.def_values(dg)
             self.delegatedg.def_editable('True')
@@ -1112,7 +1130,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         resource_name=  self.table2dict("self.tableWidget_resource_name")
         name_type= self.table2dict("self.tableWidget_resource_type")
         designation = self.table2dict("self.tableWidget_designation")
-        
+        material_class=  self.table2dict("self.tableWidget_material_class")
+        material_type= self.table2dict("self.tableWidget_material_type")
+        contruction = self.table2dict("self.tableWidget_construction_technique")
         try:
             data = self.DB_MANAGER.insert_eamena_values(
                 self.DB_MANAGER.max_num_id(self.MAPPER_TABLE_CLASS, self.ID_TABLE) + 1,
@@ -1173,9 +1193,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(sic),
                 str(built),
                 str(hpr),
-                str(self.comboBox_material_class.currentText()),
-                str(self.comboBox_material_type.currentText()),
-                str(self.comboBox_contruction_tech.currentText()),
+                str(material_class),
+                str(material_type),
+                str(contruction),
                 str(self.lineEdit_measurement_number.text()),
                 str(mu), 
                 str(dt), 
@@ -1244,21 +1264,34 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.remove_row('self.tableWidget_date_activity')
     def on_pushButton_add_resource_pressed(self):
         self.insert_new_row('self.tableWidget_hplacetype')
-        self.insert_new_row('self.tableWidget_hplacefuntion')
-        self.insert_new_row('self.tableWidget_hplacefunctioncertainty')
+        
     def on_pushButton_remove_resource_pressed(self):
         self.remove_row('self.tableWidget_hplacetype')
+        
+    
+    def on_pushButton_add_resource_3_pressed(self):
+        
+        self.insert_new_row('self.tableWidget_hplacefuntion')
+        self.insert_new_row('self.tableWidget_hplacefunctioncertainty')
+    def on_pushButton_remove_resource_3_pressed(self):
+        
         self.remove_row('self.tableWidget_hplacefuntion')
         self.remove_row('self.tableWidget_hplacefunctioncertainty')
+    
     def on_pushButton_add_resource_2_pressed(self):
         self.insert_new_row('self.tableWidget_resource_name')
         self.insert_new_row('self.tableWidget_resource_type')
-        self.insert_new_row('self.tableWidget_designation')
+        
     def on_pushButton_remove_resource_2_pressed(self):
         self.remove_row('self.tableWidget_resource_name')
         self.remove_row('self.tableWidget_resource_type')
+        
+    def on_pushButton_add_resource_4_pressed(self):
+        
+        self.insert_new_row('self.tableWidget_designation')
+    def on_pushButton_remove_resource_4_pressed(self):
+        
         self.remove_row('self.tableWidget_designation')
-    
     
     def on_pushButton_add_geometry_pressed(self):
         self.insert_new_row('self.tableWidget_geometry_place')
@@ -1278,21 +1311,28 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_add_condition_pressed(self):
         
         self.insert_new_row('self.tableWidget_disturbance_causa_category')
+        
+    def on_pushButton_remove_condition_pressed(self):
+        self.remove_row('self.tableWidget_disturbance_causa_category')
+        
+    
+    def on_pushButton_add_condition_7_pressed(self):
+        
+        
         self.insert_new_row('self.tableWidget_disturbance_cause')
         self.insert_new_row('self.tableWidget_disturbance_cause_2')
         self.insert_new_row('self.tableWidget_disturbance_date_from')
         self.insert_new_row('self.tableWidget_disturbance_date_to')
         self.insert_new_row('self.tableWidget_disturbance_date_occurred_on')
         self.insert_new_row('self.tableWidget_disturbance_date_occurred_before')
-    def on_pushButton_remove_condition_pressed(self):
-        self.remove_row('self.tableWidget_disturbance_causa_category')
+    def on_pushButton_remove_condition_7_pressed(self):
+        
         self.remove_row('self.tableWidget_disturbance_cause')
         self.remove_row('self.tableWidget_disturbance_cause_2')
         self.remove_row('self.tableWidget_disturbance_date_from')
         self.remove_row('self.tableWidget_disturbance_date_to')
         self.remove_row('self.tableWidget_disturbance_date_occurred_on')
         self.remove_row('self.tableWidget_disturbance_date_occurred_before')
-        
     
     def on_pushButton_add_condition_2_pressed(self):
         
@@ -1324,39 +1364,61 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         
         self.insert_new_row('self.tableWidget_site_features_from_type')
         self.insert_new_row('self.tableWidget_site_feature_from_type_cert')
-        self.insert_new_row('self.tableWidget_site_feature_shape_type')
+        
         self.insert_new_row('self.tableWidget_site_feature_arrangement_type')
         self.insert_new_row('self.tableWidget_site_feature_number_type')
-        self.insert_new_row('self.tableWidget_site_feature_interpretation_type')
-        self.insert_new_row('self.tableWidget_site_feature_interpretation_number')
-        self.insert_new_row('self.tableWidget_site_interpretation_cert')
+        
         
     def on_pushButton_remove_arch_pressed(self):
         
         self.remove_row('self.tableWidget_site_features_from_type')
         self.remove_row('self.tableWidget_site_feature_from_type_cert')
-        self.remove_row('self.tableWidget_site_feature_shape_type')
+        
         self.remove_row('self.tableWidget_site_feature_arrangement_type')
         self.remove_row('self.tableWidget_site_feature_number_type')
+        
+    
+    def on_pushButton_add_arch_6_pressed(self):
+        
+        
+        self.insert_new_row('self.tableWidget_site_feature_shape_type')
+        
+        self.insert_new_row('self.tableWidget_site_feature_interpretation_type')
+        self.insert_new_row('self.tableWidget_site_feature_interpretation_number')
+        self.insert_new_row('self.tableWidget_site_interpretation_cert')
+        
+    def on_pushButton_remove_arch_6_pressed(self):
+        
+       
+        self.remove_row('self.tableWidget_site_feature_shape_type')
+        
         self.remove_row('self.tableWidget_site_feature_interpretation_type')
         self.remove_row('self.tableWidget_site_feature_interpretation_number')
         self.remove_row('self.tableWidget_site_interpretation_cert')
-        
     
     def on_pushButton_add_arch_2_pressed(self):
         
         self.insert_new_row('self.tableWidget_cultural_period_type')
         self.insert_new_row('self.tableWidget_cultural_period_cert')
-        self.insert_new_row('self.tableWidget_cultural_sub_period_cert')
-        self.insert_new_row('self.tableWidget_sub_period_cert')
+        
         
     def on_pushButton_remove_arch_2_pressed(self):
         
         self.remove_row('self.tableWidget_cultural_period_type')
         self.remove_row('self.tableWidget_cultural_period_cert')
+        
+    
+    def on_pushButton_add_arch_5_pressed(self):
+        
+        
+        self.insert_new_row('self.tableWidget_cultural_sub_period_cert')
+        self.insert_new_row('self.tableWidget_sub_period_cert')
+        
+    def on_pushButton_remove_arch_5_pressed(self):
+        
+        
         self.remove_row('self.tableWidget_cultural_sub_period_cert')
         self.remove_row('self.tableWidget_sub_period_cert')
-        
     
     def on_pushButton_add_arch_3_pressed(self):
         
@@ -1391,6 +1453,19 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_remove_description_pressed(self):
         self.remove_row('self.tableWidget_general_description_type')
         self.remove_row('self.tableWidget_general_description')
+    
+    def on_pushButton_add_material_pressed(self):
+        
+        self.insert_new_row('self.tableWidget_material_class')
+        self.insert_new_row('self.tableWidget_material_type')
+        self.insert_new_row('self.tableWidget_construction_technique')
+    def on_pushButton_remove_material_pressed(self):
+        
+        self.remove_row('self.tableWidget_material_class')
+        self.remove_row('self.tableWidget_material_type')
+        self.remove_row('self.tableWidget_construction_technique')
+    
+    
     
     
     def insert_new_row(self, table_name):
@@ -1774,6 +1849,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         resource_name= self.tableWidget_resource_name.rowCount()
         name_type= self.tableWidget_resource_type.rowCount()
         designation = self.tableWidget_designation.rowCount()
+        material_class=  self.tableWidget_material_class.rowCount()
+        material_type= self.tableWidget_material_type.rowCount()
+        contruction = self.tableWidget_construction_technique.rowCount()
         self.comboBox_location.setEditText('')  # 1 - Sito
         for i in range(investigator):
             self.tableWidget_investigator.removeRow(0)
@@ -1896,9 +1974,12 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         for i in range(hpr):
             self.tableWidget_hp_related.removeRow(0)
         #self.insert_new_row("self.tableWidget_hp_related")
-        self.comboBox_material_class.setEditText('')
-        self.comboBox_material_type.setEditText('')
-        self.comboBox_contruction_tech.setEditText('')
+        for i in range(material_class):
+            self.tableWidget_material_class.removeRow(0)
+        for i in range(material_type):
+            self.tableWidget_material_type.removeRow(0)
+        for i in range(contruction):
+            self.tableWidget_construction_technique.removeRow(0)
         self.lineEdit_measurement_number.clear()
         for i in range(mu):
             self.tableWidget_measurement_unit.removeRow(0)
@@ -2035,9 +2116,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableInsertData("self.tableWidget_site_interpretation_cert", self.DATA_LIST[self.rec_num].site_feature_interpretation_certainty)
             self.tableInsertData("self.tableWidget_built", self.DATA_LIST[self.rec_num].built_component_related_resource)
             self.tableInsertData("self.tableWidget_hp_related", self.DATA_LIST[self.rec_num].hp_related_resource)
-            str(self.comboBox_material_class.setEditText(self.DATA_LIST[self.rec_num].material_class))
-            str(self.comboBox_material_type.setEditText(self.DATA_LIST[self.rec_num].material_type))
-            str(self.comboBox_contruction_tech.setEditText(self.DATA_LIST[self.rec_num].construction_technique))
+            self.tableInsertData("self.tableWidget_material_class", self.DATA_LIST[self.rec_num].material_class)
+            self.tableInsertData("self.tableWidget_material_type", self.DATA_LIST[self.rec_num].material_type)
+            self.tableInsertData("self.tableWidget_construction_technique", self.DATA_LIST[self.rec_num].construction_technique)
             str(self.lineEdit_measurement_number.setText(self.DATA_LIST[self.rec_num].measurement_number))
             self.tableInsertData("self.tableWidget_measurement_unit", self.DATA_LIST[self.rec_num].measurement_unit) 
             self.tableInsertData("self.tableWidget_dimension_type", self.DATA_LIST[self.rec_num].dimension_type) 
@@ -2140,6 +2221,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         resource_name=  self.table2dict("self.tableWidget_resource_name")
         name_type= self.table2dict("self.tableWidget_resource_type")
         designation = self.table2dict("self.tableWidget_designation")
+        material_class=  self.table2dict("self.tableWidget_material_class")
+        material_type= self.table2dict("self.tableWidget_material_type")
+        contruction = self.table2dict("self.tableWidget_construction_technique")
         
         self.DATA_LIST_REC_TEMP = [
             str(self.comboBox_location.currentText()),  # 1 - Sito
@@ -2199,9 +2283,9 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(sic),
                 str(built),
                 str(hpr),
-                str(self.comboBox_material_class.currentText()),
-                str(self.comboBox_material_type.currentText()),
-                str(self.comboBox_contruction_tech.currentText()),
+                str(material_class),
+                str(material_type),
+                str(contruction),
                 str(self.lineEdit_measurement_number.text()),
                 str(mu), 
                 str(dt), 
