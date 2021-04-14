@@ -882,7 +882,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_raccomandation.clear()
             self.comboBox_raccomandation.addItems(raccomandation_type)
             
-            tg = ["(Agricultural/Pastoral)", "(Archaeological)", "(Building and Development)", "(Defensive/Fortification)", "(Domestic Use)", "(Funerary/Memorial)", "(Hunting/Fishing)", "(Hydraulic Use)", "(Industrial/Productive)", "(Infrastructure/Transport)", "(Looting/Illegal Activities)", "(Management and Institutional Factors)", "(Maritime)", "(Military/Armed Conflict)", "(Natural)", "(Public/Institutional Use)", "(Religious Activities)", "(Social/Cultural Uses of Heritage)", "(Status/Display/Monumental)", "(Tourism/Visitor Activities)", "(Trade/Commercial Use)", "(Utilties)", "(Unknown)", "(Vandalism )", "(Not Applicable)",""]
+            tg = ["Agricultural/Pastoral", "Archaeological", "Building and Development", "Defensive/Fortification", "Domestic Use", "Funerary/Memorial", "Hunting/Fishing", "Hydraulic Use", "Industrial/Productive", "Infrastructure/Transport", "Looting/Illegal Activities", "Management and Institutional Factors", "Maritime", "Military/Armed Conflict", "Natural", "Public/Institutional Use", "Religious Activities", "Social/Cultural Uses of Heritage", "Status/Display/Monumental", "Tourism/Visitor Activities", "Trade/Commercial Use", "Utilties", "Unknown", "Vandalism ", "Not Applicable",""]
             self.delegatetg = ComboBoxDelegate()
             self.delegatetg.def_values(tg)
             self.delegatetg.def_editable('True')
@@ -898,7 +898,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_datum_type.clear()
             self.comboBox_datum_type.addItems(dtypy)
             
-            tidal = ["","Macrotidal (>4 m)","Mesotidal (2-4 m)","Microtidal (<2 m)"]
+            tidal = ["","Macrotidal (>4m)", "Mesotidal (2-4m)", "Microtidal (<2m)"]
             self.comboBox_tidal_energy.clear()
             self.comboBox_tidal_energy.addItems(tidal)
             
@@ -906,7 +906,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_wave.clear()
             self.comboBox_wave.addItems(wave)
             
-            fetch = ["","Exposed (>100 km)","Moderately exposed (10-100 km)","Protected (<10 km)"]
+            fetch = ["","Protected (<10km)", "Moderately exposed (10-100km)", "Exposed (>100km)"]
             self.comboBox_fetch.clear()
             self.comboBox_fetch.addItems(fetch)
             
@@ -1384,7 +1384,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         
         self.insert_new_row('self.tableWidget_site_feature_arrangement_type')
         self.insert_new_row('self.tableWidget_site_feature_number_type')
-        
+        self.insert_new_row('self.tableWidget_site_feature_shape_type')
         
     def on_pushButton_remove_arch_pressed(self):
         
@@ -1393,12 +1393,12 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         
         self.remove_row('self.tableWidget_site_feature_arrangement_type')
         self.remove_row('self.tableWidget_site_feature_number_type')
-        
+        self.remove_row('self.tableWidget_site_feature_shape_type')
     
     def on_pushButton_add_arch_6_pressed(self):
         
         
-        self.insert_new_row('self.tableWidget_site_feature_shape_type')
+        
         
         self.insert_new_row('self.tableWidget_site_feature_interpretation_type')
         self.insert_new_row('self.tableWidget_site_feature_interpretation_number')
@@ -1407,7 +1407,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_remove_arch_6_pressed(self):
         
        
-        self.remove_row('self.tableWidget_site_feature_shape_type')
+        
         
         self.remove_row('self.tableWidget_site_feature_interpretation_type')
         self.remove_row('self.tableWidget_site_feature_interpretation_number')
