@@ -152,7 +152,11 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             self.pushButton_import_geometry.setEnabled(False)
         else:
             self.pushButton_import_geometry.setEnabled(True)
-    
+    def customize(self):
+        if self.comboBox_Database.currentText()=='sqlite':
+            self.setComboBoxEnable(["self.lineEdit_DBname"], "False")
+        elif self.comboBox_Database.currentText()=='postgres':
+            self.setComboBoxEnable(["self.lineEdit_DBname"], "True")
     def db_uncheck(self):
         self.toolButton_active.setChecked(False)
     
@@ -234,110 +238,107 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         except:
             pass
     def summary(self):
-        try: 
-            self.comboBox_Database.update()
-            conn = Connection()
-            conn_str = conn.conn_str()
-            conn_sqlite = conn.databasename()
-            conn_user = conn.datauser()
-            conn_host = conn.datahost()
-            conn_port = conn.dataport()
-            port_int  = conn_port["port"]
-            port_int.replace("'", "")
-            #QMessageBox.warning(self, "Attenzione", port_int, QMessageBox.Ok)
-            conn_password = conn.datapassword()
+        
+        self.comboBox_Database.update()
+        conn = Connection()
+        conn_str = conn.conn_str()
+        conn_sqlite = conn.databasename()
+        conn_user = conn.datauser()
+        conn_host = conn.datahost()
+        conn_port = conn.dataport()
+        port_int  = conn_port["port"]
+        port_int.replace("'", "")
+        #QMessageBox.warning(self, "Attenzione", port_int, QMessageBox.Ok)
+        conn_password = conn.datapassword()
 
 
-            sito_set= conn.sito_set()
-            sito_set_str = sito_set['sito_set']
+        sito_set= conn.sito_set()
+        sito_set_str = sito_set['sito_set']
 
-            test_conn = conn_str.find('sqlite')
-            if test_conn == 0:
-                sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
-                                               "HFF_DB_folder")
-                db = QSqlDatabase("QSQLITE")
-                db.setDatabaseName(sqlite_DB_path +os.sep+ conn_sqlite["db_name"])
-                db.open()
-                #self.table = QTableView()
-                self.model_a = QSqlQueryModel()
+        test_conn = conn_str.find('sqlite')
+        if test_conn == 0:
+            sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
+                                           "HFF_DB_folder")
+            db = QSqlDatabase("QSQLITE")
+            db.setDatabaseName(sqlite_DB_path +os.sep+ conn_sqlite["db_name"])
+            db.open()
+            #self.table = QTableView()
+            self.model_a = QSqlQueryModel()
 
-                self.tableView_summary.setModel(self.model_a)
-                if bool(self.comboBox_sito.currentText()):
-                    query = QSqlQuery("select distinct a.site as 'Location',case when count( distinct a.divelog_id)=0  then 'Divelog ID "
-                                      "missing' else  count( distinct a.divelog_id)  end as 'Divelog ID Total',case when count("
-                                      "distinct b.anchors_id)=0 then 'No Anchor' else count(distinct "
-                                      "b.anchors_id)end as 'Total Anchors',case when count(distinct "
-                                      "c.artefact_id)=0 then 'No Artefact' else count(distinct c.artefact_id)end as "
-                                      "'Total Artefact',case when count(distinct d.artefact_id)=0 then 'No Pottery' else "
-                                      "count(distinct d.artefact_id)end as 'Total Pottery' from dive_log as a left join "
-                                      "anchor_table as b on a.site=b.site left join artefact_log as c on "
-                                      "a.site=c.site left join pottery_table as d on a.site=d.site where a.site = '{"
-                                      "}'".format(str(self.comboBox_sito.currentText())), db=db)
+            self.tableView_summary.setModel(self.model_a)
+            if bool(str(self.comboBox_sito.currentText())):
+                try:
+                    query = QSqlQuery("select  a.site as 'Location',a.years as 'Years',  case when count(distinct a.divelog_id)=0  then 'Divelog ID missing' "                  "else count(distinct a.divelog_id)  end as 'Divelog ID Total',case when count(distinct " 
+                                      "b.anchors_id)=0 then 'No Anchor' else count( distinct " 
+                                      "b.anchors_id)end as 'Total Anchors',case when count(distinct " 
+                                      "c.artefact_id)=0 then 'No Artefact' else count( distinct  c.artefact_id)end as " 
+                                      "'Total Artefact',case when count( distinct  d.artefact_id)=0 then 'No Pottery' else " 
+                                      "count(distinct  d.artefact_id)end as 'Total Pottery' from dive_log as a left join " 
+                                      "anchor_table as b on a.site=b.site and a.years=b.years left join artefact_log as c on "
+                                      "a.site=c.site and a.years=c.years left join pottery_table as d on a.site=d.site and a.years=d.years where "
+                                      "a.site ='{}' group by a.years".format(str(self.comboBox_sito.currentText())), db=db)
+                                      
                     self.model_a.setQuery(query)
-                else:
-                                
-                    query1 = QSqlQuery("select s.site as Location,(select count(distinct anchors_id) from anchor_table m "
-                                       "where s.site = m.site) as Anchor,(select count(distinct artefact_id) from "
-                                       "artefact_log st where s.site = st.site) as Artefact,(select count(distinct "
-                                       "artefact_id) from artefact_log t where s.site = t.site) as Artefact,"
-                                       "(select count(distinct artefact_id) from" 
-                                       "pottery_table pt where s.site = pt.site) as Pottery,(select count(distinct" 
-                                       "artefact_id) from pottery_table l where s.site = l.site) as Pottery,"	
-                                       "(select count(distinct divelog_id) from dive_log ad where s.site=ad.site) as Divelog ID from ("
-                                       "select site , count(distinct divelog_id) from dive_log group by site) as s order by "
-                                       "s.site;",db=db)
-                                       
-                    self.model_a.setQuery(query1)
-
-
-
-                # self.model_a.setTable("us_table")
-                # self.model_a.setEditStrategy(QSqlTableModel.OnManualSubmit)
-
-                # if bool (sito_set_str):
-                    # filter_str = "sito = '{}'".format(str(self.comboBox_sito.currentText()))
-                    # self.model_a.setFilter(filter_str)
-                    # self.model_a.select()
-                # else:
-
-                    # self.model_a.select()
-                self.tableView_summary.clearSpans()
+                except Exception as e:
+                    QMessageBox.information(self, "INFO", str(e),QMessageBox.Ok)
             else:
+                            
+                query1 = QSqlQuery("select s.site as 'Location',s.years as 'Years',(select count(distinct anchors_id) from anchor_table m "
+                                    "where s.site = m.site and s.years=m.years ) as 'Anchor',(select count(distinct artefact_id) from "
+                                    "artefact_log st where s.site = st.site and  s.years=st.years) as 'Artefact', "
+                                    "(select count(distinct artefact_id) from "
+                                    "pottery_table pt where s.site = pt.site and  s.years=pt.years) as 'Pottery', "
+                                    "(select count(distinct divelog_id) from dive_log ad where s.site=ad.site and s.years=ad.years) as 'Divelog "
+                                    "ID' from ( "
+                                    "select site,years, count( divelog_id) from dive_log group by site, years) as s order by s.site;",db=db)
+                                   
+                self.model_a.setQuery(query1)
 
-                db = QSqlDatabase.addDatabase("QPSQL")
-                db.setHostName(conn_host["host"])
+            self.tableView_summary.clearSpans()
+        # else:
 
-                db.setDatabaseName(conn_sqlite["db_name"])
-                db.setPort(int(port_int))
-                db.setUserName(conn_user['user'])
-                db.setPassword(conn_password['password'])
-                db.open()
+            # db = QSqlDatabase.addDatabase("QPSQL")
+            # db.setHostName(conn_host["host"])
+
+            # db.setDatabaseName(conn_sqlite["db_name"])
+            # db.setPort(int(port_int))
+            # db.setUserName(conn_user['user'])
+            # db.setPassword(conn_password['password'])
+            # db.open()
 
 
 
-                self.model_a = QSqlQueryModel()
+            # self.model_a = QSqlQueryModel()
 
-                self.tableView_summary.setModel(self.model_a)
-                if bool(self.comboBox_sito.currentText()):
-                    query = QSqlQuery("select distinct  a.sito as Sito ,count(distinct a.id_us) as US,count(distinct "
-                                      "c.id_struttura)as Struttura,count(distinct d.id_tomba) as Tombe from us_table "
-                                      "as a left join struttura_table as c on a.sito=c.sito left join tomba_table as "
-                                      "d on a.sito=d.sito where a.sito = '{}' group by a.sito order by us DESC ".format(
-                        str(self.comboBox_sito.currentText())), db=db)
-                    self.model_a.setQuery(query)
-                else:
-                    query1 = QSqlQuery("select s.sito as Sito,(select count(distinct id_invmat) from inventario_materiali_table m "
-                                       "where s.sito = m.sito) as Materiali,(select count(distinct id_struttura) from "
-                                       "struttura_table st where s.sito = st.sito) as Struttura,(select count(distinct "
-                                       "id_tomba) from tomba_table t where s.sito = t.sito) as Tombe,"
-                                       "(select count(distinct id_us) from us_table ad where s.sito=ad.sito) as US from ("
-                                       "select sito , count(distinct id_us) from us_table group by sito) as s order by "
-                                       "s.sito;",db=db)
-                    self.model_a.setQuery(query1)
+            # self.tableView_summary.setModel(self.model_a)
+            # if bool(self.comboBox_sito.currentText()):
+                # query = QSqlQuery("select distinct  a.sito as Sito ,count(distinct a.id_us) as US,count(distinct "
+                                  # "c.id_struttura)as Struttura,count(distinct d.id_tomba) as Tombe from us_table "
+                                  # "as a left join struttura_table as c on a.sito=c.sito left join tomba_table as "
+                                  # "d on a.sito=d.sito where a.sito = '{}' group by a.sito order by us DESC ".format(
+                    # str(self.comboBox_sito.currentText())), db=db)
+                # self.model_a.setQuery(query)
+            # else:
+                # query1 = QSqlQuery("select s.sito as Sito,(select count(distinct id_invmat) from inventario_materiali_table m "
+                                   # "where s.sito = m.sito) as Materiali,(select count(distinct id_struttura) from "
+                                   # "struttura_table st where s.sito = st.sito) as Struttura,(select count(distinct "
+                                   # "id_tomba) from tomba_table t where s.sito = t.sito) as Tombe,"
+                                   # "(select count(distinct id_us) from us_table ad where s.sito=ad.sito) as US from ("
+                                   # "select sito , count(distinct id_us) from us_table group by sito) as s order by "
+                                   # "s.sito;",db=db)
+                # self.model_a.setQuery(query1)
 
-                self.tableView_summary.clearSpans()
-        except Exception as e:
-           QMessageBox.warning(self, "Attenzione", str(e), QMessageBox.Ok) 
+            # self.tableView_summary.clearSpans()
+    def select_version_sql(self):
+        conn = Connection()
+        db_url = conn.conn_str()
+        sql_query_string = "SELECT current_setting('server_version_num')"
+        self.engine= create_engine(db_url)
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchone()
+        vers = ''.join(rows)
+        res.close()#QMessageBox.information(self, "INFO", str(vers),QMessageBox.Ok)
+        return vers    
     def on_toolButton_active_toggled(self):
         
         try:    
@@ -350,19 +351,19 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:
             QMessageBox.information(self, "HFF system", str(e), QMessageBox.Ok)
     def charge_list(self):
-        try:
-            self.try_connection()
-            sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
+        #try:
+        self.try_connection()
+        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
 
-            try:
-                sito_vl.remove('')
-            except:
-                pass
-            self.comboBox_sito.clear()
-            sito_vl.sort()
-            self.comboBox_sito.addItems(sito_vl)
-        except Exception as e:
-            QMessageBox.information(self, "HFF system", str(e), QMessageBox.Ok)
+        try:
+            sito_vl.remove('')
+        except:
+            pass
+        self.comboBox_sito.clear()
+        sito_vl.sort()
+        self.comboBox_sito.addItems(sito_vl)
+        # except Exception as e:
+            # QMessageBox.information(self, "HFF system", str(e), QMessageBox.Ok)
     def db_active (self):
         self.comboBox_Database.update()
         self.comboBox_sito.clear()
@@ -638,15 +639,23 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         else:
             QMessageBox.warning(self, "INFO", "The DB exist already", QMessageBox.Ok)
     def on_pushButton_upd_postgres_pressed(self):
-        view_file = os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'dbfiles',
-                                   'hff_system__update_postgres.sql')
         conn = Connection()
         db_url = conn.conn_str()
-        #RestoreSchema(db_url,None).update_geom_srid( 'public','%d' % int(self.lineEdit_crs.text()))
-        if RestoreSchema(db_url,view_file).restore_schema()== False:
-            QMessageBox.warning(self, "INFO", "The DB exist already", QMessageBox.Ok)
+        view_file = os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'dbfiles',
+                                       'pyarchinit_update_postgres.sql')
+
+        b=str(self.select_version_sql())
+
+        a = "90313"
+        
+           
+        if a == b:
+            QMessageBox.information(self, "INFO", " You cannot update the db postgres because your version is lower than 9.4 "
+                                                                            "Upgrade to a newer version",QMessageBox.Ok)
         else:
-            QMessageBox.warning(self, "INFO", "Updated", QMessageBox.Ok)
+            RestoreSchema(db_url,view_file).restore_schema()
+
+            QMessageBox.information(self, "INFO", "the db has been updated", QMessageBox.Ok)
     def load_spatialite(self,conn, connection_record):
         conn.enable_load_extension(True)
         if Hff_OS_Utility.isWindows()== True:
@@ -1143,73 +1152,110 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     data = self.DB_MANAGER_write.insert_eamena_values(
                         self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                          id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
-        
-                        
                         data_list_toimp[sing_rec].location,
-                        data_list_toimp[sing_rec].name_site,
-                        data_list_toimp[sing_rec].grid,
-                        data_list_toimp[sing_rec].hp,
-                        data_list_toimp[sing_rec].d_activity,
-                        data_list_toimp[sing_rec].role,
-                        data_list_toimp[sing_rec].activity,
-                        data_list_toimp[sing_rec].name,
+                        data_list_toimp[sing_rec].assessment_investigator_actor,
+                        data_list_toimp[sing_rec].investigator_role_type,
+                        data_list_toimp[sing_rec].assessment_activity_type,
+                        data_list_toimp[sing_rec].assessment_activity_date,
+                        data_list_toimp[sing_rec].ge_assessment,
+                        data_list_toimp[sing_rec].ge_imagery_acquisition_date,
+                        data_list_toimp[sing_rec].information_resource_used,
+                        data_list_toimp[sing_rec].information_resource_acquisition_date,
+                        data_list_toimp[sing_rec].resource_name,
                         data_list_toimp[sing_rec].name_type,
-                        data_list_toimp[sing_rec].d_type,
-                        data_list_toimp[sing_rec].dfd,
-                        data_list_toimp[sing_rec].dft,
-                        data_list_toimp[sing_rec].lc,
-                        data_list_toimp[sing_rec].mn,
-                        data_list_toimp[sing_rec].mt,
-                        data_list_toimp[sing_rec].mu,
-                        data_list_toimp[sing_rec].ms,
-                        data_list_toimp[sing_rec].desc_type,
-                        data_list_toimp[sing_rec].description,
-                        data_list_toimp[sing_rec].cd,
-                        data_list_toimp[sing_rec].pd,
-                        data_list_toimp[sing_rec].pc,
-                        data_list_toimp[sing_rec].di,
-                        data_list_toimp[sing_rec].fft,
-                        data_list_toimp[sing_rec].ffc,
-                        data_list_toimp[sing_rec].fs,
-                        data_list_toimp[sing_rec].fat,
-                        data_list_toimp[sing_rec].fn,
-                        data_list_toimp[sing_rec].fai,
-                        data_list_toimp[sing_rec].it,
-                        data_list_toimp[sing_rec].ic,
-                        data_list_toimp[sing_rec].intern,
-                        data_list_toimp[sing_rec].fi,
-                        data_list_toimp[sing_rec].sf,
-                        data_list_toimp[sing_rec].sfc,
-                        data_list_toimp[sing_rec].tc,
-                        data_list_toimp[sing_rec].tt,
-                        data_list_toimp[sing_rec].tp,
-                        data_list_toimp[sing_rec].ti,
-                        data_list_toimp[sing_rec].dcc,
-                        data_list_toimp[sing_rec].dct,
-                        data_list_toimp[sing_rec].dcert,
-                        data_list_toimp[sing_rec].et1,
-                        data_list_toimp[sing_rec].ec1,
-                        data_list_toimp[sing_rec].et2,
-                        data_list_toimp[sing_rec].ec2,
-                        data_list_toimp[sing_rec].et3,
-                        data_list_toimp[sing_rec].ec3,
-                        data_list_toimp[sing_rec].et4,
-                        data_list_toimp[sing_rec].ec4,
-                        data_list_toimp[sing_rec].et5,
-                        data_list_toimp[sing_rec].ec5,
-                        data_list_toimp[sing_rec].ddf,
-                        data_list_toimp[sing_rec].ddt,
-                        data_list_toimp[sing_rec].dob,
-                        data_list_toimp[sing_rec].doo,
-                        data_list_toimp[sing_rec].dan,
-                        data_list_toimp[sing_rec].investigator)
+                        data_list_toimp[sing_rec].heritage_place_type,
+                        data_list_toimp[sing_rec].general_description_type,
+                        data_list_toimp[sing_rec].general_description,
+                        data_list_toimp[sing_rec].heritage_place_function,
+                        data_list_toimp[sing_rec].heritage_place_function_certainty,
+                        data_list_toimp[sing_rec].designation,
+                        data_list_toimp[sing_rec].designation_from_date,
+                        data_list_toimp[sing_rec].designation_to_date,
+                        data_list_toimp[sing_rec].geometric_place_expression,
+                        data_list_toimp[sing_rec].geometry_qualifier,
+                        data_list_toimp[sing_rec].site_location_certainty,
+                        data_list_toimp[sing_rec].geometry_extent_certainty,
+                        data_list_toimp[sing_rec].site_overall_shape_type,
+                        data_list_toimp[sing_rec].grid_id,
+                        data_list_toimp[sing_rec].country_type,
+                        data_list_toimp[sing_rec].cadastral_reference,
+                        data_list_toimp[sing_rec].resource_orientation,
+                        data_list_toimp[sing_rec].address,
+                        data_list_toimp[sing_rec].address_type,
+                        data_list_toimp[sing_rec].administrative_subdivision,
+                        data_list_toimp[sing_rec].administrative_subdivision_type,
+                        data_list_toimp[sing_rec].overall_archaeological_certainty_value,
+                        data_list_toimp[sing_rec].overall_site_morphology_type,
+                        data_list_toimp[sing_rec].cultural_period_type,
+                        data_list_toimp[sing_rec].cultural_period_certainty,
+                        data_list_toimp[sing_rec].cultural_subperiod_type,
+                        data_list_toimp[sing_rec].cultural_subperiod_certainty,
+                        data_list_toimp[sing_rec].date_inference_making_actor,
+                        data_list_toimp[sing_rec].archaeological_date_from,
+                        data_list_toimp[sing_rec].archaeological_date_to,
+                        data_list_toimp[sing_rec].bp_date_from,
+                        data_list_toimp[sing_rec].bp_date_to,
+                        data_list_toimp[sing_rec].ah_date_from,
+                        data_list_toimp[sing_rec].ah_date_to,
+                        data_list_toimp[sing_rec].sh_date_from,
+                        data_list_toimp[sing_rec].sh_date_to,
+                        data_list_toimp[sing_rec].site_feature_form_type,
+                        data_list_toimp[sing_rec].site_feature_form_type_certainty,
+                        data_list_toimp[sing_rec].site_feature_shape_type,
+                        data_list_toimp[sing_rec].site_feature_arrangement_type,
+                        data_list_toimp[sing_rec].site_feature_number_type,
+                        data_list_toimp[sing_rec].site_feature_interpretation_type,
+                        data_list_toimp[sing_rec].site_feature_interpretation_number,
+                        data_list_toimp[sing_rec].site_feature_interpretation_certainty,
+                        data_list_toimp[sing_rec].built_component_related_resource,
+                        data_list_toimp[sing_rec].hp_related_resource,
+                        data_list_toimp[sing_rec].material_class,
+                        data_list_toimp[sing_rec].material_type,
+                        data_list_toimp[sing_rec].construction_technique,
+                        data_list_toimp[sing_rec].measurement_number,
+                        data_list_toimp[sing_rec].measurement_unit,
+                        data_list_toimp[sing_rec].dimension_type,
+                        data_list_toimp[sing_rec].measurement_source_type,
+                        data_list_toimp[sing_rec].related_geoarch_palaeo,
+                        data_list_toimp[sing_rec].overall_condition_state,
+                        data_list_toimp[sing_rec].damage_extent_type,
+                        data_list_toimp[sing_rec].disturbance_cause_category_type,
+                        data_list_toimp[sing_rec].disturbance_cause_type,
+                        data_list_toimp[sing_rec].disturbance_cause_certainty,
+                        data_list_toimp[sing_rec].disturbance_date_from,
+                        data_list_toimp[sing_rec].disturbance_date_to,
+                        data_list_toimp[sing_rec].disturbance_date_occurred_before,
+                        data_list_toimp[sing_rec].disturbance_date_occurred_on,
+                        data_list_toimp[sing_rec].disturbance_cause_assignment_assessor_name,
+                        data_list_toimp[sing_rec].effect_type,
+                        data_list_toimp[sing_rec].effect_certainty,
+                        data_list_toimp[sing_rec].threat_category,
+                        data_list_toimp[sing_rec].threat_type,
+                        data_list_toimp[sing_rec].threat_probability,
+                        data_list_toimp[sing_rec].threat_inference_making_assessor_name,
+                        data_list_toimp[sing_rec].intervention_activity_type,
+                        data_list_toimp[sing_rec].recommendation_type,
+                        data_list_toimp[sing_rec].priority_type,
+                        data_list_toimp[sing_rec].related_detailed_condition_resource,
+                        data_list_toimp[sing_rec].topography_type,
+                        data_list_toimp[sing_rec].land_cover_type,
+                        data_list_toimp[sing_rec].land_cover_assessment_date,
+                        data_list_toimp[sing_rec].surficial_geology_type,
+                        data_list_toimp[sing_rec].depositional_process,
+                        data_list_toimp[sing_rec].bedrock_geology,
+                        data_list_toimp[sing_rec].fetch_type,
+                        data_list_toimp[sing_rec].wave_climate,
+                        data_list_toimp[sing_rec].tidal_energy,
+                        data_list_toimp[sing_rec].minimum_depth_max_elevation,
+                        data_list_toimp[sing_rec].maximum_depth_min_elevation,
+                        data_list_toimp[sing_rec].datum_type,
+                        data_list_toimp[sing_rec].datum_description_epsg_code,
+                        data_list_toimp[sing_rec].restricted_access_record_designation)
                     
                     self.DB_MANAGER_write.insert_data_session(data)
-                    for i in range(0,100):    
-                        #time.sleep()
-                        self.progress_bar.setValue(((i)/100)*100)
-                     
-                        QApplication.processEvents()
+                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                    self.progress_bar.setValue(value)
+                    QApplication.processEvents()
                         
                     
                 
@@ -1278,14 +1324,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             
                       
                     self.DB_MANAGER_write.insert_data_session(data)
-                    for i in range(0,100):    
-                        #time.sleep()
-                        self.progress_bar.setValue(((i)/100)*100)
-                     
-                        QApplication.processEvents()
-                        
-                    
-                
+                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                    self.progress_bar.setValue(value)
+                    QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
                     QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
@@ -1330,12 +1371,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     
                       
                     self.DB_MANAGER_write.insert_data_session(data)
-                    for i in range(0,100):    
-                        #time.sleep()
-                        self.progress_bar.setValue(((i)/100)*100)
-                     
-                        QApplication.processEvents()
-                        
+                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                    self.progress_bar.setValue(value)
+                    QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
                     QMessageBox.warning(self, "Errore", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
@@ -1412,13 +1450,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
                     
                     self.DB_MANAGER_write.insert_data_session(data)
-                    for i in range(0,100):    
-                        #time.sleep()
-                        self.progress_bar.setValue(((i)/100)*100)
-                     
-                        QApplication.processEvents()
-                        
-                    
+                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                    self.progress_bar.setValue(value)
+                    QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
                     QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
@@ -1474,13 +1508,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
                     
                     self.DB_MANAGER_write.insert_data_session(data)
-                    for i in range(0,100):    
-                        #time.sleep()
-                        self.progress_bar.setValue(((i)/100)*100)
-                     
-                        QApplication.processEvents()
-                        
-                    
+                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                    self.progress_bar.setValue(value)
+                    QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
                     QMessageBox.warning(self, "Errore", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
@@ -1536,12 +1566,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
                     
                     self.DB_MANAGER_write.insert_data_session(data)
-                    for i in range(0,100):    
-                        #time.sleep()
-                        self.progress_bar.setValue(((i)/100)*100)
-                     
-                        QApplication.processEvents()
-                        
+                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                    self.progress_bar.setValue(value)
+                    QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
                     QMessageBox.warning(self, "Errore", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
@@ -1566,12 +1593,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
                     
                     self.DB_MANAGER_write.insert_data_session(data)
-                    for i in range(0,100):    
-                        #time.sleep()
-                        self.progress_bar.setValue(((i)/100)*100)
-                     
-                        QApplication.processEvents()
-                        
+                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                    self.progress_bar.setValue(value)
+                    QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
                     QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
@@ -1596,12 +1620,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
                     
                     self.DB_MANAGER_write.insert_data_session(data)
-                    for i in range(0,100):    
-                        #time.sleep()
-                        self.progress_bar.setValue(((i)/100)*100)
-                     
-                        QApplication.processEvents()
-               
+                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                    self.progress_bar.setValue(value)
+                    QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
                     QMessageBox.warning(self, "Errore", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
@@ -1626,12 +1647,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
                     
                     self.DB_MANAGER_write.insert_data_session(data)
-                    for i in range(0,100):    
-                        #time.sleep()
-                        self.progress_bar.setValue(((i)/100)*100)
-                     
-                        QApplication.processEvents()
-                        
+                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                    self.progress_bar.setValue(value)
+                    QApplication.processEvents() 
                 except Exception as  e:
                     e_str = str(e)
                     QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
@@ -1639,127 +1657,127 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
     
-    def on_pushButton_connect_pressed(self):
-        # Defines parameter
-        self.ip=str(self.lineEdit_ip.text())
-        self.user=str(self.lineEdit_user.text())
-        self.pwd=str(self.lineEdit_password.text())
-        cnopts = pysftp.CnOpts()
-        cnopts.hostkeys = None 
-        srv = pysftp.Connection(host=self.ip, username=self.user, password=self.pwd,cnopts =cnopts )
-        self.lineEdit_2.insert("Connection succesfully stablished ......... ")
-        dirlist = []
-        dirlist = srv.listdir()
-        for item in dirlist:
-            self.listWidget.insertItem(0,item)
-        # Download the file from the remote server
-        #remote_file = '/home/data/ftp/demoliz/qgis/rep5/test.qgs'
-        # with srv.cd('../'):             # still in .
-            # srv.chdir('home')    # now in ./static
-            # srv.chdir('data')      # now in ./static/here
-            # srv.chdir('ftp')
-            # srv.chdir('demoliz')    
-            # srv.chdir('qgis')
-            # srv.chdir('rep5')
-            # self.listWidget.insertItem(0,"--------------------------------------------")
-        #srv.close()
-    # def loginServer():
-        # # user = ent_login.get()
-        # # password = ent_pass.get()
-        # try:
-            # msg = ftp.login(user,password)
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,msg)
-            # displayDir()
-            # # lbl_login.place_forget()
-            # # ent_login.place_forget()
-            # # lbl_pass.place_forget()
-            # # ent_pass.place_forget()
-            # # btn_login.place_forget()
-        # except:
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,"Unable to login")
-    # def displayDir():
-        # libox_serverdir.insert(0,"--------------------------------------------")
+    # def on_pushButton_connect_pressed(self):
+        # # Defines parameter
+        # self.ip=str(self.lineEdit_ip.text())
+        # self.user=str(self.lineEdit_user.text())
+        # self.pwd=str(self.lineEdit_password.text())
+        # cnopts = pysftp.CnOpts()
+        # cnopts.hostkeys = None 
+        # srv = pysftp.Connection(host=self.ip, username=self.user, password=self.pwd,cnopts =cnopts )
+        # self.lineEdit_2.insert("Connection succesfully stablished ......... ")
         # dirlist = []
-        # dirlist = ftp.nlst()
+        # dirlist = srv.listdir()
         # for item in dirlist:
-            # libox_serverdir.insert(0, item)
-    # #FTP commands
-    def on_pushButton_change_dir_pressed(self):
-        cnopts = pysftp.CnOpts()
-        cnopts.hostkeys = None 
-        with pysftp.Connection(host="37.139.2.71", username="root",
-        password="lizmap1",cnopts =cnopts ) as sftp:
-            try:
-                msg = sftp.cwd('/home') # Switch to a remote directory
-                directory_structure = sftp.listdir_attr()# Obtain structure of the remote directory 
-                for attr in directory_structure:
-                    self.listWidget.insertItem(attr.filename, attr)
-            except:
-                self.lineEdit_2.insert("\n")
-                self.lineEdit_2.insert("Unable to change directory")
-            dirlist = []
-            dirlist = sftp.listdir()
-            for item in dirlist:
-                self.listWidget.insertItem(0,item)
-    # def createDirectory():
-        # directory = ent_input.get()
-        # try:
-            # msg = ftp.mkd(directory)
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,msg)
-        # except:
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,"Unable to create directory")
-        # displayDir()
-    # def deleteDirectory():
-        # directory = ent_input.get()
-        # try:
-            # msg = ftp.rmd(directory)
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,msg)
-        # except:
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,"Unable to delete directory")
-        # displayDir()
-    # def deleteFile():
-        # file = ent_input.get()
-        # try:
-            # msg = ftp.delete(file)
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,msg)
-        # except:
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,"Unable to delete file")
-        # displayDir()
-    # def downloadFile():
-        # file = ent_input.get()
-        # down = open(file, "wb")
-        # try:
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,"Downloading " + file + "...")
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,ftp.retrbinary("RETR " + file, down.write))
-        # except:
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,"Unable to download file")
-        # displayDir()
-    # def uploadFile():
-        # file = ent_input.get()
-        # try:
-            # up = open(file, "rb")
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,"Uploading " + file + "...")
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,ftp.storbinary("STOR " + file,up))
-        # except:
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,"Unable to upload file")
-        # displayDir()
-    def on_pushButton_disconnect_pressed(self):
-       cnopts = pysftp.CnOpts()
-       cnopts.hostkeys = None 
-       srv = pysftp.Connection(host=self.ip, username=self.user, password=self.pwd,cnopts =cnopts )
-       self.lineEdit_2.insert("Connection Close ............. ")
-       srv.close()
+            # self.listWidget.insertItem(0,item)
+        # # Download the file from the remote server
+        # #remote_file = '/home/data/ftp/demoliz/qgis/rep5/test.qgs'
+        # # with srv.cd('../'):             # still in .
+            # # srv.chdir('home')    # now in ./static
+            # # srv.chdir('data')      # now in ./static/here
+            # # srv.chdir('ftp')
+            # # srv.chdir('demoliz')    
+            # # srv.chdir('qgis')
+            # # srv.chdir('rep5')
+            # # self.listWidget.insertItem(0,"--------------------------------------------")
+        # #srv.close()
+    # # def loginServer():
+        # # # user = ent_login.get()
+        # # # password = ent_pass.get()
+        # # try:
+            # # msg = ftp.login(user,password)
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,msg)
+            # # displayDir()
+            # # # lbl_login.place_forget()
+            # # # ent_login.place_forget()
+            # # # lbl_pass.place_forget()
+            # # # ent_pass.place_forget()
+            # # # btn_login.place_forget()
+        # # except:
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,"Unable to login")
+    # # def displayDir():
+        # # libox_serverdir.insert(0,"--------------------------------------------")
+        # # dirlist = []
+        # # dirlist = ftp.nlst()
+        # # for item in dirlist:
+            # # libox_serverdir.insert(0, item)
+    # # #FTP commands
+    # def on_pushButton_change_dir_pressed(self):
+        # cnopts = pysftp.CnOpts()
+        # cnopts.hostkeys = None 
+        # with pysftp.Connection(host="37.139.2.71", username="root",
+        # password="lizmap1",cnopts =cnopts ) as sftp:
+            # try:
+                # msg = sftp.cwd('/home') # Switch to a remote directory
+                # directory_structure = sftp.listdir_attr()# Obtain structure of the remote directory 
+                # for attr in directory_structure:
+                    # self.listWidget.insertItem(attr.filename, attr)
+            # except:
+                # self.lineEdit_2.insert("\n")
+                # self.lineEdit_2.insert("Unable to change directory")
+            # dirlist = []
+            # dirlist = sftp.listdir()
+            # for item in dirlist:
+                # self.listWidget.insertItem(0,item)
+    # # def createDirectory():
+        # # directory = ent_input.get()
+        # # try:
+            # # msg = ftp.mkd(directory)
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,msg)
+        # # except:
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,"Unable to create directory")
+        # # displayDir()
+    # # def deleteDirectory():
+        # # directory = ent_input.get()
+        # # try:
+            # # msg = ftp.rmd(directory)
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,msg)
+        # # except:
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,"Unable to delete directory")
+        # # displayDir()
+    # # def deleteFile():
+        # # file = ent_input.get()
+        # # try:
+            # # msg = ftp.delete(file)
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,msg)
+        # # except:
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,"Unable to delete file")
+        # # displayDir()
+    # # def downloadFile():
+        # # file = ent_input.get()
+        # # down = open(file, "wb")
+        # # try:
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,"Downloading " + file + "...")
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,ftp.retrbinary("RETR " + file, down.write))
+        # # except:
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,"Unable to download file")
+        # # displayDir()
+    # # def uploadFile():
+        # # file = ent_input.get()
+        # # try:
+            # # up = open(file, "rb")
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,"Uploading " + file + "...")
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,ftp.storbinary("STOR " + file,up))
+        # # except:
+            # # text_servermsg.insert(END,"\n")
+            # # text_servermsg.insert(END,"Unable to upload file")
+        # # displayDir()
+    # def on_pushButton_disconnect_pressed(self):
+       # cnopts = pysftp.CnOpts()
+       # cnopts.hostkeys = None 
+       # srv = pysftp.Connection(host=self.ip, username=self.user, password=self.pwd,cnopts =cnopts )
+       # self.lineEdit_2.insert("Connection Close ............. ")
+       # srv.close()
