@@ -266,33 +266,33 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             self.model_a = QSqlQueryModel()
 
             self.tableView_summary.setModel(self.model_a)
-            if bool(str(self.comboBox_sito.currentText())):
-                try:
-                    query = QSqlQuery("select  a.site as 'Location',a.years as 'Years',  case when count(distinct a.divelog_id)=0  then 'Divelog ID missing' "                  "else count(distinct a.divelog_id)  end as 'Divelog ID Total',case when count(distinct " 
-                                      "b.anchors_id)=0 then 'No Anchor' else count( distinct " 
-                                      "b.anchors_id)end as 'Total Anchors',case when count(distinct " 
-                                      "c.artefact_id)=0 then 'No Artefact' else count( distinct  c.artefact_id)end as " 
-                                      "'Total Artefact',case when count( distinct  d.artefact_id)=0 then 'No Pottery' else " 
-                                      "count(distinct  d.artefact_id)end as 'Total Pottery' from dive_log as a left join " 
-                                      "anchor_table as b on a.site=b.site and a.years=b.years left join artefact_log as c on "
-                                      "a.site=c.site and a.years=c.years left join pottery_table as d on a.site=d.site and a.years=d.years where "
-                                      "a.site ='{}' group by a.years".format(str(self.comboBox_sito.currentText())), db=db)
+            # if bool(str(self.comboBox_sito.currentText())):
+                # try:
+                    # query = QSqlQuery("select  a.site as 'Location', a.years as 'Years',case when count(distinct " 
+                                      # "b.anchors_id)=0 then 'No Anchor' else count( distinct " 
+                                      # "b.anchors_id)end as 'Total Anchors',case when count(distinct " 
+                                      # "c.artefact_id)=0 then 'No Artefact' else count( distinct  c.artefact_id)end as " 
+                                      # "'Total Artefact',case when count(distinct " 
+                                      # "d.artefact_id)=0 then 'No Pottery' else count( distinct  d.artefact_id)end as " 
+                                      # "'Total Pottery' from artefact_log as c left join " 
+                                      # "anchor_table as b on a.site=b.site and a.years=b.years left join pottery_table as d on a.site=d.site and a.years=d.years where "
+                                      # "a.site ='{}' group by a.years;".format(str(self.comboBox_sito.currentText())), db=db)
                                       
-                    self.model_a.setQuery(query)
-                except Exception as e:
-                    QMessageBox.information(self, "INFO", str(e),QMessageBox.Ok)
-            else:
+                    # self.model_a.setQuery(query)
+                # except Exception as e:
+                    # QMessageBox.information(self, "INFO", str(e),QMessageBox.Ok)
+            # else:
                             
-                query1 = QSqlQuery("select s.site as 'Location',s.years as 'Years',(select count(distinct anchors_id) from anchor_table m "
-                                    "where s.site = m.site and s.years=m.years ) as 'Anchor',(select count(distinct artefact_id) from "
-                                    "artefact_log st where s.site = st.site and  s.years=st.years) as 'Artefact', "
-                                    "(select count(distinct artefact_id) from "
-                                    "pottery_table pt where s.site = pt.site and  s.years=pt.years) as 'Pottery', "
-                                    "(select count(distinct divelog_id) from dive_log ad where s.site=ad.site and s.years=ad.years) as 'Divelog "
-                                    "ID' from ( "
-                                    "select site,years, count( divelog_id) from dive_log group by site, years) as s order by s.site;",db=db)
-                                   
-                self.model_a.setQuery(query1)
+            query1 = QSqlQuery("select s.site as 'Location',s.years as 'Years',(select count(distinct anchors_id) from anchor_table m "
+                                "where s.site = m.site and s.years=m.years ) as 'Anchor',(select count(distinct artefact_id) from "
+                                "artefact_log st where s.site = st.site and  s.years=st.years) as 'Artefact', "
+                                "(select count(distinct artefact_id) from "
+                                "pottery_table pt where s.site = pt.site and  s.years=pt.years) as 'Pottery', "
+                                "(select count(distinct divelog_id) from dive_log ad where s.site=ad.site and s.years=ad.years) as 'Divelog "
+                                "ID' from ( "
+                                "select site,years, count( divelog_id) from dive_log group by site, years) as s order by s.site;",db=db)
+                               
+            self.model_a.setQuery(query1)
 
             self.tableView_summary.clearSpans()
         # else:
@@ -753,64 +753,106 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             eamena_table= """
             CREATE TABLE IF NOT EXISTS "eamena_table" (
                 "id_eamena"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                "location"	varchar(255),
-                "name_site"	varchar(255),
-                "grid"	varchar(255),
-                "hp"	varchar(255),
-                "d_activity"	varchar(255),
-                "role"	text,
-                "activity"	text,
-                "name"	text,
-                "name_type"	text,
-                "d_type"	varchar(255),
-                "dfd"	varchar(255),
-                "dft"	varchar(255),
-                "lc"	varchar(255),
-                "mn"	varchar(255),
-                "mt"	varchar(255),
-                "mu"	varchar(255),
-                "ms"	varchar(255),
-                "desc_type"	varchar(255),
-                "description"	text,
-                "cd"	text,
-                "pd"	text,
-                "pc"	text,
-                "di"	text,
-                "fft"	text,
-                "ffc"	text,
-                "fs"	text,
-                "fat"	text,
-                "fn"	text,
-                "fai"	text,
-                "it"	text,
-                "ic"	text,
-                "intern"	text,
-                "fi"	text,
-                "sf"	text,
-                "sfc"	text,
-                "tc"	text,
-                "tt"	text,
-                "tp"	text,
-                "ti"	text,
-                "dcc"	text,
-                "dct"	text,
-                "dcert"	text,
-                "et1"	text,
-                "ec1"	text,
-                "et2"	text,
-                "ec2"	text,
-                "et3"	text,
-                "ec3"	text,
-                "et4"	text,
-                "ec4"	text,
-                "et5"	text,
-                "ec5"	text,
-                "ddf"	text,
-                "ddt"	text,
-                "dob"	text,
-                "doo"	text,
-                "dan"	text,
-                "investigator"	varchar(255)
+                "location" text,
+                "assessment_investigator_actor" text,
+                "investigator_role_type" text,
+                "assessment_activity_type" text,
+                "assessment_activity_date" text,
+                "ge_assessment" text,
+                "ge_imagery_acquisition_date" text,
+                "information_resource_used" text,
+                "information_resource_acquisition_date" text,
+                "resource_name" text,
+                "name_type" text,
+                "heritage_place_type" text,
+                "general_description_type" text,
+                "general_description" text,
+                "heritage_place_function" text,
+                "heritage_place_function_certainty" text,
+                "designation" text,
+                "designation_from_date" text,
+                "designation_to_date" text,
+                "geometric_place_expression" text,
+                "geometry_qualifier" text,
+                "site_location_certainty" text,
+                "geometry_extent_certainty" text,
+                "site_overall_shape_type" text,
+                "grid_id" text,
+                "country_type" text,
+                "cadastral_reference" text,
+                "resource_orientation" text,
+                "address" text,
+                "address_type" text,
+                "administrative_subdivision" text,
+                "administrative_subdivision_type" text,
+                "overall_archaeological_certainty_value" text,
+                "overall_site_morphology_type" text,
+                "cultural_period_type" text,
+                "cultural_period_certainty" text,
+                "cultural_subperiod_type" text,
+                "cultural_subperiod_certainty" text,
+                "date_inference_making_actor" text,
+                "archaeological_date_from" text,
+                "archaeological_date_to" text,
+                "bp_date_from" text,
+                "bp_date_to" text,
+                "ah_date_from" text,
+                "ah_date_to" text,
+                "sh_date_from" text,
+                "sh_date_to" text,
+                "site_feature_form_type" text,
+                "site_feature_form_type_certainty" text,
+                "site_feature_shape_type" text,
+                "site_feature_arrangement_type" text,
+                "site_feature_number_type" text,
+                "site_feature_interpretation_type" text,
+                "site_feature_interpretation_number" text,
+                "site_feature_interpretation_certainty" text,
+                "built_component_related_resource" text,
+                "hp_related_resource" text,
+                "material_class" text,
+                "material_type" text,
+                "construction_technique" text,
+                "measurement_number" text,
+                "measurement_unit" text,
+                "dimension_type" text,
+                "measurement_source_type" text,
+                "related_geoarch_palaeo" text,
+                "overall_condition_state" text,
+                "damage_extent_type" text,
+                "disturbance_cause_category_type" text,
+                "disturbance_cause_type" text,
+                "disturbance_cause_certainty" text,
+                "disturbance_date_from" text,
+                "disturbance_date_to" text,
+                "disturbance_date_occurred_before" text,
+                "disturbance_date_occurred_on" text,
+                "disturbance_cause_assignment_assessor_name" text,
+                "effect_type" text,
+                "effect_certainty" text,
+                "threat_category" text,
+                "threat_type" text,
+                "threat_probability" text,
+                "threat_inference_making_assessor_name" text,
+                "intervention_activity_type" text,
+                "recommendation_type" text,
+                "priority_type" text,
+                "related_detailed_condition_resource" text,
+                "topography_type" text,
+                "land_cover_type" text,
+                "land_cover_assessment_date" text,
+                "surficial_geology_type" text,
+                "depositional_process" text,
+                "bedrock_geology" text,
+                "fetch_type" text,
+                "wave_climate" text,
+                "tidal_energy" text,
+                "minimum_depth_max_elevation" text,
+                "maximum_depth_min_elevation" text,
+                "datum_type" text,
+                "datum_description_epsg_code" text,
+                "restricted_access_record_designation" text,
+                
             );"""
             c.execute(eamena_table)
             site_line= """CREATE TABLE IF NOT EXISTS "site_line" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "gid" BIGINT, "location" TEXT, "name_f_l" TEXT, "photo1" TEXT, "photo2" TEXT, "photo3" TEXT, "photo4" TEXT, "photo5" TEXT, "photo6" TEXT);"""
@@ -1446,8 +1488,8 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].bfl,
                         data_list_toimp[sing_rec].bfr,
                         data_list_toimp[sing_rec].bfb,
-                        data_list_toimp[sing_rec].bft)
-
+                        data_list_toimp[sing_rec].bft,
+                        data_list_toimp[sing_rec].qty)
                     
                     self.DB_MANAGER_write.insert_data_session(data)
                     value = (float(sing_rec)/float(len(data_list_toimp)))*100
@@ -1504,7 +1546,8 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].area,
                         data_list_toimp[sing_rec].munsell_surf,
                         data_list_toimp[sing_rec].category,
-                        data_list_toimp[sing_rec].wheel_made)
+                        data_list_toimp[sing_rec].wheel_made,
+                        data_list_toimp[sing_rec].qty)
 
                     
                     self.DB_MANAGER_write.insert_data_session(data)
