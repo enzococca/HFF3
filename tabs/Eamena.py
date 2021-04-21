@@ -663,7 +663,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableWidget_general_description_type.setItemDelegateForColumn(0,self.delegateD)
             
             
-            valuesMater2 = ["Desk Based","Aerial Survey","Archaeological Assessment/Ground Survey","Architectural Survey","Condition Assessment","Emergency Impact Assessment","Diver Survey","Marine Geophysical Survey","Risk Assessment","Salvage Recording","Emergency Impact Assessment (Image Interpretation)","Archaeological Assessment (Image Interpretation)","Archaeological Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Image Interpretation)","Risk Assessment (Image Interpretation)","Literature Interpretation/Digitisation","Data Cleaning/enhancing",""]
+            valuesMater2 = ["Desk Based Assessment","Aerial Survey","Archaeological Assessment/Ground Survey","Architectural Survey","Condition Assessment","Emergency Impact Assessment","Diver Survey","Marine Geophysical Survey","Risk Assessment","Salvage Recording","Emergency Impact Assessment (Image Interpretation)","Archaeological Assessment (Image Interpretation)","Archaeological Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Marine Geophysical Data Interpretation)","Condition Assessment (Image Interpretation)","Risk Assessment (Image Interpretation)","Literature Interpretation/Digitisation","Data Cleaning/enhancing",""]
             self.delegateMater2 = ComboBoxDelegate()
             self.delegateMater2.def_values(valuesMater2)
             self.delegateMater2.def_editable('True')
@@ -782,7 +782,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateDoc.def_editable('True')
             self.tableWidget_sub_period_cert.setItemDelegateForColumn(0,self.delegateDoc)
             
-            valuesFT = ["Circular","Curvilinear","Irregular","Multiple","Polygonal"," Rectangular/Square"," Rectilinear","Semi-circular","Straight","Sub-circular"," Sub-rectangular","Triangular","Winding","Zigzag","Unknown",""]
+            valuesFT = ["Circular","Curvilinear","Irregular","Multiple","Polygonal","Rectangular/Square","Rectilinear","Semi-circular","Straight","Sub-circular","Sub-rectangular","Triangular","Winding","Zigzag","Unknown",""]
             self.delegateFT = ComboBoxDelegate()
             self.delegateFT.def_values(valuesFT)
             self.delegateFT.def_editable('True')
@@ -830,7 +830,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_overall.clear()
             self.comboBox_overall.addItems(valuesMT4)
             
-            valuesMT5 = ["","No Visible/Known","1-10%","11-30%","31-60%","61-90%","91-100%","Unknow"]
+            valuesMT5 = ["","No Visible/Known","1-10%","11-30%","31-60%","61-90%","91-100%","Unknown"]
             self.comboBox_damage.clear()
             self.comboBox_damage.addItems(valuesMT5)
            
@@ -1143,6 +1143,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         material_type= self.table2dict("self.tableWidget_material_type")
         contruction = self.table2dict("self.tableWidget_construction_technique")
         depositional = self.table2dict("self.tableWidget_depositional")
+        measurement_number= self.table2dict("self.tableWidget_measurement_number")
+        mdate_3 = self.table2dict("self.tableWidget_mDateEdit_3")
+        mdate_4 = self.table2dict("self.tableWidget_mDateEdit_4")
+        
         try:
             data = self.DB_MANAGER.insert_eamena_values(
                 self.DB_MANAGER.max_num_id(self.MAPPER_TABLE_CLASS, self.ID_TABLE) + 1,
@@ -1163,8 +1167,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(hplacefuntion),
                 str(hplacefunctioncertainty),
                 str(designation),
-                str(self.mDateEdit_3.text()), 
-                str(self.mDateEdit_4.text()),
+                str(mdate_3), 
+                str(mdate_4),
                 str(geometry_place),
                 str(self.comboBox_geometry_qualifier.currentText()),  
                 str(site_location_certainty),
@@ -1206,7 +1210,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(material_class),
                 str(material_type),
                 str(contruction),
-                str(self.lineEdit_measurement_number.text()),
+                str(measurement_number),
                 str(mu), 
                 str(dt), 
                 str(mst),        
@@ -1299,9 +1303,15 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_add_resource_4_pressed(self):
         
         self.insert_new_row('self.tableWidget_designation')
+        self.insert_new_row('self.tableWidget_mDateEdit_3')
+        self.insert_new_row('self.tableWidget_mDateEdit_4')
+    
     def on_pushButton_remove_resource_4_pressed(self):
         
         self.remove_row('self.tableWidget_designation')
+        self.remove_row('self.tableWidget_mDateEdit_3')
+        self.remove_row('self.tableWidget_mDateEdit_4')
+    
     
     def on_pushButton_add_geometry_pressed(self):
         self.insert_new_row('self.tableWidget_geometry_place')
@@ -1442,11 +1452,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.insert_new_row('self.tableWidget_measurement_unit')
         self.insert_new_row('self.tableWidget_dimension_type')
         self.insert_new_row('self.tableWidget_measurement_siurce_type')
+        self.insert_new_row('self.tableWidget_measurement_number')
     def on_pushButton_remove_arch_3_pressed(self):
         
         self.remove_row('self.tableWidget_measurement_unit')
         self.remove_row('self.tableWidget_dimension_type')
         self.remove_row('self.tableWidget_measurement_siurce_type')
+        self.remove_row('self.tableWidget_measurement_number')
     
     def on_pushButton_add_arch_4_pressed(self):
         
@@ -1658,8 +1670,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 #self.TABLE_FIELDS[10]:"'" + str(self.comboBox_resource_type.currentText()) +"'",  # 3 - regione
                 #self.TABLE_FIELDS[12]:"'" + str(self.comboBox_general_description_type.currentText()) +"'",  # 3 - regione
                 #self.TABLE_FIELDS[16]:"'" + str(self.comboBox_designation.currentText()) +"'",  # 3 - regione
-                self.TABLE_FIELDS[17]:"'" + str(self.mDateEdit_3.text()) +"'",  # 3 - regione
-                self.TABLE_FIELDS[18]:"'" + str(self.mDateEdit_4.text()) +"'",  # 3 - regione
+                #self.TABLE_FIELDS[17]:"'" + str(self.mDateEdit_3.text()) +"'",  # 3 - regione
+                #self.TABLE_FIELDS[18]:"'" + str(self.mDateEdit_4.text()) +"'",  # 3 - regione
                 #self.TABLE_FIELDS[13]:"'" + str(self.textEdit_general_description.toPlainText()) +"'",  # 3 - regione
                 
                 self.TABLE_FIELDS[20]:"'" + str(self.comboBox_geometry_qualifier.currentText()) +"'",  # 4 - comune
@@ -1870,6 +1882,12 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         material_type= self.tableWidget_material_type.rowCount()
         contruction = self.tableWidget_construction_technique.rowCount()
         depositional=self.tableWidget_depositional.rowCount()
+        measurement_number= self.tableWidget_measurement_number.rowCount()
+        mdate_3 = self.tableWidget_mDateEdit_3.rowCount()
+        mdate_4=self.tableWidget_mDateEdit_4.rowCount()
+        
+        
+        
         self.comboBox_location.setEditText('')  # 1 - Sito
         for i in range(investigator):
             self.tableWidget_investigator.removeRow(0)
@@ -1911,8 +1929,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         #self.insert_new_row("self.tableWidget_hplacefunctioncertainty")
         for i in range(designation):
             self.tableWidget_designation.removeRow(0)
-        self.mDateEdit_3.clear() 
-        self.mDateEdit_4.clear()
+        for i in range(mdate_3):
+            self.tableWidget_mDateEdit_3.removeRow(0)
+        for i in range(mdate_4):
+            self.tableWidget_mDateEdit_4.removeRow(0)
         for i in range(geometry_place):
             self.tableWidget_geometry_place.removeRow(0)
         #self.insert_new_row("self.tableWidget_geometry_place")
@@ -1998,7 +2018,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableWidget_material_type.removeRow(0)
         for i in range(contruction):
             self.tableWidget_construction_technique.removeRow(0)
-        self.lineEdit_measurement_number.clear()
+        for i in range(measurement_number):
+            self.tableWidget_measurement_number.removeRow(0)
         for i in range(mu):
             self.tableWidget_measurement_unit.removeRow(0)
         #self.insert_new_row("self.tableWidget_measurement_unit")
@@ -2095,8 +2116,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableInsertData("self.tableWidget_hplacefuntion", self.DATA_LIST[self.rec_num].heritage_place_function)
             self.tableInsertData("self.tableWidget_hplacefunctioncertainty", self.DATA_LIST[self.rec_num].heritage_place_function_certainty)
             self.tableInsertData("self.tableWidget_designation", self.DATA_LIST[self.rec_num].designation)
-            self.mDateEdit_3.setText(self.DATA_LIST[self.rec_num].designation_from_date) 
-            self.mDateEdit_4.setText(self.DATA_LIST[self.rec_num].designation_to_date)
+            self.tableInsertData("self.tableWidget_mDateEdit_3", self.DATA_LIST[self.rec_num].designation_from_date) 
+            self.tableInsertData("self.tableWidget_mDateEdit_4", self.DATA_LIST[self.rec_num].designation_to_date)
             self.tableInsertData("self.tableWidget_geometry_place", self.DATA_LIST[self.rec_num].geometric_place_expression)
             str(self.comboBox_geometry_qualifier.setEditText(self.DATA_LIST[self.rec_num].geometry_qualifier))  
             self.tableInsertData("self.tableWidget_site_location_certainty", self.DATA_LIST[self.rec_num].site_location_certainty)
@@ -2138,7 +2159,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableInsertData("self.tableWidget_material_class", self.DATA_LIST[self.rec_num].material_class)
             self.tableInsertData("self.tableWidget_material_type", self.DATA_LIST[self.rec_num].material_type)
             self.tableInsertData("self.tableWidget_construction_technique", self.DATA_LIST[self.rec_num].construction_technique)
-            str(self.lineEdit_measurement_number.setText(self.DATA_LIST[self.rec_num].measurement_number))
+            self.tableInsertData("self.tableWidget_measurement_number", self.DATA_LIST[self.rec_num].measurement_number)
             self.tableInsertData("self.tableWidget_measurement_unit", self.DATA_LIST[self.rec_num].measurement_unit) 
             self.tableInsertData("self.tableWidget_dimension_type", self.DATA_LIST[self.rec_num].dimension_type) 
             self.tableInsertData("self.tableWidget_measurement_siurce_type", self.DATA_LIST[self.rec_num].measurement_source_type)   
@@ -2244,6 +2265,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         material_type= self.table2dict("self.tableWidget_material_type")
         contruction = self.table2dict("self.tableWidget_construction_technique")
         depositional = self.table2dict("self.tableWidget_depositional")
+        
+        measurement_number= self.table2dict("self.tableWidget_measurement_number")
+        mdate_3 = self.table2dict("self.tableWidget_mDateEdit_3")
+        mdate_4 = self.table2dict("self.tableWidget_mDateEdit_4")
         self.DATA_LIST_REC_TEMP = [
             str(self.comboBox_location.currentText()),  # 1 - Sito
                 str(investigator),
@@ -2262,8 +2287,8 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(hplacefuntion),
                 str(hplacefunctioncertainty),
                 str(designation),
-                str(self.mDateEdit_3.text()), 
-                str(self.mDateEdit_4.text()),
+                str(mdate_3), 
+                str(mdate_4),
                 str(geometry_place),
                 str(self.comboBox_geometry_qualifier.currentText()),  
                 str(site_location_certainty),
@@ -2305,7 +2330,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(material_class),
                 str(material_type),
                 str(contruction),
-                str(self.lineEdit_measurement_number.text()),
+                str(measurement_number),
                 str(mu), 
                 str(dt), 
                 str(mst),        
