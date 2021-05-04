@@ -552,7 +552,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                     a=str(feat['assessment_investigator_actor'])
                     if "[['" not in a and a!='NULL':
                         t=a.replace(a[0],"[['"+a[0]).replace("|","'], ['").replace(a[-1],a[-1]+"']]") 
-            layer.updateFeature(feat)        
+                    
+                        feat['assessment_investigator_actor'] = t
+                    layer.updateFeature(feat)        
+                
         QgsProject.instance().removeMapLayer(layer.id())
     def split_some(self,x):
         x.split('|')
