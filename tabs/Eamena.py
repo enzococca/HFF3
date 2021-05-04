@@ -550,10 +550,348 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             with edit(layer):
                 for feat in layer.getFeatures():
                     a=str(feat['assessment_investigator_actor'])
+                    b=str(feat['investigator_role_type'])
+                    c=str(feat['assessment_activity_type'])
+                    d=str(feat['assessment_activity_date'])
+                    e=str(feat['ge_assessment'])
+                    f=str(feat['resource_name'])
+                    g=str(feat['name_type'])
+                    h=str(feat['heritage_place_type'])
+                    i=str(feat['general_description_type'])
+                    l=str(feat['general_description'])
+                    m=str(feat['heritage_place_function'])
+                    n=str(feat['heritage_place_function_certainty'])
+                    o=str(feat['designation'])
+                    p=str(feat['designation_from_date'])
+                    q=str(feat['designation_to_date'])
+                    r=str(feat['geometric_place_expression'])
+                    aa=str(feat['site_location_certainty'])
+                    bb=str(feat['geometry_extent_certainty'])
+                    cc=str(feat['country_type'])
+                    dd=str(feat['cultural_period_type'])
+                    ee=str(feat['cultural_period_certainty'])
+                    ff=str(feat['cultural_subperiod_type'])
+                    gg=str(feat['cultural_subperiod_certainty'])
+                    hh=str(feat['site_feature_form_type'])
+                    ii=str(feat['site_feature_form_type_certainty'])
+                    ll=str(feat['site_feature_shape_type'])
+                    mm=str(feat['site_feature_arrangement_type'])
+                    nn=str(feat['site_feature_number_type'])
+                    oo=str(feat['site_feature_interpretation_type'])
+                    pp=str(feat['site_feature_interpretation_number'])
+                    qq=str(feat['site_feature_interpretation_certainty'])
+                    rr=str(feat['built_component_related_resource'])
+                    aaa=str(feat['hp_related_resource'])
+                    bbb=str(feat['material_class'])
+                    ccc=str(feat['material_type'])
+                    ddd=str(feat['construction_technique'])
+                    eee=str(feat['measurement_number'])
+                    fff=str(feat['measurement_unit'])
+                    ggg=str(feat['dimension_type'])
+                    hhh=str(feat['measurement_source_type'])
+                    iii=str(feat['disturbance_cause_category_type'])
+                    lll=str(feat['disturbance_cause_type'])
+                    mmm=str(feat['disturbance_cause_certainty'])
+                    nnn=str(feat['disturbance_date_from'])
+                    ooo=str(feat['disturbance_date_to'])
+                    ppp=str(feat['disturbance_date_occurred_before'])
+                    qqq=str(feat['disturbance_date_occurred_on'])
+                    rrr=str(feat['effect_type'])
+                    x=str(feat['effect_certainty'])
+                    y=str(feat['threat_category'])
+                    z=str(feat['threat_type'])
+                    xx=str(feat['threat_probability'])
+                    yy=str(feat['threat_inference_making_assessor_name'])
+                    zz=str(feat['topography_type'])
+                    xxx=str(feat['surficial_geology_type'])
+                    yyy=str(feat['depositional_process'])
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     if "[['" not in a and a!='NULL':
                         t=a.replace(a[0],"[['"+a[0]).replace("|","'], ['").replace(a[-1],a[-1]+"']]") 
                     
                         feat['assessment_investigator_actor'] = t
+                    
+                    if "[['" not in b and b!='NULL':
+                        t1=b.replace(b[0],"[['"+b[0]).replace("|","'], ['").replace(b[-1],b[-1]+"']]") 
+                    
+                        feat['investigator_role_type'] = t1
+                    
+                    if "[['" not in c and c!='NULL':
+                        t2=c.replace(c[0],"[['"+c[0]).replace("|","'], ['").replace(c[-1],c[-1]+"']]") 
+                    
+                        feat['assessment_activity_type'] = t2
+                    if "[['" not in d and d!='NULL':
+                        t3=d.replace(d[0],"[['"+d[0]).replace("|","'], ['").replace(d[-1],d[-1]+"']]") 
+                    
+                        feat['assessment_activity_date'] = t3
+                    
+                    if "[['" not in e and e!='NULL':
+                        t4=e.replace(e[0],"[['"+e[0]).replace("|","'], ['").replace(e[-1],e[-1]+"']]") 
+                    
+                        feat['ge_assessment'] = t4
+                    
+                    if "[['" not in f and f!='NULL':
+                        t5=f.replace(f[0],"[['"+f[0]).replace("|","'], ['").replace(f[-1],f[-1]+"']]") 
+                    
+                        feat['resource_name'] = t5
+                    
+                    if "[['" not in g and g!='NULL':
+                        t6=g.replace(g[0],"[['"+g[0]).replace("|","'], ['").replace(g[-1],g[-1]+"']]") 
+                    
+                        feat['name_type'] = t6
+                    
+                    if "[['" not in h and h!='NULL':
+                        t7=h.replace(h[0],"[['"+h[0]).replace("|","'], ['").replace(h[-1],h[-1]+"']]") 
+                    
+                        feat['heritage_place_type'] = t7
+                    
+                    if "[['" not in i and i!='NULL':
+                        t8=i.replace(i[0],"[['"+i[0]).replace("|","'], ['").replace(i[-1],i[-1]+"']]") 
+                    
+                        feat['general_description_type'] = t8
+                    
+                    if "[['" not in l and l!='NULL':
+                        t9=l.replace(l[0],"[['"+l[0]).replace("|","'], ['").replace(l[-1],l[-1]+"']]") 
+                    
+                        feat['general_description'] = t9
+                    
+                    if "[['" not in m and m!='NULL':
+                        t10=m.replace(m[0],"[['"+m[0]).replace("|","'], ['").replace(m[-1],m[-1]+"']]") 
+                    
+                        feat['heritage_place_function'] = t10
+                    
+                    if "[['" not in n and n!='NULL':
+                        t11=n.replace(n[0],"[['"+n[0]).replace("|","'], ['").replace(n[-1],n[-1]+"']]") 
+                    
+                        feat['heritage_place_function_certainty'] = t11
+                    
+                    if "[['" not in o and o!='NULL':
+                        t12=o.replace(o[0],"[['"+o[0]).replace("|","'], ['").replace(o[-1],o[-1]+"']]") 
+                    
+                        feat['designation'] = t12
+                    
+                    if "[['" not in p and p!='NULL':
+                        t13=p.replace(p[0],"[['"+p[0]).replace("|","'], ['").replace(p[-1],p[-1]+"']]") 
+                    
+                        feat['designation_from_date'] = t13
+                    
+                    if "[['" not in q and q!='NULL':
+                        t14=q.replace(q[0],"[['"+q[0]).replace("|","'], ['").replace(q[-1],q[-1]+"']]") 
+                    
+                        feat['designation_to_date'] = t14
+                    
+                    if "[['" not in r and r!='NULL':
+                        t15=r.replace(r[0],"[['"+r[0]).replace("|","'], ['").replace(r[-1],r[-1]+"']]") 
+                    
+                        feat['geometric_place_expression'] = t15
+                    
+                    
+                    if "[['" not in aa and aa!='NULL':
+                        t16=aa.replace(aa[0],"[['"+aa[0]).replace("|","'], ['").replace(aa[-1],aa[-1]+"']]") 
+                    
+                        feat['site_location_certainty'] = t16
+                    
+                    if "[['" not in bb and bb!='NULL':
+                        t17=bb.replace(bb[0],"[['"+bb[0]).replace("|","'], ['").replace(bb[-1],bb[-1]+"']]") 
+                    
+                        feat['geometry_extent_certainty'] = t17
+                    
+                    if "[['" not in cc and cc!='NULL':
+                        t18=cc.replace(cc[0],"[['"+cc[0]).replace("|","'], ['").replace(cc[-1],cc[-1]+"']]") 
+                    
+                        feat['country_type'] = t18
+                    
+                    
+                    if "[['" not in dd and dd!='NULL':
+                        t19=dd.replace(dd[0],"[['"+dd[0]).replace("|","'], ['").replace(dd[-1],dd[-1]+"']]") 
+                    
+                        feat['cultural_period_type'] = t19
+                    
+                    if "[['" not in ee and ee!='NULL':
+                        t20=ee.replace(ee[0],"[['"+ee[0]).replace("|","'], ['").replace(ee[-1],ee[-1]+"']]") 
+                    
+                        feat['cultural_period_certainty'] = t20
+                    
+                    if "[['" not in ff and ff!='NULL':
+                        t21=ff.replace(ff[0],"[['"+ff[0]).replace("|","'], ['").replace(ff[-1],ff[-1]+"']]") 
+                    
+                        feat['cultural_subperiod_type'] = t21
+                    
+                    if "[['" not in gg and gg!='NULL':
+                        t22=gg.replace(gg[0],"[['"+gg[0]).replace("|","'], ['").replace(gg[-1],gg[-1]+"']]") 
+                    
+                        feat['cultural_subperiod_certainty'] = t22
+                    
+                    if "[['" not in hh and hh!='NULL':
+                        t23=hh.replace(hh[0],"[['"+hh[0]).replace("|","'], ['").replace(hh[-1],hh[-1]+"']]") 
+                    
+                        feat['site_feature_form_type'] = t23
+                    
+                    if "[['" not in ii and ii!='NULL':
+                        t24=ii.replace(ii[0],"[['"+ii[0]).replace("|","'], ['").replace(ii[-1],ii[-1]+"']]") 
+                    
+                        feat['site_feature_form_type_certainty']= t24
+                    
+                    if "[['" not in ll and ll!='NULL':
+                        t25=ll.replace(ll[0],"[['"+ll[0]).replace("|","'], ['").replace(ll[-1],ll[-1]+"']]") 
+                    
+                        feat['site_feature_shape_type'] = t25
+                    
+                    if "[['" not in mm and mm!='NULL':
+                        t26=mm.replace(mm[0],"[['"+mm[0]).replace("|","'], ['").replace(mm[-1],mm[-1]+"']]") 
+                    
+                        feat['site_feature_arrangement_type'] = t26
+                    
+                    if "[['" not in nn and nn!='NULL':
+                        t27=nn.replace(nn[0],"[['"+nn[0]).replace("|","'], ['").replace(nn[-1],nn[-1]+"']]") 
+                    
+                        feat['site_feature_number_type'] = t27
+                    
+                    if "[['" not in oo and o!='NULL':
+                        t28=oo.replace(oo[0],"[['"+oo[0]).replace("|","'], ['").replace(oo[-1],oo[-1]+"']]") 
+                    
+                        feat['site_feature_interpretation_type'] = t28
+                    
+                    if "[['" not in pp and pp!='NULL':
+                        t29=pp.replace(pp[0],"[['"+pp[0]).replace("|","'], ['").replace(pp[-1],pp[-1]+"']]") 
+                    
+                        feat['site_feature_interpretation_number'] = t29
+                    if "[['" not in qq and qq!='NULL':
+                        t30=qq.replace(qq[0],"[['"+qq[0]).replace("|","'], ['").replace(qq[-1],qq[-1]+"']]") 
+                    
+                        feat['site_feature_interpretation_certainty'] = t30
+                    if "[['" not in rr and rr!='NULL':
+                        t31=rr.replace(rr[0],"[['"+rr[0]).replace("|","'], ['").replace(rr[-1],rr[-1]+"']]") 
+                    
+                        feat['built_component_related_resource'] = t31
+                    
+                    if "[['" not in aaa and aaa!='NULL':
+                        t32=aaa.replace(aaa[0],"[['"+aaa[0]).replace("|","'], ['").replace(aaa[-1],aaa[-1]+"']]") 
+                    
+                        feat['hp_related_resource'] = t32
+                    
+                    if "[['" not in bbb and bbb!='NULL':
+                        t33=bbb.replace(bbb[0],"[['"+bbb[0]).replace("|","'], ['").replace(bbb[-1],bbb[-1]+"']]") 
+                    
+                        feat['material_class'] = t33
+                    
+                    if "[['" not in ccc and ccc!='NULL':
+                        t34=ccc.replace(ccc[0],"[['"+ccc[0]).replace("|","'], ['").replace(ccc[-1],ccc[-1]+"']]") 
+                    
+                        feat['material_type'] = t34
+                    
+                    
+                    if "[['" not in ddd and ddd!='NULL':
+                        t35=ddd.replace(ddd[0],"[['"+ddd[0]).replace("|","'], ['").replace(ddd[-1],ddd[-1]+"']]") 
+                    
+                        feat['construction_technique']= t35
+                    
+                    if "[['" not in eee and eee!='NULL':
+                        t36=eee.replace(eee[0],"[['"+eee[0]).replace("|","'], ['").replace(eee[-1],eee[-1]+"']]") 
+                    
+                        feat['measurement_number'] = t36
+                    
+                    if "[['" not in fff and fff!='NULL':
+                        t37=fff.replace(fff[0],"[['"+fff[0]).replace("|","'], ['").replace(fff[-1],fff[-1]+"']]") 
+                    
+                        feat['measurement_unit'] = t37
+                    
+                    if "[['" not in ggg and ggg!='NULL':
+                        t38=ggg.replace(ggg[0],"[['"+ggg[0]).replace("|","'], ['").replace(ggg[-1],ggg[-1]+"']]") 
+                    
+                        feat['dimension_type'] = t38
+                    
+                    if "[['" not in hhh and hhh!='NULL':
+                        t39=hhh.replace(hhh[0],"[['"+hhh[0]).replace("|","'], ['").replace(hhh[-1],hhh[-1]+"']]") 
+                    
+                        feat['measurement_source_type'] = t39
+                    
+                    if "[['" not in iii and iii!='NULL':
+                        t40=iii.replace(iii[0],"[['"+iii[0]).replace("|","'], ['").replace(iii[-1],iii[-1]+"']]") 
+                    
+                        feat['disturbance_cause_category_type'] = t40
+                    
+                    if "[['" not in lll and lll!='NULL':
+                        t41=lll.replace(lll[0],"[['"+lll[0]).replace("|","'], ['").replace(lll[-1],lll[-1]+"']]") 
+                    
+                        feat['disturbance_cause_type'] = t41
+                    
+                    if "[['" not in mmm and mmm!='NULL':
+                        t42=mmm.replace(mmm[0],"[['"+mmm[0]).replace("|","'], ['").replace(mmm[-1],mmm[-1]+"']]") 
+                    
+                        feat['disturbance_cause_certainty'] = t42
+                    
+                    if "[['" not in nnn and nnn!='NULL':
+                        t43=nnn.replace(nnn[0],"[['"+nnn[0]).replace("|","'], ['").replace(nnn[-1],nnn[-1]+"']]") 
+                    
+                        feat['disturbance_date_from'] = t43
+                    
+                    if "[['" not in ooo and o!='NULL':
+                        t44=ooo.replace(ooo[0],"[['"+ooo[0]).replace("|","'], ['").replace(ooo[-1],ooo[-1]+"']]") 
+                    
+                        feat['disturbance_date_to'] = t44
+                    
+                    if "[['" not in ppp and ppp!='NULL':
+                        t45=ppp.replace(ppp[0],"[['"+ppp[0]).replace("|","'], ['").replace(ppp[-1],ppp[-1]+"']]") 
+                    
+                        feat['disturbance_date_occurred_before'] = t45
+                    if "[['" not in qqq and qqq!='NULL':
+                        t46=qqq.replace(qqq[0],"[['"+qqq[0]).replace("|","'], ['").replace(qqq[-1],qqq[-1]+"']]") 
+                    
+                        feat['disturbance_date_occurred_on'] = t46
+                    if "[['" not in rrr and rrr!='NULL':
+                        t47=rrr.replace(rrr[0],"[['"+rrr[0]).replace("|","'], ['").replace(rrr[-1],rrr[-1]+"']]") 
+                    
+                        feat['effect_type'] = t47
+                    
+                    
+                    if "[['" not in x and x!='NULL':
+                        t48=x.replace(x[0],"[['"+x[0]).replace("|","'], ['").replace(x[-1],x[-1]+"']]") 
+                    
+                        feat['effect_certainty'] = t48
+                    
+                    if "[['" not in y and y!='NULL':
+                        t49=y.replace(y[0],"[['"+y[0]).replace("|","'], ['").replace(y[-1],y[-1]+"']]") 
+                    
+                        feat['threat_category'] = t49
+                    
+                    if "[['" not in z and z!='NULL':
+                        t50=z.replace(z[0],"[['"+z[0]).replace("|","'], ['").replace(z[-1],z[-1]+"']]") 
+                    
+                        feat['threat_type']= t50
+                    
+                    if "[['" not in xx and xx!='NULL':
+                        t51=xx.replace(xx[0],"[['"+xx[0]).replace("|","'], ['").replace(xx[-1],xx[-1]+"']]") 
+                    
+                        feat['threat_probability'] = t51
+                    
+                    if "[['" not in yy and yy!='NULL':
+                        t52=yy.replace(yy[0],"[['"+yy[0]).replace("|","'], ['").replace(yy[-1],yy[-1]+"']]") 
+                    
+                        feat['threat_inference_making_assessor_name'] = t52
+                    
+                    if "[['" not in zz and o!='NULL':
+                        t53=zz.replace(zz[0],"[['"+zz[0]).replace("|","'], ['").replace(zz[-1],zz[-1]+"']]") 
+                    
+                        feat['topography_type'] = t53
+                    
+                    if "[['" not in xxx and xxx!='NULL':
+                        t54=xxx.replace(xxx[0],"[['"+xxx[0]).replace("|","'], ['").replace(xxx[-1],xxx[-1]+"']]") 
+                    
+                        feat['surficial_geology_type'] = t54
+                    if "[['" not in yyy and yyy!='NULL':
+                        t55=yyy.replace(yyy[0],"[['"+yyy[0]).replace("|","'], ['").replace(yyy[-1],yyy[-1]+"']]") 
+                    
+                        feat['depositional_process'] = t55
+                    
+                  
+                    
                     layer.updateFeature(feat)        
                 
         QgsProject.instance().removeMapLayer(layer.id())
