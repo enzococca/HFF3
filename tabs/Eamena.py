@@ -33,7 +33,9 @@ from qgis.PyQt.QtGui import QDesktopServices,QColor, QIcon,QStandardItemModel
 from qgis.PyQt.QtCore import QUrl, QVariant,Qt, QSize,QPersistentModelIndex
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox, QListWidget, QListView, QFrame, QAbstractItemView,QFileDialog, QTableWidgetItem, QListWidgetItem
 from qgis.PyQt.uic import loadUiType
-from qgis.core import QgsSettings
+from qgis.core import *
+import processing
+
 from geoalchemy2 import *
 from sqlalchemy.event import listen
 from sqlalchemy.sql import select, func
@@ -322,6 +324,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.empty_fields()
         self.fill_fields()
         self.charge_records()
+        # self.control()
     def setPathexcel(self):
         
         s = QgsSettings()
@@ -341,27 +344,37 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
     
     # def pipe2list(self,x):
         
-        # if isinstance(x,str) and eval(x).startswith('A'):# or x.startswith('B') or x.startswith('C') or x.startswith('D') or x.startswith('F') or x.startswith('G') or x.startswith('H') or x.startswith('I') or x.startswith('L') or x.startswith('M') or x.startswith('N') or x.startswith('O') or x.startswith('P') or x.startswith('Q') or x.startswith('R') or x.startswith('S') or x.startswith('T') or x.startswith('W') or x.startswith('V') or x.startswith('Z') or x.startswith('Y') or x.startswith('X')  in x:
+        # if isinstance(x,str) and x.startswith("A") or x.startswith("B") or x.startswith("C") or x.startswith("D") or x.startswith("F") or x.startswith("G") or x.startswith("H") or x.startswith("I") or x.startswith("L") or x.startswith("M") or x.startswith("N") or x.startswith("O") or x.startswith("P") or x.startswith("Q") or x.startswith("R") or x.startswith("S") or x.startswith("T") or x.startswith("W") or x.startswith("V") or x.startswith("Z") or x.startswith("Y") or x.startswith("X")  in x:
             
-            # return "[['".join(str(e) for e in str(x)).replace('|',"'],['")
+            # return "[['".join(str(e) for e in eval(x))#.replace("","'],['")
     # def pipe3list(self,x):        
-        # if isinstance(x,str) and x.endswith('a') or x.endswith('B') or x.endswith('C') or x.endswith('D') or x.endswith('F') or x.endswith('G') or x.endswith('H') or x.endswith('I') or x.endswith('L') or x.endswith('M') or x.endswith('N') or x.endswith('O') or x.endswith('P') or x.endswith('Q') or x.endswith('R') or x.endswith('S') or x.endswith('T') or x.endswith('W') or x.endswith('V') or x.endswith('Z') or x.endswith('Y') or x.endswith('X') in x:    
-            # return list(str(e) for e in str(x)[0])
+        # if isinstance(x,str) and x.endswith('a') or x.endswith('b') or x.endswith('c') or x.endswith('d') or x.endswith('f') or x.endswith('g') or x.endswith('h') or x.endswith('i') or x.endswith('l') or x.endswith('m') or x.endswith('n') or x.endswith('o') or x.endswith('p') or x.endswith('q') or x.endswith('r') or x.endswith('s') or x.endswith('t') or x.endswith('w') or x.endswith('v') or x.endswith('z') or x.endswith('y') or x.endswith('x') in x:    
+            # return "']]".join(str(e) for e in eval(x)[0])
     
+    
+    def lists(self,lst):
+        res = []
+        for el in str(lst):
+            sub = el.split(', ')
+            res.append(sub)
+        return (res)
     def on_pushButton_import_pressed(self):
         '''import eamena excel file into HFF System'''
+        
         conn = Connection()
         conn_str = conn.conn_str()
+        res = []
         
         try:
             EXCEL_FILE_NAME = self.lineEdit_path_excel.text()
             try:
-                wb = pd.read_excel(EXCEL_FILE_NAME,skiprows=2)#.applymap(self.pipe2list)
-                #wb=wb1.applymap(self.pipe3list)
+                wb = pd.read_excel(EXCEL_FILE_NAME,skiprows=2)
+                
             except TypeError as e:
                 QMessageBox.warning(self, "Error", str(e),QMessageBox.Ok)
             
-            wb.columns = [  "location",
+            wb.columns = [  
+                            "location",
                             "assessment_investigator_actor",
                             "investigator_role_type",
                             "assessment_activity_type",
@@ -461,17 +474,88 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                             "datum_description_epsg_code",
                             "restricted_access_record_designation"]
             
-            #wb.applymap(self.pipe2list)
+                
+            
+            
+            
+            
+                
+            #wb.applymap(QgsExpression("if ('|',replace('cultural_subperiod_type', '|', ''], [''),'[['+''''assessment_investigator_actor']+'''+']]')"))
+            #QMessageBox.warning(self, "Error", str(a),QMessageBox.Ok)
             wb.to_sql('eamena_table',conn_str, if_exists='append',index=False)
+            
             self.empty_fields()
             self.charge_records()
             self.fill_fields()
             self.update()
+            
+            
+            
+            
             QMessageBox.information(self, "INFO", "Import completed",
                                 QMessageBox.Ok)
             
-        except TypeError as e:
+        except Exception as e:
             QMessageBox.warning(self, "Error", str(e),QMessageBox.Ok)
+        self.control()
+    
+    # def control(self):
+        
+        # layer =  QgsProject.instance().mapLayersByName('eamena_table')[0]
+        
+        # idx = layer.fields().lookupField('assessment_investigator_actor')
+        
+        # layer.startEditing()
+        # e = QgsExpression("1+1=2")
+        
+        # c = QgsExpressionContext()
+        # s = QgsExpressionContextScope()
+        # s.setFields(layer.fields())
+        # c.appendScope(s)
+        # e.prepare(c)
+        # QMessageBox.warning(self, "Test Parametri Quant", str(a),  QMessageBox.Ok)
+        # for f in layer.getFeatures():
+            # c.setAttribute(f)
+            # value = e.evaluate(c)
+            # atts = {idx: value}
+            # if value:
+                
+                # with edit(layer):
+                
+                # layer.dataProvider().changeAttributeValues({f.id():atts})
+                
+            # else:
+                # QMessageBox.warning(self, "Done", "No!",  QMessageBox.Ok)    
+        # layer.commitChanges()
+       
+        # QgsProject.instance().removeMapLayer(layer.id())
+    
+    def control(self):
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        conf = open(file_path, "r")
+        con_sett = conf.read()
+        conf.close()
+        settings = Settings(con_sett)
+        settings.set_configuration()
+        if settings.SERVER == 'sqlite':
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
+            db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
+            uri = QgsDataSourceUri()
+            uri.setDatabase(db_file_path)
+            uri.setDataSource('','eamena_table', None,'')
+            layerIndividui=QgsVectorLayer(uri.uri(), 'eamena_table', 'spatialite')
+            QgsProject.instance().addMapLayers([layerIndividui], True)
+            layer =  QgsProject.instance().mapLayersByName('eamena_table')[0]
+            with edit(layer):
+                for feat in layer.getFeatures():
+                    a=str(feat['assessment_investigator_actor'])
+                    if "[['" not in a and a!='NULL':
+                        t=a.replace(a[0],"[['"+a[0]).replace("|","'], ['").replace(a[-1],a[-1]+"']]") 
+            layer.updateFeature(feat)        
+        QgsProject.instance().removeMapLayer(layer.id())
+    def split_some(self,x):
+        x.split('|')
     
     # def longconvert(self):
         # t= self.table2dict("self.tableWidget_geometry_place")
@@ -748,7 +832,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateFT2.def_editable('True')
             self.tableWidget_site_feature_interpretation_number.setItemDelegateForColumn(0,self.delegateFT2)
             
-            valuesFT5 = ["Aircraft","Altar","Amphitheatre","Anchor","Anchorage","AnimalPen","Aqueduct","Ballast","Barrack","Barrage/Dam","Basilica(Roman","Basin/Tank","Bath-house","Battlefield","Boundary/Barrier","Bridge","Building","Building/Enclosure","Bunker","BurntArea","Camp(temporary","Canal","Caravanserai/Khan","Cemetery","Channel","Church/Chapel","Circus/Hippodrome","Cistern","ClearancePile","ColonnadedStreet","Column/Obelisk","CrossbarArrangement(Gate)","Dolmen","Education/AthleticsBuilding","Emplacement/Foxhole","Enclosure","Farm","FarmBuilding","FieldSystem","FishPond","FishTrap/Weir","Flooring/Mosaic/Paving","Fort/Fortress/Castle","Fountain","FuneraryComplex","Gateway/Arch/Intersection","GatheringArea","Government/AdministrativeBuilding","Grove/Garden/Orchard","Hearth/Oven","Hostelry","House/Dwelling","HuntingHide/Trap","Inscription/RockArt/Relief","Kiln/Forge/Furnace","Kite","LandingPlace","LargeCircle","Latrine/Toilet","Lighthouse","ManagedSite","Market/CommercialUnit","MegalithicFeature","Midden/WasteDeposit","Mill(water)","Mill(wind)","Mill/Quern/GrindstoneElement","Minaret","Mine/Quarry/Extraction","MonasticComplex","Mosque/Imam/Marabout","Mosque/MadrasaComplex","Palace/HighStatusComplex","Pendant","Pier/Jetty/Breakwater/Mole","Pontoon/Mooring","Port/Harbour","Portico/Stoa","Press/PressElement","Production/Processing(Agricultural)","Production/Processing(Animal/'Killsite')","Production/Processing(Glass)","Production/Processing(KnappingFloor/Stonerocessing)","Production/Processing(Metal)","Production/Processing(Pottery)","Production/Processing(Salt)","Production/Processing(Unclassified)","Qanat/Foggara","Quay/Wharf","Railway","RailwayStationStop","Ramparts/Fortification/DefensiveEarthwork","Reservoir/Birka","RingedTomb","Road/Track","Sarcophagus/Coffin","School/University","Sculpture/Statue","Settlement/HabitationSite","Ship/Wreck","Canoe","CargoVessel","Dhow","Galley","Logboat","SailingVessel","Steamship","Submarine","Warship","Shipyard/BoatConstruction","SignificantBuilding","Slipway","StandingStone","StorageFacility","Sub-surfaceMaterial","Synagogue","Tell","Temple/Sanctuary/Shrine","TentBase/Footing","Theatre/Odeon","ThreshingFloor","Tomb/Grave/Burial","Wadi Wall","Watchtower/Observation Post","WaterControlMechanism/Feature","Water wheel","Waymarker","Well","Wheel/Jellyfish","Unknown",""]
+            valuesFT5 = ["Aircraft","Altar","Amphitheatre","Anchor","Anchorage","AnimalPen","Aqueduct","Ballast","Barrack","Barrage/Dam","Basilica(Roman","Basin/Tank","Bath-house","Battlefield","Boundary/Barrier","Bridge","Building","Building/Enclosure","Bunker","BurntArea","Camp(temporary","Canal","Caravanserai/Khan","Cemetery","Channel","Church/Chapel","Circus/Hippodrome","Cistern","ClearancePile","ColonnadedStreet","Column/Obelisk","CrossbarArrangement(Gate)","Dolmen","Education/AthleticsBuilding","Emplacement/Foxhole","Enclosure","Farm","FarmBuilding","FieldSystem","FishPond","FishTrap/Weir","Flooring/Mosaic/Paving","Fort/Fortress/Castle","Fountain","FuneraryComplex","Gateway/Arch/Intersection","GatheringArea","Government/AdministrativeBuilding","Grove/Garden/Orchard","Hearth/Oven","Hostelry","House/Dwelling","HuntingHide/Trap","Inscription/RockArt/Relief","Kiln/Forge/Furnace","Kite","LandingPlace","LargeCircle","Latrine/Toilet","Lighthouse","ManagedSite","Market/CommercialUnit","MegalithicFeature","Midden/WasteDeposit","Mill(water)","Mill(wind)","Mill/Quern/GrindstoneElement","Minaret","Mine/Quarry/Extraction","MonasticComplex","Mosque/Imam/Marabout","Mosque/MadrasaComplex","Palace/HighStatusComplex","Pendant","Pier/Jetty/Breakwater/Mole","Pontoon/Mooring","Port/Harbour","Portico/Stoa","Press/PressElement","Production/Processing(Agricultural)","Production/Processing(Animal/'Killsite')","Production/Processing(Glass)","Production/Processing(KnappingFloor/Stonerocessing)","Production/Processing(Metal)","Production/Processing(Pottery)","Production/Processing(Salt)","Production/Processing(Unclassified)","Qanat/Foggara","Quay/Wharf","Railway","RailwayStationStop","Ramparts/Fortification/Defensive Earthwork","Reservoir/Birka","RingedTomb","Road/Track","Sarcophagus/Coffin","School/University","Sculpture/Statue","Settlement/HabitationSite","Ship/Wreck","Canoe","CargoVessel","Dhow","Galley","Logboat","SailingVessel","Steamship","Submarine","Warship","Shipyard/BoatConstruction","SignificantBuilding","Slipway","StandingStone","StorageFacility","Sub-surfaceMaterial","Synagogue","Tell","Temple/Sanctuary/Shrine","TentBase/Footing","Theatre/Odeon","ThreshingFloor","Tomb/Grave/Burial","Wadi Wall","Watchtower/Observation Post","WaterControlMechanism/Feature","Water wheel","Waymarker","Well","Wheel/Jellyfish","Unknown",""]
             self.delegateFT5 = ComboBoxDelegate()
             self.delegateFT5.def_values(valuesFT5)
             self.delegateFT5.def_editable('True')
@@ -814,13 +898,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableWidget_material_class.setItemDelegateForColumn(0,self.delegateS)
             
             
-            material_type = ["Baked brick","Concrete (Breeze-block)","Concrete (Reinforced)","Concrete (Unspecified)","Corrugated Metal","Glass","Iron / Steel","Metal","Mud / Adobe (Blocks/Bricks)","Mud / Adobe (unshaped)","Stone (Cut)","Stone (Roughly cut)","Terracotta","Tile (Glazed)","Tile (Hollow)","Tile (Unclassified)","Tile (Unglazed)","Cement-based Render","Plaster","Roughcast/Pebbledash","Stucco","Bitumen","Brickearth","Gypsum","Mortar (Concrete)","Mortar (Unspecified)","Rubble stone","Other","Unknown",""]
+            material_type = ["Baked brick","Concrete (Breeze-block)","Concrete (Reinforced)","Concrete (Unspecified)","Corrugated Metal","Glass","Iron / Steel","Metal","Mud / Adobe (Blocks/Bricks)","Mud / Adobe (unshaped)","Stone (Cut)","Stone (Roughly cut)","Terracotta","Tile (Glazed)","Tile (Hollow)","Tile (Unclassified)","Tile (Unglazed)","Cement-based Render","Plaster","Roughcast/Pebbledash","Stucco","Bitumen","Brickearth","Gypsum","Mortar (Concrete)","Mortar (Unspecified)","Rubble Stone","Other","Unknown",""]
             self.delegateE = ComboBoxDelegate()
             self.delegateE.def_values(material_type)
             self.delegateE.def_editable('True')
             self.tableWidget_material_type.setItemDelegateForColumn(0,self.delegateE)
             
-            construction_type = ["","Beam-supported","Brick-laid Laying","Cob/Wet Applied Mud","Iron/Steel Construction","Masonry (Dry)","Masonry (Mortared)","Masonry (Unclassified)","Mosaic","Paving (Other)","Plastering","Post-supported","Pouring/Precasting","Rammed Earth/Pisé","Roofing (Dome)","Roofing (Flat)","Roofing (Sloping)","Roofing (Vaulted)","Rubble-filled walling","Stucco","Tiling (Roof)","Tiling (Wall/Floor)","Unknown","Waterproofing / rendering","Wattle-and-Daub","Wood Construction"]
+            construction_type = ["","Beam-supported","Brick-laid Laying","Cob/Wet Applied Mud","Iron/Steel Construction","Masonry (Dry)","Masonry (Mortared)","Masonry (Unclassified)","Mosaic","Paving (Other)","Plastering","Post-supported","Pouring/Precasting","Rammed Earth/Pisé","Roofing (Dome)","Roofing (Flat)","Roofing (Sloping)","Roofing (Vaulted)","Rubble-filled Walling","Stucco","Tiling (Roof)","Tiling (Wall/Floor)","Unknown","Waterproofing / rendering","Wattle-and-Daub","Wood Construction"]
             self.delegateC = ComboBoxDelegate()
             self.delegateC.def_values(construction_type)
             self.delegateC.def_editable('True')
@@ -874,11 +958,11 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_priority.clear()
             self.comboBox_priority.addItems(priority_type)
             
-            intervention_type = ["","Emergency Actions","Conservation, Restoration, and Maintenance Activities","Within 1 to 2 years (High)","Within 2 to 5 years (Medium)","Preventative and Mitigation Activities/Strategies"]
+            intervention_type = ["","Emergency Actions","Conservation, Restoration and Maintenance Activities","Within 1 to 2 years (High)","Within 2 to 5 years (Medium)","Preventative and Mitigation Activities/Strategies"]
             self.comboBox_int_activity_type.clear()
             self.comboBox_int_activity_type.addItems(intervention_type)
              
-            raccomandation_type = ["","Aerial photograph interpretation","Aerial/Drone survey","Archaeological excavation","archaeological monitoring","archaeological survey","architectural / measured survey","field observation","General Surface Collection","impact assessment","laser scanning survey","literature survey","photographic recording","photographic survey","salvage recording","satellite Imagery assessment","topographic survey","Transect/Grid Survey","Conservation Activity","adhesion","remedial conservation (Other)","consolidation","filling","improving /removal of previous conservation/restoration","in-depth condition assessment","restoration","repointing","scaffolding","shoring","structural strengthening/reinforcement","Maintenance Activity","surface cleaning","maintenance policy and programs","removal of vegetation","renewal of protective coating","Management Planning and Preventative Activity","designation / registration","development of conservation and management plan","fencing/enclosing","fire mitigation","flood mitigation","intervene with governmental authorities","intervene with owner/occupant/local inhabitants","reburial","relocation development proposal","site protection/improving security","temporary covering","No Action Needed","Other Activities"]
+            raccomandation_type = ["","Aerial Photograph Interpretation","Aerial/Drone Survey","Archaeological Excavation","Archaeological Monitoring","Archaeological Survey","Architectural/Measured Survey","Field Observation","General Surface Collection","Impact Assessment","Laser Scanning Survey","Literature Survey","Photographic Recording","Photographic Survey","Salvage Recording","Satellite Imagery Assessment","Topographic Survey","Transect/Grid Survey","Conservation Activity","Adhesion","Remedial Conservation (Other)","Consolidation","Filling","Improving/Removal of Previous Conservation/Restoration","In-Depth Condition Assessment","Restoration","Repointing","Scaffolding","Shoring","Structural Strengthening/Reinforcement","Maintenance Activity","Surface Cleaning","Maintenance Policy and Programs","Removal of Vegetation","Renewal of Protective Coating","Management Planning and Preventative Activity","Designation/Registration","Development of Conservation and Management Plan","Fencing/Enclosing","Fire Mitigation","Flood Mitigation","Intervene with Governmental Authorities","Intervene with Owner/Occupant/Local Inhabitants","Reburial","Relocation Development Proposal","Site Protection/Improving Security","Temporary Covering","No Action Needed","Other Activities"]
             self.comboBox_raccomandation.clear()
             self.comboBox_raccomandation.addItems(raccomandation_type)
             
@@ -1047,6 +1131,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.enable_button(0)
     def on_pushButton_save_pressed(self):
         # save record
+        self.control()
         if self.BROWSE_STATUS == "b":
             if self.data_error_check() == 0:
                 if self.records_equal_check() == 1:
@@ -1537,6 +1622,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             
             return 0  
     def on_pushButton_view_all_pressed(self):
+        self.control()
         self.empty_fields()
         self.charge_records()
         self.fill_fields()
