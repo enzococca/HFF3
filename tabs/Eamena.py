@@ -861,8 +861,6 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.charge_records()
         self.fill_fields()
         self.update()
-    def split_some(self,x):
-        x.split('|')
     
     def longconvert(self):
         t= self.table2dict("self.tableWidget_geometry_place")
