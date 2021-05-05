@@ -94,7 +94,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         "assessment_activity_type":"assessment_activity_type",
         "assessment_activity_date":"assessment_activity_date",
         "ge_assessment":"ge_assessment",
-        "ge_imagery_acquisition_date":"ge_imagery_acquisition_dat",
+        "ge_imagery_acquisition_date":"ge_imagery_acquisition_date",
         "information_resource_used":"information_resource_used",
         "information_resource_acquisition_date":"information_resource_acquisition_date",
         "Resource Name":"resource_name",
@@ -324,7 +324,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.empty_fields()
         self.fill_fields()
         self.charge_records()
-        # self.control()
+        # self.insert_geom()
     def setPathexcel(self):
         
         s = QgsSettings()
@@ -341,15 +341,6 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             s.setValue('',dbpath)
     
     
-    
-    # def pipe2list(self,x):
-        
-        # if isinstance(x,str) and x.startswith("A") or x.startswith("B") or x.startswith("C") or x.startswith("D") or x.startswith("F") or x.startswith("G") or x.startswith("H") or x.startswith("I") or x.startswith("L") or x.startswith("M") or x.startswith("N") or x.startswith("O") or x.startswith("P") or x.startswith("Q") or x.startswith("R") or x.startswith("S") or x.startswith("T") or x.startswith("W") or x.startswith("V") or x.startswith("Z") or x.startswith("Y") or x.startswith("X")  in x:
-            
-            # return "[['".join(str(e) for e in eval(x))#.replace("","'],['")
-    # def pipe3list(self,x):        
-        # if isinstance(x,str) and x.endswith('a') or x.endswith('b') or x.endswith('c') or x.endswith('d') or x.endswith('f') or x.endswith('g') or x.endswith('h') or x.endswith('i') or x.endswith('l') or x.endswith('m') or x.endswith('n') or x.endswith('o') or x.endswith('p') or x.endswith('q') or x.endswith('r') or x.endswith('s') or x.endswith('t') or x.endswith('w') or x.endswith('v') or x.endswith('z') or x.endswith('y') or x.endswith('x') in x:    
-            # return "']]".join(str(e) for e in eval(x)[0])
     
     
     def lists(self,lst):
@@ -499,36 +490,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             QMessageBox.warning(self, "Error", str(e),QMessageBox.Ok)
         self.control()
     
-    # def control(self):
-        
-        # layer =  QgsProject.instance().mapLayersByName('eamena_table')[0]
-        
-        # idx = layer.fields().lookupField('assessment_investigator_actor')
-        
-        # layer.startEditing()
-        # e = QgsExpression("1+1=2")
-        
-        # c = QgsExpressionContext()
-        # s = QgsExpressionContextScope()
-        # s.setFields(layer.fields())
-        # c.appendScope(s)
-        # e.prepare(c)
-        # QMessageBox.warning(self, "Test Parametri Quant", str(a),  QMessageBox.Ok)
-        # for f in layer.getFeatures():
-            # c.setAttribute(f)
-            # value = e.evaluate(c)
-            # atts = {idx: value}
-            # if value:
-                
-                # with edit(layer):
-                
-                # layer.dataProvider().changeAttributeValues({f.id():atts})
-                
-            # else:
-                # QMessageBox.warning(self, "Done", "No!",  QMessageBox.Ok)    
-        # layer.commitChanges()
-       
-        # QgsProject.instance().removeMapLayer(layer.id())
+    
     
     def control(self):
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
@@ -553,7 +515,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                     b=str(feat['investigator_role_type'])
                     c=str(feat['assessment_activity_type'])
                     d=str(feat['assessment_activity_date'])
-                    e=str(feat['ge_assessment'])
+                    e=str(feat['ge_imagery_acquisition_date'])
                     f=str(feat['resource_name'])
                     g=str(feat['name_type'])
                     h=str(feat['heritage_place_type'])
@@ -613,280 +575,280 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                     
                     
                     if "[['" not in a and a!='NULL':
-                        t=a.replace(a[0],"[['"+a[0]).replace("|","'], ['").replace(a[-1],a[-1]+"']]") 
+                        
+                        t="[['"+a.replace("|","'], ['")+"']]"
                     
                         feat['assessment_investigator_actor'] = t
                     
                     if "[['" not in b and b!='NULL':
-                        t1=b.replace(b[0],"[['"+b[0]).replace("|","'], ['").replace(b[-1],b[-1]+"']]") 
+                        t1="[['"+b.replace("|","'], ['")+"']]"
                     
                         feat['investigator_role_type'] = t1
                     
                     if "[['" not in c and c!='NULL':
-                        t2=c.replace(c[0],"[['"+c[0]).replace("|","'], ['").replace(c[-1],c[-1]+"']]") 
+                        t2="[['"+c.replace("|","'], ['")+"']]" 
                     
                         feat['assessment_activity_type'] = t2
                     if "[['" not in d and d!='NULL':
-                        t3=d.replace(d[0],"[['"+d[0]).replace("|","'], ['").replace(d[-1],d[-1]+"']]") 
+                        t3="[['"+d.replace("|","'], ['")+"']]"
                     
                         feat['assessment_activity_date'] = t3
                     
                     if "[['" not in e and e!='NULL':
-                        t4=e.replace(e[0],"[['"+e[0]).replace("|","'], ['").replace(e[-1],e[-1]+"']]") 
+                        t4="[['"+e.replace("|","'], ['")+"']]"
                     
-                        feat['ge_assessment'] = t4
+                        feat['ge_imagery_acquisition_date'] = t4
                     
                     if "[['" not in f and f!='NULL':
-                        t5=f.replace(f[0],"[['"+f[0]).replace("|","'], ['").replace(f[-1],f[-1]+"']]") 
+                        t5="[['"+f.replace("|","'], ['")+"']]"
                     
                         feat['resource_name'] = t5
                     
                     if "[['" not in g and g!='NULL':
-                        t6=g.replace(g[0],"[['"+g[0]).replace("|","'], ['").replace(g[-1],g[-1]+"']]") 
+                        t6="[['"+g.replace("|","'], ['")+"']]"
                     
                         feat['name_type'] = t6
                     
                     if "[['" not in h and h!='NULL':
-                        t7=h.replace(h[0],"[['"+h[0]).replace("|","'], ['").replace(h[-1],h[-1]+"']]") 
+                        t7="[['"+h.replace("|","'], ['")+"']]" 
                     
                         feat['heritage_place_type'] = t7
                     
                     if "[['" not in i and i!='NULL':
-                        t8=i.replace(i[0],"[['"+i[0]).replace("|","'], ['").replace(i[-1],i[-1]+"']]") 
-                    
+                        t8="[['"+i.replace("|","'], ['")+"']]"
                         feat['general_description_type'] = t8
                     
                     if "[['" not in l and l!='NULL':
-                        t9=l.replace(l[0],"[['"+l[0]).replace("|","'], ['").replace(l[-1],l[-1]+"']]") 
+                        t9="[['"+l.replace("|","'], ['")+"']]"
                     
                         feat['general_description'] = t9
                     
                     if "[['" not in m and m!='NULL':
-                        t10=m.replace(m[0],"[['"+m[0]).replace("|","'], ['").replace(m[-1],m[-1]+"']]") 
+                        t10="[['"+m.replace("|","'], ['")+"']]"
                     
                         feat['heritage_place_function'] = t10
                     
                     if "[['" not in n and n!='NULL':
-                        t11=n.replace(n[0],"[['"+n[0]).replace("|","'], ['").replace(n[-1],n[-1]+"']]") 
+                        t11="[['"+n.replace("|","'], ['")+"']]"
                     
                         feat['heritage_place_function_certainty'] = t11
                     
                     if "[['" not in o and o!='NULL':
-                        t12=o.replace(o[0],"[['"+o[0]).replace("|","'], ['").replace(o[-1],o[-1]+"']]") 
+                        t12="[['"+o.replace("|","'], ['")+"']]"
                     
                         feat['designation'] = t12
                     
                     if "[['" not in p and p!='NULL':
-                        t13=p.replace(p[0],"[['"+p[0]).replace("|","'], ['").replace(p[-1],p[-1]+"']]") 
+                        t13="[['"+p.replace("|","'], ['")+"']]"
                     
                         feat['designation_from_date'] = t13
                     
                     if "[['" not in q and q!='NULL':
-                        t14=q.replace(q[0],"[['"+q[0]).replace("|","'], ['").replace(q[-1],q[-1]+"']]") 
+                        t14="[['"+q.replace("|","'], ['")+"']]"
                     
                         feat['designation_to_date'] = t14
                     
                     if "[['" not in r and r!='NULL':
-                        t15=r.replace(r[0],"[['"+r[0]).replace("|","'], ['").replace(r[-1],r[-1]+"']]") 
+                        t15="[['"+r.replace("|","'], ['")+"']]"
                     
                         feat['geometric_place_expression'] = t15
                     
                     
                     if "[['" not in aa and aa!='NULL':
-                        t16=aa.replace(aa[0],"[['"+aa[0]).replace("|","'], ['").replace(aa[-1],aa[-1]+"']]") 
+                        t16="[['"+aa.replace("|","'], ['")+"']]"
                     
                         feat['site_location_certainty'] = t16
                     
                     if "[['" not in bb and bb!='NULL':
-                        t17=bb.replace(bb[0],"[['"+bb[0]).replace("|","'], ['").replace(bb[-1],bb[-1]+"']]") 
+                        t17="[['"+bb.replace("|","'], ['")+"']]"
                     
                         feat['geometry_extent_certainty'] = t17
                     
                     if "[['" not in cc and cc!='NULL':
-                        t18=cc.replace(cc[0],"[['"+cc[0]).replace("|","'], ['").replace(cc[-1],cc[-1]+"']]") 
+                        t18="[['"+cc.replace("|","'], ['")+"']]"
                     
                         feat['country_type'] = t18
                     
                     
                     if "[['" not in dd and dd!='NULL':
-                        t19=dd.replace(dd[0],"[['"+dd[0]).replace("|","'], ['").replace(dd[-1],dd[-1]+"']]") 
+                        t19="[['"+dd.replace("|","'], ['")+"']]" 
                     
                         feat['cultural_period_type'] = t19
                     
                     if "[['" not in ee and ee!='NULL':
-                        t20=ee.replace(ee[0],"[['"+ee[0]).replace("|","'], ['").replace(ee[-1],ee[-1]+"']]") 
+                        t20="[['"+ee.replace("|","'], ['")+"']]"
                     
                         feat['cultural_period_certainty'] = t20
                     
                     if "[['" not in ff and ff!='NULL':
-                        t21=ff.replace(ff[0],"[['"+ff[0]).replace("|","'], ['").replace(ff[-1],ff[-1]+"']]") 
+                        t21="[['"+ff.replace("|","'], ['")+"']]"
                     
                         feat['cultural_subperiod_type'] = t21
                     
                     if "[['" not in gg and gg!='NULL':
-                        t22=gg.replace(gg[0],"[['"+gg[0]).replace("|","'], ['").replace(gg[-1],gg[-1]+"']]") 
+                        t22="[['"+gg.replace("|","'], ['")+"']]"
                     
                         feat['cultural_subperiod_certainty'] = t22
                     
                     if "[['" not in hh and hh!='NULL':
-                        t23=hh.replace(hh[0],"[['"+hh[0]).replace("|","'], ['").replace(hh[-1],hh[-1]+"']]") 
+                        t23="[['"+hh.replace("|","'], ['")+"']]"
                     
                         feat['site_feature_form_type'] = t23
                     
                     if "[['" not in ii and ii!='NULL':
-                        t24=ii.replace(ii[0],"[['"+ii[0]).replace("|","'], ['").replace(ii[-1],ii[-1]+"']]") 
+                        t24="[['"+ii.replace("|","'], ['")+"']]"
                     
                         feat['site_feature_form_type_certainty']= t24
                     
                     if "[['" not in ll and ll!='NULL':
-                        t25=ll.replace(ll[0],"[['"+ll[0]).replace("|","'], ['").replace(ll[-1],ll[-1]+"']]") 
+                        t25="[['"+ll.replace("|","'], ['")+"']]" 
                     
                         feat['site_feature_shape_type'] = t25
                     
                     if "[['" not in mm and mm!='NULL':
-                        t26=mm.replace(mm[0],"[['"+mm[0]).replace("|","'], ['").replace(mm[-1],mm[-1]+"']]") 
+                        t26="[['"+mm.replace("|","'], ['")+"']]" 
                     
                         feat['site_feature_arrangement_type'] = t26
                     
                     if "[['" not in nn and nn!='NULL':
-                        t27=nn.replace(nn[0],"[['"+nn[0]).replace("|","'], ['").replace(nn[-1],nn[-1]+"']]") 
+                        t27="[['"+nn.replace("|","'], ['")+"']]"
                     
                         feat['site_feature_number_type'] = t27
                     
                     if "[['" not in oo and o!='NULL':
-                        t28=oo.replace(oo[0],"[['"+oo[0]).replace("|","'], ['").replace(oo[-1],oo[-1]+"']]") 
+                        t28="[['"+oo.replace("|","'], ['")+"']]"
                     
                         feat['site_feature_interpretation_type'] = t28
                     
                     if "[['" not in pp and pp!='NULL':
-                        t29=pp.replace(pp[0],"[['"+pp[0]).replace("|","'], ['").replace(pp[-1],pp[-1]+"']]") 
+                        t29="[['"+pp.replace("|","'], ['")+"']]" 
                     
                         feat['site_feature_interpretation_number'] = t29
                     if "[['" not in qq and qq!='NULL':
-                        t30=qq.replace(qq[0],"[['"+qq[0]).replace("|","'], ['").replace(qq[-1],qq[-1]+"']]") 
+                        t30="[['"+qq.replace("|","'], ['")+"']]" 
                     
                         feat['site_feature_interpretation_certainty'] = t30
                     if "[['" not in rr and rr!='NULL':
-                        t31=rr.replace(rr[0],"[['"+rr[0]).replace("|","'], ['").replace(rr[-1],rr[-1]+"']]") 
+                        t31="[['"+rr.replace("|","'], ['")+"']]"
                     
                         feat['built_component_related_resource'] = t31
                     
                     if "[['" not in aaa and aaa!='NULL':
-                        t32=aaa.replace(aaa[0],"[['"+aaa[0]).replace("|","'], ['").replace(aaa[-1],aaa[-1]+"']]") 
+                        t32="[['"+aaa.replace("|","'], ['")+"']]"
                     
                         feat['hp_related_resource'] = t32
                     
                     if "[['" not in bbb and bbb!='NULL':
-                        t33=bbb.replace(bbb[0],"[['"+bbb[0]).replace("|","'], ['").replace(bbb[-1],bbb[-1]+"']]") 
+                        t33="[['"+bbb.replace("|","'], ['")+"']]" 
                     
                         feat['material_class'] = t33
                     
                     if "[['" not in ccc and ccc!='NULL':
-                        t34=ccc.replace(ccc[0],"[['"+ccc[0]).replace("|","'], ['").replace(ccc[-1],ccc[-1]+"']]") 
+                        t34="[['"+ccc.replace("|","'], ['")+"']]" 
                     
                         feat['material_type'] = t34
                     
                     
                     if "[['" not in ddd and ddd!='NULL':
-                        t35=ddd.replace(ddd[0],"[['"+ddd[0]).replace("|","'], ['").replace(ddd[-1],ddd[-1]+"']]") 
+                        t35="[['"+ddd.replace("|","'], ['")+"']]"
                     
                         feat['construction_technique']= t35
                     
                     if "[['" not in eee and eee!='NULL':
-                        t36=eee.replace(eee[0],"[['"+eee[0]).replace("|","'], ['").replace(eee[-1],eee[-1]+"']]") 
+                        t36="[['"+eee.replace("|","'], ['")+"']]"
                     
                         feat['measurement_number'] = t36
                     
                     if "[['" not in fff and fff!='NULL':
-                        t37=fff.replace(fff[0],"[['"+fff[0]).replace("|","'], ['").replace(fff[-1],fff[-1]+"']]") 
+                        t37="[['"+fff.replace("|","'], ['")+"']]" 
                     
                         feat['measurement_unit'] = t37
                     
                     if "[['" not in ggg and ggg!='NULL':
-                        t38=ggg.replace(ggg[0],"[['"+ggg[0]).replace("|","'], ['").replace(ggg[-1],ggg[-1]+"']]") 
+                        t38="[['"+ggg.replace("|","'], ['")+"']]"
                     
                         feat['dimension_type'] = t38
                     
                     if "[['" not in hhh and hhh!='NULL':
-                        t39=hhh.replace(hhh[0],"[['"+hhh[0]).replace("|","'], ['").replace(hhh[-1],hhh[-1]+"']]") 
+                        t39="[['"+hhh.replace("|","'], ['")+"']]" 
                     
                         feat['measurement_source_type'] = t39
                     
                     if "[['" not in iii and iii!='NULL':
-                        t40=iii.replace(iii[0],"[['"+iii[0]).replace("|","'], ['").replace(iii[-1],iii[-1]+"']]") 
+                        t40="[['"+iii.replace("|","'], ['")+"']]"
                     
                         feat['disturbance_cause_category_type'] = t40
                     
                     if "[['" not in lll and lll!='NULL':
-                        t41=lll.replace(lll[0],"[['"+lll[0]).replace("|","'], ['").replace(lll[-1],lll[-1]+"']]") 
+                        t41="[['"+lll.replace("|","'], ['")+"']]"
                     
                         feat['disturbance_cause_type'] = t41
                     
                     if "[['" not in mmm and mmm!='NULL':
-                        t42=mmm.replace(mmm[0],"[['"+mmm[0]).replace("|","'], ['").replace(mmm[-1],mmm[-1]+"']]") 
+                        t42="[['"+mmm.replace("|","'], ['")+"']]" 
                     
                         feat['disturbance_cause_certainty'] = t42
                     
                     if "[['" not in nnn and nnn!='NULL':
-                        t43=nnn.replace(nnn[0],"[['"+nnn[0]).replace("|","'], ['").replace(nnn[-1],nnn[-1]+"']]") 
+                        t43="[['"+nnn.replace("|","'], ['")+"']]" 
                     
                         feat['disturbance_date_from'] = t43
                     
                     if "[['" not in ooo and o!='NULL':
-                        t44=ooo.replace(ooo[0],"[['"+ooo[0]).replace("|","'], ['").replace(ooo[-1],ooo[-1]+"']]") 
+                        t44="[['"+ooo.replace("|","'], ['")+"']]"
                     
                         feat['disturbance_date_to'] = t44
                     
                     if "[['" not in ppp and ppp!='NULL':
-                        t45=ppp.replace(ppp[0],"[['"+ppp[0]).replace("|","'], ['").replace(ppp[-1],ppp[-1]+"']]") 
+                        t45="[['"+ppp.replace("|","'], ['")+"']]" 
                     
                         feat['disturbance_date_occurred_before'] = t45
                     if "[['" not in qqq and qqq!='NULL':
-                        t46=qqq.replace(qqq[0],"[['"+qqq[0]).replace("|","'], ['").replace(qqq[-1],qqq[-1]+"']]") 
+                        t46="[['"+qqq.replace("|","'], ['")+"']]"
                     
                         feat['disturbance_date_occurred_on'] = t46
                     if "[['" not in rrr and rrr!='NULL':
-                        t47=rrr.replace(rrr[0],"[['"+rrr[0]).replace("|","'], ['").replace(rrr[-1],rrr[-1]+"']]") 
+                        t47="[['"+rrr.replace("|","'], ['")+"']]"
                     
                         feat['effect_type'] = t47
                     
                     
                     if "[['" not in x and x!='NULL':
-                        t48=x.replace(x[0],"[['"+x[0]).replace("|","'], ['").replace(x[-1],x[-1]+"']]") 
+                        t48="[['"+x.replace("|","'], ['")+"']]"
                     
                         feat['effect_certainty'] = t48
                     
                     if "[['" not in y and y!='NULL':
-                        t49=y.replace(y[0],"[['"+y[0]).replace("|","'], ['").replace(y[-1],y[-1]+"']]") 
+                        t49="[['"+y.replace("|","'], ['")+"']]"
                     
                         feat['threat_category'] = t49
                     
                     if "[['" not in z and z!='NULL':
-                        t50=z.replace(z[0],"[['"+z[0]).replace("|","'], ['").replace(z[-1],z[-1]+"']]") 
+                        t50="[['"+z.replace("|","'], ['")+"']]" 
                     
                         feat['threat_type']= t50
                     
                     if "[['" not in xx and xx!='NULL':
-                        t51=xx.replace(xx[0],"[['"+xx[0]).replace("|","'], ['").replace(xx[-1],xx[-1]+"']]") 
+                        t51="[['"+xx.replace("|","'], ['")+"']]"
                     
                         feat['threat_probability'] = t51
                     
                     if "[['" not in yy and yy!='NULL':
-                        t52=yy.replace(yy[0],"[['"+yy[0]).replace("|","'], ['").replace(yy[-1],yy[-1]+"']]") 
+                        t52="[['"+yy.replace("|","'], ['")+"']]" 
                     
                         feat['threat_inference_making_assessor_name'] = t52
                     
                     if "[['" not in zz and o!='NULL':
-                        t53=zz.replace(zz[0],"[['"+zz[0]).replace("|","'], ['").replace(zz[-1],zz[-1]+"']]") 
+                        t53="[['"+zz.replace("|","'], ['")+"']]"
                     
                         feat['topography_type'] = t53
                     
                     if "[['" not in xxx and xxx!='NULL':
-                        t54=xxx.replace(xxx[0],"[['"+xxx[0]).replace("|","'], ['").replace(xxx[-1],xxx[-1]+"']]") 
+                        t54="[['"+xxx.replace("|","'], ['")+"']]"
                     
                         feat['surficial_geology_type'] = t54
                     if "[['" not in yyy and yyy!='NULL':
-                        t55=yyy.replace(yyy[0],"[['"+yyy[0]).replace("|","'], ['").replace(yyy[-1],yyy[-1]+"']]") 
+                        t55="[['"+yyy.replace("|","'], ['")+"']]"
                     
                         feat['depositional_process'] = t55
                     
@@ -895,30 +857,34 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                     layer.updateFeature(feat)        
                 
         QgsProject.instance().removeMapLayer(layer.id())
+        self.empty_fields()
+        self.charge_records()
+        self.fill_fields()
+        self.update()
     def split_some(self,x):
         x.split('|')
     
-    # def longconvert(self):
-        # t= self.table2dict("self.tableWidget_geometry_place")
-        # #QMessageBox.warning(self, "Test Parametri Quant", str(b),  QMessageBox.Ok)
-        # return str(t).replace(']]','').replace('[[','').replace(']','').replace('[','')
-    # def insert_geom(self):
-        # conn = Connection()
-        # db_url = conn.conn_str()
-        # try:
-            # engine = create_engine(db_url, echo=True)
-            # listen(engine, 'connect', self.load_spatialite)
-            # c = engine.connect()
+    def longconvert(self):
+        t= self.table2dict("self.tableWidget_geometry_place")
+        #QMessageBox.warning(self, "Test Parametri Quant", str(b),  QMessageBox.Ok)
+        return str(t).replace(']]','').replace('[[','').replace(']','').replace('[','')
+    def insert_geom(self):
+        conn = Connection()
+        db_url = conn.conn_str()
+        try:
+            engine = create_engine(db_url, echo=True)
+            listen(engine, 'connect', self.load_spatialite)
+            c = engine.connect()
         
             
             
-            # site_point='INSERT INTO site_point (location,name_f_p,the_geom) VALUES ("%s", "%s",st_geomfromtext(%s,4326));'%( str(self.comboBox_location.currentText()), str(self.comboBox_name_site.currentText()),self.longconvert())
-            # c.execute(site_point)
+            site_point='INSERT INTO site_point (location,the_geom) VALUES ("%s", st_geomfromtext(%s,4326));'%( str(self.comboBox_location.currentText()),self.longconvert())
+            c.execute(site_point)
             
             
         
-        # except Exception as e:
-            # QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok)
+        except Exception as e:
+            QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok)
     
     # def insert_line(self):
         # conn = Connection()
@@ -1472,14 +1438,14 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.enable_button(0)
     def on_pushButton_save_pressed(self):
         # save record
-        self.control()
+        # self.insert_geom()
         if self.BROWSE_STATUS == "b":
             if self.data_error_check() == 0:
                 if self.records_equal_check() == 1:
                     self.update_if(QMessageBox.warning(self, 'Error',
                                                        "The record has been changed. Do you want to save the changes?",
                                                        QMessageBox.Ok | QMessageBox.Cancel))
-                    #self.insert_geom()
+                    self.insert_geom()
                     # self.insert_line()
                     # self.insert_poligon()
                     self.empty_fields()
