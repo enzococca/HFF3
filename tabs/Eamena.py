@@ -1022,43 +1022,43 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:
             QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok)
     
-    # def insert_line(self):
-        # conn = Connection()
-        # db_url = conn.conn_str()
-        # try:
-            # engine = create_engine(db_url, echo=True)
-            # listen(engine, 'connect', self.load_spatialite)
-            # c = engine.connect()
+    def insert_line(self):
+        conn = Connection()
+        db_url = conn.conn_str()
+        try:
+            engine = create_engine(db_url, echo=True)
+            listen(engine, 'connect', self.load_spatialite)
+            c = engine.connect()
         
             
             
            
             
-            # site_line='INSERT INTO site_line (location,name_f_l,the_geom) VALUES ("%s", "%s",st_geomfromtext(%s,4326));'%( str(self.comboBox_location.currentText()), str(self.comboBox_name_site.currentText()),self.longconvert())
-            # c.execute(site_line)
+            site_line='INSERT INTO site_line (location,the_geom) VALUES ("%s", st_geomfromtext(%s,4326));'%( str(self.comboBox_location.currentText()), self.longconvert())
+            c.execute(site_line)
             
             
         
-        # except Exception as e:
-            # QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok)
+        except Exception as e:
+            QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok)
     
-    # def insert_poligon(self):
-        # conn = Connection()
-        # db_url = conn.conn_str()
-        # try:
-            # engine = create_engine(db_url, echo=True)
-            # listen(engine, 'connect', self.load_spatialite)
-            # c = engine.connect()
+    def insert_poligon(self):
+        conn = Connection()
+        db_url = conn.conn_str()
+        try:
+            engine = create_engine(db_url, echo=True)
+            listen(engine, 'connect', self.load_spatialite)
+            c = engine.connect()
         
             
             
             
             
-            # site_poligon='INSERT INTO site_poligon (location,name_feat,the_geom) VALUES ("%s", "%s",st_geomfromtext(%s,4326));'%( str(self.comboBox_location.currentText()), str(self.comboBox_name_site.currentText()),self.longconvert())
-            # c.execute(site_poligon)
+            site_poligon='INSERT INTO site_poligon (location,the_geom) VALUES ("%s", st_geomfromtext(%s,4326));'%( str(self.comboBox_location.currentText()), self.longconvert())
+            c.execute(site_poligon)
         
-        # except Exception as e:
-            # QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok) 
+        except Exception as e:
+            QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok) 
     def geometry_exp(self):
         
         #self.tableWidget_geometry_place.update()
@@ -1574,14 +1574,25 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.enable_button(0)
     def on_pushButton_save_pressed(self):
         # save record
-        # self.insert_geom()
+        t=self.table2dict("self.tableWidget_geometry_place")
         if self.BROWSE_STATUS == "b":
             if self.data_error_check() == 0:
                 if self.records_equal_check() == 1:
                     self.update_if(QMessageBox.warning(self, 'Error',
                                                        "The record has been changed. Do you want to save the changes?",
                                                        QMessageBox.Ok | QMessageBox.Cancel))
-                    #self.insert_geom()
+                    # if 'POINT' in str(t):
+                        # self.insert_geom()
+                    # else:
+                        # pass
+                    # if 'LINE' in str(t):
+                        # self.insert_line()
+                    # else:
+                        # pass
+                    # if 'POLYGON' in str(t):
+                        # self.insert_poligon()
+                    # else:
+                        # pass
                     # self.insert_line()
                     # self.insert_poligon()
                     self.empty_fields()
