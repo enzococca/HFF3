@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
+    <width>363</width>
     <height>629</height>
    </rect>
   </property>
@@ -76,7 +76,7 @@ background-color: rgb(168, 168, 168);</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>330</width>
+         <width>343</width>
          <height>568</height>
         </rect>
        </property>
@@ -128,7 +128,7 @@ selection-color: rgb(140, 140, 105);</string>
            <enum>QTabWidget::Triangular</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="elideMode">
            <enum>Qt::ElideNone</enum>
@@ -143,6 +143,10 @@ selection-color: rgb(140, 140, 105);</string>
            <bool>false</bool>
           </property>
           <widget class="QWidget" name="tab_4">
+           <attribute name="icon">
+            <iconset resource="../../resources/resources.qrc">
+             <normaloff>:/icons/hfflogo.png</normaloff>:/icons/hfflogo.png</iconset>
+           </attribute>
            <attribute name="title">
             <string>HFF.org</string>
            </attribute>
@@ -167,6 +171,40 @@ selection-color: rgb(140, 140, 105);</string>
               </property>
               <property name="zoomFactor" stdset="0">
                <double>0.500000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_2">
+           <attribute name="icon">
+            <iconset resource="../../resources/resources.qrc">
+             <normaloff>:/icons/eamena.jpg</normaloff>:/icons/eamena.jpg</iconset>
+           </attribute>
+           <attribute name="title">
+            <string>MarEA</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="0">
+             <widget class="QWebView" name="webView_2" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>8514oem</family>
+               </font>
+              </property>
+              <property name="url" stdset="0">
+               <url>
+                <string>https://marea.soton.ac.uk/about/</string>
+               </url>
+              </property>
+              <property name="zoomFactor" stdset="0">
+               <double>1.000000000000000</double>
               </property>
              </widget>
             </item>
