@@ -1574,7 +1574,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.enable_button(0)
     def on_pushButton_save_pressed(self):
         # save record
-        t=self.table2dict("self.tableWidget_geometry_place")
+        #t=self.table2dict("self.tableWidget_geometry_place")
         if self.BROWSE_STATUS == "b":
             if self.data_error_check() == 0:
                 if self.records_equal_check() == 1:
