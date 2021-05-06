@@ -1195,24 +1195,26 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 END;"""
             c.execute(sql_trigger_delete_mediaentity)
             
-            sql_trigger_poligon="""CREATE TRIGGER IF NOT EXISTS create_geom_update3 After insert ON site_poligon BEGIN update site_poligon set coord = AsText(st_transform(the_geom,4326)) where location=New.location ; END"""
+            sql_trigger_poligon="""CREATE TRIGGER IF NOT EXISTS create_geom_update3 After insert ON site_poligon BEGIN update site_poligon set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
             c.execute(sql_trigger_poligon)
-            sql_trigger_poligon_up="""CREATE TRIGGER IF NOT EXISTS create_geom_insert3 After update ON site_poligon BEGIN update site_poligon set coord = AsText(st_transform(the_geom,4326)) where location=New.location ; END"""
+            
+            sql_trigger_poligon_up="""CREATE TRIGGER IF NOT EXISTS create_geom_insert3 After update ON site_poligon BEGIN update site_poligon set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
             c.execute(sql_trigger_poligon_up)
             
-            sql_trigger_line="""CREATE TRIGGER IF NOT EXISTS create_geom_insert2 After insert ON site_line BEGIN update site_line set coord = AsText(st_transform(the_geom,4326)) where location=New.location ; END"""
+            sql_trigger_line="""CREATE TRIGGER IF NOT EXISTS create_geom_insert2 After insert ON site_line BEGIN update site_line set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
             c.execute(sql_trigger_line)
-            sql_trigger_line_up="""CREATE TRIGGER IF NOT EXISTS create_geom_update2 After update ON site_line BEGIN update site_line set coord = AsText(st_transform(the_geom,4326)) where location=New.location ; END"""
+            sql_trigger_line_up="""CREATE TRIGGER IF NOT EXISTS create_geom_update2 After update ON site_line BEGIN update site_line set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
             c.execute(sql_trigger_line_up)
             
-            sql_trigger_point="""CREATE TRIGGER IF NOT EXISTS create_geom_insert1 After insert ON site_line BEGIN update site_line set coord = AsText(st_transform(the_geom,4326)) where location=New.location ; END"""
+            sql_trigger_point="""CREATE TRIGGER IF NOT EXISTS create_geom_insert1 After insert ON site_line BEGIN update site_line set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
             c.execute(sql_trigger_point)
-            sql_trigger_point_up="""CREATE TRIGGER IF NOT EXISTS create_geom_update1 After update ON site_point BEGIN update site_point set coord = AsText(st_transform(the_geom,4326)) where location=New.location ; END"""
+            
+            sql_trigger_point_up="""CREATE TRIGGER IF NOT EXISTS create_geom_update1 After update ON site_point BEGIN update site_point set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
             c.execute(sql_trigger_point_up)
             
             
             
-            CREATE TRIGGER create_geom_insert3 After update ON site_poligon BEGIN update site_poligon set coord = AsText(st_transform(the_geom,4326)) where location=New.location ; END
+            
             RestoreSchema(db_url,None).update_geom_srid_sl('%d' % int(self.lineEdit_crs.text()))
             c.close()
             QMessageBox.warning(self, "Message", "Update Done", QMessageBox.Ok)
