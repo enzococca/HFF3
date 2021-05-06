@@ -877,16 +877,22 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             c.execute(eamena_table)
             site_line= """CREATE TABLE IF NOT EXISTS "site_line" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "gid" BIGINT, "location" TEXT, "name_f_l" TEXT, "photo1" TEXT, "photo2" TEXT, "photo3" TEXT, "photo4" TEXT, "photo5" TEXT, "photo6" TEXT);"""
             c.execute(site_line)
-            site_poligon="""CREATE TABLE IF NOT EXISTS "site_point" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "gid" BIGINT, "location" TEXT, "name_f_p" TEXT, "photo" TEXT, "photo2" TEXT, "photo3" TEXT, "photo4" TEXT, "photo5" TEXT, "photo6" TEXT);"""
-            c.execute(site_poligon)
-            site_point="""CREATE TABLE IF NOT EXISTS "site_poligon" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "name_feat" TEXT, "photo" TEXT, "photo2" TEXT, "photo3" TEXT, "photo4" TEXT, "photo5" TEXT, "photo6" TEXT, "location" TEXT);"""
-            c.execute(site_point)
             geom_1="""SELECT AddGeometryColumn('site_line', 'the_geom', 0 , 'LINESTRING', 'XY') ;"""
             c.execute(geom_1)
+            
+            site_poligon="""CREATE TABLE IF NOT EXISTS "site_point" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "gid" BIGINT, "location" TEXT, "name_f_p" TEXT, "photo" TEXT, "photo2" TEXT, "photo3" TEXT, "photo4" TEXT, "photo5" TEXT, "photo6" TEXT);"""
+            c.execute(site_poligon)
+            
             geom_2="""SELECT AddGeometryColumn('site_poligon', 'the_geom', 0 , 'MULTIPOLYGON', 'XY') ;"""
-            c.execute(geom_2)
+            c.execute(geom_2)  
+            
+            
+            site_point="""CREATE TABLE IF NOT EXISTS "site_poligon" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "name_feat" TEXT, "photo" TEXT, "photo2" TEXT, "photo3" TEXT, "photo4" TEXT, "photo5" TEXT, "photo6" TEXT, "location" TEXT);"""
+            c.execute(site_point)
             geom_3="""SELECT AddGeometryColumn('site_point', 'the_geom', 0 , 'POINT', 'XY') ;"""
             c.execute(geom_3)
+            
+            
             elv="""CREATE VIEW IF NOT EXISTS "emeana_line_view" AS
                 SELECT "a"."ROWID" AS "ROWID", "a"."id_eamena" AS "id_eamena",
                 "a"."location" AS "location", "a"."assessment_investigator_actor" AS "assessment_investigator_actor",
@@ -1206,7 +1212,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             sql_trigger_line_up="""CREATE TRIGGER IF NOT EXISTS create_geom_update2 After update ON site_line BEGIN update site_line set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
             c.execute(sql_trigger_line_up)
             
-            sql_trigger_point="""CREATE TRIGGER IF NOT EXISTS create_geom_insert1 After insert ON site_line BEGIN update site_line set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
+            sql_trigger_point="""CREATE TRIGGER IF NOT EXISTS create_geom_insert1 After insert ON site_line BEGIN update site_point set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
             c.execute(sql_trigger_point)
             
             sql_trigger_point_up="""CREATE TRIGGER IF NOT EXISTS create_geom_update1 After update ON site_point BEGIN update site_point set coord = AsText(st_transform(the_geom,4326)) where location=New.location; END"""
