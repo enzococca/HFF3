@@ -414,7 +414,7 @@ class Hff_pyqgis(QDialog):
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
 
-            uri.setDataSource('','emeana_poligon_view', 'the_geom', gidstr, "ROWIND")
+            uri.setDataSource('','emeana_polygon_view', 'the_geom', gidstr, "ROWIND")
             layer_eamena_poligon=QgsVectorLayer(uri.uri(), 'EAMENA Poligon View', 'spatialite')
 
             if layer_eamena_poligon.isValid() == True:
