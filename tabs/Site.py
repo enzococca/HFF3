@@ -42,7 +42,7 @@ from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
-from ..modules.utility.print_relazione_pdf import exp_rel_pdf
+#from ..modules.utility.print_relazione_pdf import exp_rel_pdf
 from ..modules.utility.hff_system__error_check import Error_check
 from ..modules.utility.delegateComboBox import ComboBoxDelegate
 from ..test_area import Test_area
@@ -50,6 +50,7 @@ from ..gui.imageViewer import ImageViewer
 from ..gui.sortpanelmain import SortPanelMain
 from qgis.gui import QgsMapCanvas, QgsMapToolPan
 from ..modules.utility.hff_system__exp_site_pdf import *
+from ..modules.utility.hff_system__print_utility import Print_utility
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Site.ui'))
 
 
@@ -870,16 +871,16 @@ class hff_system__Site(QDialog, MAIN_DIALOG_CLASS):
             ])
         return data_list
     def on_pushButton_rel_pdf_pressed(self):
-        SITE_pdf_sheet = generate_site_pdf()
+        SITE_pdf_sheet = Generate_site_pdf()
         data_list = self.generate_list_pdf()
         SITE_pdf_sheet.build_site_sheets(data_list)
         
         
-        PHOTOLOG_pdf_sheet = generate_photo_pdf_2()
+        PHOTOLOG_pdf_sheet = Generate_photo_pdf_2()
         data_list = self.generate_list_pdf()
         PHOTOLOG_pdf_sheet.build_photolog(data_list,data_list[0][0])
     
-        PHOTOLOG_pdf_sheet2 = generate_photo_pdf()
+        PHOTOLOG_pdf_sheet2 = Generate_photo_pdf()
         data_list = self.generate_list_pdf()
         PHOTOLOG_pdf_sheet2.build_photolog_2(data_list,data_list[0][0])
     def on_pushButton_sort_pressed(self):

@@ -12,7 +12,7 @@ from reportlab.platypus import Table, PageBreak, SimpleDocTemplate, Spacer, Tabl
 from reportlab.platypus.paragraph import Paragraph
 import numpy as np
 from .hff_system__OS_utility import *
-from ...tabs.Site import *
+
 class NumberedCanvas_sitesheet(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         canvas.Canvas.__init__(self, *args, **kwargs)
@@ -108,7 +108,7 @@ class NumberedCanvas_siteindex(canvas.Canvas):
         self.setFont("Helvetica", 8)
         self.drawRightString(270*mm, 20*mm, "Page %d of %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
 
-class single_site_pdf_sheet:
+class Single_site_pdf_sheet:
    
 
 
@@ -809,107 +809,7 @@ class photolog_index_pdf_2(object):
 
         return styles
 
-
-
-class generate_photo_pdf:
-    HOME = os.environ['HFF_HOME']
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
-    
-    def datestrfdate(self):
-        now = date.today()
-        today = now.strftime("%d-%m-%Y")
-        return today
-    
-    def build_photolog_2(self,records,a_location_):
-        home = os.environ['HFF_HOME']
-        self.width, self.height = (A4)
-
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
-        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
-        
-        
-        logo = Image(logo_path)
-        logo.drawHeight = 1.5 * inch * logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 1.5 * inch
-        logo.hAlign = "LEFT"
-        
-       
-        
-        styleSheet = getSampleStyleSheet()
-        styNormal = styleSheet['Normal']
-        styBackground = ParagraphStyle('background', parent=styNormal, backColor=colors.pink)
-        styH1 = styleSheet['Heading3']
-
-        data = self.datestrfdate()
-        list=[]
-        list.append(logo)
-        
-        list.append(Paragraph("<b>HFF Archaeologcal Survey TE - Photo Index</b><br/><br/><b>Location: %s,  Data: %s</b><br/>" % (a_location_,data), styH1))
-     
-       
-        table_data = [] 
-       
-        
-        
-        for i in range(len(records)):
-            exp_index = photolog_index_pdf_2(records[i])
-            
-            table_data.append(exp_index.getTable())
-
-        styles = exp_index.makeStyles()
-        colWidths = [70, 50,80, 50, 350]
-
-        table_data_formatted = Table( table_data, colWidths, style=styles)
-        table_data_formatted.hAlign = "LEFT"
-
-        list.append(table_data_formatted)
-        list.append(Spacer(0, 0))
-
-        filename = '{}{}{}'.format(self.PDF_path, os.sep, 'Photo_index_Material_TE.pdf')
-        f = open(filename, "wb")
-
-        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 21 * cm), showBoundary=0, topMargin=15, bottomMargin=40,
-                                leftMargin=30, rightMargin=30)
-        doc.build(list, canvasmaker=NumberedCanvas_siteindex)
-
-        f.close()  
-
-        
-    
-    
-
-
-
-class generate_site_pdf:
-    HOME = os.environ['HFF_HOME']
-
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
-
-    def datestrfdate(self):
-        now = date.today()
-        today = now.strftime("%d-%m-%Y")
-        return today
-
-    
-    def build_site_sheets(self, records):
-        elements = []
-        for i in range(len(records)):
-            single_site_sheet = single_site_pdf_sheet(records[i])
-            
-            elements.append(single_site_sheet.create_sheet())
-            
-            elements.append(PageBreak())
-
-        filename = ('%s%s%s') % (self.PDF_path, os.sep, 'Site_forms.pdf')
-        f = open(filename, "wb")
-
-        doc = SimpleDocTemplate(f, pagesize=A4)
-        doc.build(elements, canvasmaker=NumberedCanvas_sitesheet)
-
-        f.close()    
-    
-    
-class photolog_index_pdf(object):
+class Photolog_index_pdf(object):
     
     
     def __init__(self, data):
@@ -998,8 +898,103 @@ class photolog_index_pdf(object):
         return styles
 
 
+class Generate_photo_pdf:
+    HOME = os.environ['HFF_HOME']
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
+    
+    def datestrfdate(self):
+        now = date.today()
+        today = now.strftime("%d-%m-%Y")
+        return today
+    
+    def build_photolog_2(self,records,a_location_):
+        home = os.environ['HFF_HOME']
+        self.width, self.height = (A4)
 
-class generate_photo_pdf_2:
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
+        
+        
+        logo = Image(logo_path)
+        logo.drawHeight = 1.5 * inch * logo.drawHeight / logo.drawWidth
+        logo.drawWidth = 1.5 * inch
+        logo.hAlign = "LEFT"
+        
+       
+        
+        styleSheet = getSampleStyleSheet()
+        styNormal = styleSheet['Normal']
+        styBackground = ParagraphStyle('background', parent=styNormal, backColor=colors.pink)
+        styH1 = styleSheet['Heading3']
+
+        data = self.datestrfdate()
+        list=[]
+        list.append(logo)
+        
+        list.append(Paragraph("<b>HFF Archaeologcal Survey TE - Photo Index</b><br/><br/><b>Location: %s,  Data: %s</b><br/>" % (a_location_,data), styH1))
+     
+       
+        table_data = [] 
+       
+        
+        
+        for i in range(len(records)):
+            exp_index = photolog_index_pdf_2(records[i])
+            
+            table_data.append(exp_index.getTable())
+
+        styles = exp_index.makeStyles()
+        colWidths = [70, 50,80, 50, 350]
+
+        table_data_formatted = Table( table_data, colWidths, style=styles)
+        table_data_formatted.hAlign = "LEFT"
+
+        list.append(table_data_formatted)
+        list.append(Spacer(0, 0))
+
+        filename = '{}{}{}'.format(self.PDF_path, os.sep, 'Photo_index_Material_TE.pdf')
+        f = open(filename, "wb")
+
+        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 21 * cm), showBoundary=0, topMargin=15, bottomMargin=40,
+                                leftMargin=30, rightMargin=30)
+        doc.build(list, canvasmaker=NumberedCanvas_siteindex)
+
+        f.close()  
+
+
+class Generate_site_pdf:
+    HOME = os.environ['HFF_HOME']
+
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
+
+    def datestrfdate(self):
+        now = date.today()
+        today = now.strftime("%d-%m-%Y")
+        return today
+
+    
+    def build_site_sheets(self, records):
+        elements = []
+        for i in range(len(records)):
+            single_site_sheet = Single_site_pdf_sheet(records[i])
+            
+            elements.append(single_site_sheet.create_sheet())
+            
+            elements.append(PageBreak())
+
+        filename = ('%s%s%s') % (self.PDF_path, os.sep, 'Site_forms.pdf')
+        f = open(filename, "wb")
+
+        doc = SimpleDocTemplate(f, pagesize=A4)
+        doc.build(elements, canvasmaker=NumberedCanvas_sitesheet)
+
+        f.close()    
+    
+    
+
+
+
+class Generate_photo_pdf_2:
     HOME = os.environ['HFF_HOME']
     PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
     
@@ -1040,7 +1035,7 @@ class generate_photo_pdf_2:
         
         
         for i in range(len(records)):
-            exp_index = photolog_index_pdf(records[i])
+            exp_index = Photolog_index_pdf(records[i])
             
             table_data.append(exp_index.getTable())
 
