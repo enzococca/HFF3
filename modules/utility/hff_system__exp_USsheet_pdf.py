@@ -402,7 +402,7 @@ class generate_US_pdf:
             elements.append(PageBreak())
         filename = ('%s%s%s') % (self.PDF_path, os.sep, 'Divelog_forms.pdf')
         f = open(filename, "wb")
-        doc = SimpleDocTemplate(f, pagesize=A4)
+        doc = SimpleDocTemplate(f, pagesize=A3)
         doc.build(elements, canvasmaker=NumberedCanvas_USsheet)
         f.close()
         
@@ -496,7 +496,7 @@ class generate_photo_pdf:
         filename = '{}{}{}'.format(self.PDF_path, os.sep, 'Photo_index_UW.pdf')
         f = open(filename, "wb")
 
-        doc = SimpleDocTemplate(f, pagesize=A3, showBoundary=0, topMargin=15, bottomMargin=40,
+        doc = SimpleDocTemplate(f, pagesize=A2, showBoundary=0, topMargin=15, bottomMargin=40,
                                 leftMargin=30, rightMargin=30)
         doc.build(list, canvasmaker=NumberedCanvas_USindex)
 
