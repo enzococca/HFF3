@@ -18,18 +18,24 @@
 /***************************************************************************/
 """
 from __future__ import absolute_import
+import sys
+import traceback
 import os
-import sqlite3 
+import sqlite3
+import time
+import sqlalchemy as sa
+
 from sqlalchemy.event import listen
+import platform
 from builtins import range
 from builtins import str
-import pysftp
 import pandas as pd
 from pandas import DataFrame
-
+import ftplib
+from ftplib import FTP
 import subprocess
 from geoalchemy2 import *
-from sqlalchemy.sql import select, func
+from sqlalchemy.sql import select, func, text
 from geoalchemy2 import func as funcgeom
 from sqlalchemy import create_engine
 from sqlalchemy.dialects import postgresql
@@ -80,15 +86,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         self.charge_data()
         self.db_active()
         self.lineEdit_DBname.textChanged.connect(self.db_uncheck)
-        self.pushButton_upd_postgres.setEnabled(False)
+        self.pushButton_upd_postgres.setEnabled(True)
         self.pushButton_upd_sqlite.setEnabled(False)
         self.comboBox_sito.currentIndexChanged.connect(self.summary)
         self.comboBox_Database.currentIndexChanged.connect(self.db_active)
         self.comboBox_Database.currentIndexChanged.connect(self.set_db_parameter)
 
 
-        self.comboBox_server_rd.editTextChanged.connect(self.set_db_import_from_parameter)
-        self.comboBox_server_wt.editTextChanged.connect(self.set_db_import_to_parameter)
+        self.comboBox_server_rd.currentTextChanged.connect(self.set_db_import_from_parameter)
+        self.comboBox_server_wt.currentTextChanged.connect(self.set_db_import_to_parameter)
 
         self.pushButton_save.clicked.connect(self.summary)
         self.pushButton_save.clicked.connect(self.on_pushButton_save_pressed)
@@ -152,6 +158,14 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             self.pushButton_import_geometry.setEnabled(False)
         else:
             self.pushButton_import_geometry.setEnabled(True)
+    
+    def setComboBoxEnable(self, f, v):
+        field_names = f
+        value = v
+        for fn in field_names:
+            cmd = '{}{}{}{}'.format(fn, '.setEnabled(', v, ')')
+            eval(cmd)
+    
     def customize(self):
         if self.comboBox_Database.currentText()=='sqlite':
             self.setComboBoxEnable(["self.lineEdit_DBname"], "False")
@@ -178,7 +192,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
     def check(self):
         try:
             if self.checkBox_ignore.isChecked():
-
+                self.message()
                 @compiles(Insert)
                 def _prefix_insert_with_ignore(insert_srt, compiler, **kw):
 
@@ -188,16 +202,22 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     if test_conn == 0:
                         return compiler.visit_insert(insert_srt.prefix_with('OR IGNORE'), **kw)
                     else:
-                        #return compiler.visit_insert(insert.prefix_with(''), **kw)
-                        pk = insert_srt.table.primary_key
+                        #if the connection is postgresql
+                        ck = insert_srt.table.constraints
+                        # pk = insert_srt.table.primary_key
                         insert = compiler.visit_insert(insert_srt, **kw)
-                        ondup = f'ON CONFLICT ({",".join(c.name for c in pk)}) DO NOTHING'
-                        #updates = ', '.join(f"{c.name}=EXCLUDED.{c.name}" for c in insert_srt.table.columns)
+                        c = next(x for x in ck if isinstance(x, sa.UniqueConstraint))
+                        column_names = [col.name for col in c.columns]
+                        s= ", ".join(column_names)
+                        ondup = f'ON CONFLICT ({s})DO NOTHING'
+                    
                         upsert = ' '.join((insert, ondup))
                         return upsert
+                       
+                        
            
             if self.checkBox_replace.isChecked():
-
+                self.message()
                 @compiles(Insert)
                 def _prefix_insert_with_replace(insert_srt, compiler, **kw):
                     ##############importo i dati nuovi aggiornando i vecchi dati########################
@@ -208,15 +228,21 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         return compiler.visit_insert(insert_srt.prefix_with('OR REPLACE'), **kw)
                     else:
                         #return compiler.visit_insert(insert.prefix_with(''), **kw)
-                        pk = insert_srt.table.primary_key
+                        
+                        ck = insert_srt.table.constraints
                         insert = compiler.visit_insert(insert_srt, **kw)
-                        ondup = f'ON CONFLICT ({",".join(c.name for c in pk)}) DO UPDATE SET'
-                        updates = ', '.join(f"{c.name}=EXCLUDED.{c.name}" for c in insert_srt.table.columns)
-                        upsert = ' '.join((insert, ondup, updates))
+                        c = next(x for x in ck if isinstance(x, sa.UniqueConstraint))
+                        column_names = [col.name for col in c.columns]
+                        s= ", ".join(column_names)
+                        
+                        
+                        ondup = f"ON CONFLICT ({s}) DO UPDATE SET"
+                        updates = ", ".join(f'{c.name}=EXCLUDED.{c.name}' for c in insert_srt.table.columns)
+                        upsert = " ".join((insert, ondup, updates))
                         return upsert
         
             if self.checkBox_abort.isChecked():
-
+                #self.message()
                 @compiles(Insert)
                 def _prefix_insert_with_ignore(insert_srt, compiler, **kw):
 
@@ -232,7 +258,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         ondup = f'ON CONFLICT ({",".join(c.name for c in pk)}) DO NOTHING'
                         #updates = ', '.join(f"{c.name}=EXCLUDED.{c.name}" for c in insert_srt.table.columns)
                         upsert = ' '.join((insert, ondup))
-                        return upsert
+                        return insert
         
         
         except:
@@ -515,34 +541,46 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             self.lineEdit_Port.setText('')
             self.lineEdit_User.setText('')
     def set_db_import_from_parameter(self):
-        QMessageBox.warning(self, "ok", "entered in read.", QMessageBox.Ok)
+        #QMessageBox.warning(self, "ok", "entered in read.", QMessageBox.Ok)
         if self.comboBox_server_rd.currentText() == 'postgres':
-            QMessageBox.warning(self, "ok", "entered in if", QMessageBox.Ok)
+            #QMessageBox.warning(self, "ok", "entered in if", QMessageBox.Ok)
             self.lineEdit_host_rd.setText('127.0.0.1')
             self.lineEdit_username_rd.setText('postgres')
             self.lineEdit_database_rd.setText('hff_survey')
             self.lineEdit_port_rd.setText('5432')
         if self.comboBox_server_rd.currentText() == 'sqlite':
-            QMessageBox.warning(self, "ok", "entered in if", QMessageBox.Ok)
-            self.lineEdit_host_rd.setText.setText('')
+            #QMessageBox.warning(self, "ok", "entered in if", QMessageBox.Ok)
+            self.lineEdit_host_rd.setText('')
             self.lineEdit_username_rd.setText('')
-            self.lineEdit_lineEdit_pass_rd.setText('')
+            self.lineEdit_pass_rd.setText('')
             self.lineEdit_database_rd.setText('hff_survey.sqlite')
             self.lineEdit_port_rd.setText('')
     def set_db_import_to_parameter(self):
-        QMessageBox.warning(self, "ok", "entered in write", QMessageBox.Ok)
-        if self.comboBox_server_wt.currentText() == 'postgres':
-            QMessageBox.warning(self, "ok", "entered in if", QMessageBox.Ok)
-            self.lineEdit_host_wt.setText('127.0.0.1')
-            self.lineEdit_username_wt.setText('postgres')
-            self.lineEdit_database_wt.setText('hff_survey')
-            self.lineEdit_port_wt.setText('5432')
-        if self.comboBox_server_wt.currentText() == 'sqlite':
-            QMessageBox.warning(self, "ok", "entered in if", QMessageBox.Ok)
-            self.lineEdit_host_wt.setText.setText('')
+        #QMessageBox.warning(self, "ok", "entered in write", QMessageBox.Ok)
+        #self.comboBox_server_wt.clear()
+        if self.comboBox_server_wt.currentText() == 'postgres' and not self.comboBox_Database.currentText()=='postgres':
+            QMessageBox.warning(self, "Attenzione", "You need connect to postgres before", QMessageBox.Ok)
+            #self.comboBox_server_wt.clear()
+        if self.comboBox_server_wt.currentText() == 'postgres' and self.comboBox_Database.currentText()=='postgres':   
+            
+            self.lineEdit_host_wt.setText(str(self.lineEdit_Host.text()))
+            
+            self.lineEdit_database_wt.setText(str(self.lineEdit_DBname.text()))
+           
+            self.lineEdit_username_wt.setText(str(self.lineEdit_User.text()))
+            
+            self.lineEdit_port_wt.setText(str(self.lineEdit_Port.text()))
+            
+            self.lineEdit_pass_wt.setText(str(self.lineEdit_Password.text()))
+
+        
+        if self.comboBox_server_wt.currentText() == 'sqlite':   
+            #QMessageBox.warning(self, "ok", "entered in if", QMessageBox.Ok)
+            #self.self.comboBox_server_wt.clear()
+            self.lineEdit_host_wt.setText('')
             self.lineEdit_username_wt.setText('')
-            self.lineEdit_lineEdit_pass_wt.setText('')
-            self.lineEdit_database_wt.setText('hff_survey.sqlite')
+            self.lineEdit_pass_wt.setText('')
+            self.lineEdit_database_wt.setText(str(self.lineEdit_DBname.text()))
             self.lineEdit_port_wt.setText('')
     def load_dict(self):
         path_rel = os.path.join(os.sep, str(self.HOME), 'HFF_DB_folder', 'config.cfg')
@@ -1303,24 +1341,461 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             # ###############
     def test_def(self):
         pass
+    
+    
+    def on_pushButton_import_geometry_pressed(self):
+        
+        if self.L=='it':
+
+            msg = QMessageBox.warning(self, "Attenzione", "Il sistema aggiornerà le geometrie con i dati importati. Schiaccia Annulla per abortire altrimenti schiaccia Ok per contiunuare." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+
+        elif self.L=='de':
+
+            msg = QMessageBox.warning(self, "Warning", "Das System wird die Geometrien mit den importierten Daten aktualisieren. Drücken Sie Abbrechen, um abzubrechen, oder drücken Sie Ok, um fortzufahren." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+
+        else:
+
+            msg = QMessageBox.warning(self, "Warning", "The system will update the geometries with the imported data. Press Cancel to abort otherwise press Ok to contiunue." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+
+        if msg == QMessageBox.Cancel:
+            if self.L=='it':
+                QMessageBox.warning(self, "Attenzione", "Azione annullata" ,  QMessageBox.Ok)
+            elif self.L=='de':
+                QMessageBox.warning(self, "Warnung", "Aktion abgebrochen" ,  QMessageBox.Ok)
+
+            else:
+                QMessageBox.warning(self, "Warning", "Action aborted" ,  QMessageBox.Ok)
+        else:
+            
+            id_table_class_mapper_conv_dict = {
+                'SITE_POINT': 'gid',
+                'SITE_LINE':'gid',
+                'SITE_POLYGON':'gid',
+                'ARTEFACT_POINT':'gid',
+                'ANCHOR_POINT':'gid',
+                'POTTERY_POINT':'gid',
+                'TRANSECT_POLYGON':'gid',
+                'GRABSPOT_POINT':'gid' ,
+                'FEATURES_LINE':'gid',
+                'FEATURES_POINT':'gid',
+                'FEATURES_POLYGON':'gid'}
+           
+            ####RICAVA I DATI IN LETTURA PER LA CONNESSIONE DALLA GUI
+            conn_str_dict_read = {
+                "server": str(self.comboBox_server_rd.currentText()),
+                "user": str(self.lineEdit_username_rd.text()),
+                "password": str(self.lineEdit_pass_rd.text()),
+                "host": str(self.lineEdit_host_rd.text()),
+                "port": str(self.lineEdit_port_rd.text()),
+                "db_name": str(self.lineEdit_database_rd.text())
+            }
+            ####CREA LA STRINGA DI CONNESSIONE IN LETTURA
+            if conn_str_dict_read["server"] == 'postgres':
+                try:
+                    conn_str_read = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
+                        "postgresql", conn_str_dict_read["user"], conn_str_dict_read["password"],
+                        conn_str_dict_read["host"],
+                        conn_str_dict_read["port"], conn_str_dict_read["db_name"], "?sslmode=allow")
+                except:
+                    conn_str_read = "%s://%s:%s@%s:%d/%s" % (
+                        "postgresql", conn_str_dict_read["user"], conn_str_dict_read["password"],
+                        conn_str_dict_read["host"],
+                        conn_str_dict_read["port"], conn_str_dict_read["db_name"])
+            elif conn_str_dict_read["server"] == 'sqlite':
+                sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
+                                                 "HFF_DB_folder")
+                dbname_abs = sqlite_DB_path + os.sep + conn_str_dict_read["db_name"]
+                conn_str_read = "%s:///%s" % (conn_str_dict_read["server"], dbname_abs)
+                QMessageBox.warning(self, "Alert", str(conn_str_dict_read["db_name"]), QMessageBox.Ok)
+            ####SI CONNETTE AL DATABASE
+            self.DB_MANAGER_read = Hff_db_management(conn_str_read)
+            test = self.DB_MANAGER_read.connection()
+            if test:
+                QMessageBox.warning(self, "Message", "Connection ok", QMessageBox.Ok)
+            else:
+                QMessageBox.warning(self, "Alert", "Connection error: <br>", QMessageBox.Cancel)
+
+            ####LEGGE I RECORD IN BASE AL PARAMETRO CAMPO=VALORE
+            search_dict = {
+                self.lineEdit_field_rd.text(): "'" + str(self.lineEdit_value_rd.text()) + "'"
+            }
+            mapper_class_read = str(self.comboBox_geometry.currentText())
+            res_read = self.DB_MANAGER_read.query_bool(search_dict, mapper_class_read)
+            ####INSERISCE I DATI DA UPLOADARE DENTRO ALLA LISTA DATA_LIST_TOIMP
+            data_list_toimp = []
+            for i in res_read:
+                data_list_toimp.append(i)
+            QMessageBox.warning(self, "Total record to import", str(len(data_list_toimp)), QMessageBox.Ok)
+            ####RICAVA I DATI IN LETTURA PER LA CONNESSIONE DALLA GUI
+            conn_str_dict_write = {
+                "server": str(self.comboBox_server_wt.currentText()),
+                "user": str(self.lineEdit_username_wt.text()),
+                "password": str(self.lineEdit_pass_wt.text()),
+                "host": str(self.lineEdit_host_wt.text()),
+                "port": str(self.lineEdit_port_wt.text()),
+                "db_name": str(self.lineEdit_database_wt.text())
+            }
+            ####CREA LA STRINGA DI CONNESSIONE IN LETTURA
+            if conn_str_dict_write["server"] == 'postgres':
+                try:
+                    conn_str_write = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
+                        "postgresql", conn_str_dict_writed["user"], conn_str_dict_write["password"],
+                        conn_str_dict_write["host"], conn_str_dict_write["port"], conn_str_dict_write["db_name"],
+                        "?sslmode=allow")
+                except:
+                    conn_str_write = "%s://%s:%s@%s:%d/%s" % (
+                        "postgresql", conn_str_dict_write["user"], conn_str_dict_write["password"],
+                        conn_str_dict_write["host"],
+                        int(conn_str_dict_write["port"]), conn_str_dict_write["db_name"])
+            elif conn_str_dict_write["server"] == 'sqlite':
+                sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
+                                                 "HFF_DB_folder")  # "C:\\Users\\Windows\\Dropbox\\pyarchinit_san_marco\\" fare modifiche anche in pyarchinit_pyqgis
+                dbname_abs = sqlite_DB_path + os.sep + conn_str_dict_write["db_name"]
+                conn_str_write = "%s:///%s" % (conn_str_dict_write["server"], dbname_abs)
+                QMessageBox.warning(self, "Alert", str(conn_str_dict_write["db_name"]), QMessageBox.Ok)
+            ####SI CONNETTE AL DATABASE IN SCRITTURA
+            self.DB_MANAGER_write = Hff_db_management(conn_str_write)
+            test = self.DB_MANAGER_write.connection()
+            test = str(test)
+            mapper_class_write = str(self.comboBox_geometry.currentText())
+            ####inserisce i dati dentro al database
+            ####PYUNITASTRATIGRAFICHE TABLE
+            if mapper_class_write == 'PYUS' :
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pyus(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].area_s,
+                            data_list_toimp[sing_rec].scavo_s,
+                            data_list_toimp[sing_rec].us_s,
+                            data_list_toimp[sing_rec].stratigraph_index_us,
+                            data_list_toimp[sing_rec].tipo_us_s,
+                            data_list_toimp[sing_rec].rilievo_originale,
+                            data_list_toimp[sing_rec].disegnatore,
+                            data_list_toimp[sing_rec].data,
+                            data_list_toimp[sing_rec].tipo_doc,
+                            data_list_toimp[sing_rec].nome_doc,
+                            data_list_toimp[sing_rec].coord,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYSITO_POINT' :
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pysito_point(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].sito_nome,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYSITO_POLYGON' :
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pysito_polygon(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].sito_id,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYQUOTE' :
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pyquote(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].sito_q,
+                            data_list_toimp[sing_rec].area_q ,
+                            data_list_toimp[sing_rec].us_q ,
+                            data_list_toimp[sing_rec].unita_misu_q ,
+                            data_list_toimp[sing_rec].quota_q ,
+                            data_list_toimp[sing_rec].data ,
+                            data_list_toimp[sing_rec].disegnatore ,
+                            data_list_toimp[sing_rec].rilievo_originale ,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYUS_NEGATIVE' :
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pyus_negative(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].sito_n ,
+                            data_list_toimp[sing_rec].area_n ,
+                            data_list_toimp[sing_rec].us_n ,
+                            data_list_toimp[sing_rec].tipo_doc_n ,
+                            data_list_toimp[sing_rec].nome_doc_n,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYSTRUTTURE' :
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pystrutture(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].sito ,
+                            data_list_toimp[sing_rec].id_strutt ,
+                            data_list_toimp[sing_rec].per_iniz,
+                            data_list_toimp[sing_rec].per_fin ,
+                            data_list_toimp[sing_rec].dataz_ext ,
+                            data_list_toimp[sing_rec].fase_iniz,
+                            data_list_toimp[sing_rec].fase_fin ,
+                            data_list_toimp[sing_rec].descrizione,
+                            data_list_toimp[sing_rec].the_geom ,
+                            data_list_toimp[sing_rec].sigla_strut,
+                            data_list_toimp[sing_rec].nr_strut)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYREPERTI' :
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pyreperti(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].id_rep ,
+                            data_list_toimp[sing_rec].siti ,
+                            data_list_toimp[sing_rec].link ,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYINDIVIDUI':
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pyindividui(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].sito,
+                            data_list_toimp[sing_rec].sigla_struttura,
+                            data_list_toimp[sing_rec].note,
+                            data_list_toimp[sing_rec].id_individuo,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYCAMPIONI':
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pycampioni(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].id_campion,
+                            data_list_toimp[sing_rec].sito,
+                            # data_list_toimp[sing_rec].tipo_camp ,
+                            # data_list_toimp[sing_rec].dataz ,
+                            # data_list_toimp[sing_rec].cronologia ,
+                            # data_list_toimp[sing_rec].link_immag,
+                            data_list_toimp[sing_rec].sigla_camp ,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYTOMBA':
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pytomba(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].sito,
+                            data_list_toimp[sing_rec].nr_scheda,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYDOCUMENTAZIONE':
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pydocumentazione(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].sito,
+                            data_list_toimp[sing_rec].nome_doc,
+                            data_list_toimp[sing_rec].tipo_doc,
+                            data_list_toimp[sing_rec].path_qgis_pj,
+                            data_list_toimp[sing_rec].geom,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYLINEERIFERIMENTO':
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pylineeriferimento(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].sito,
+                            data_list_toimp[sing_rec].definizion ,
+                            data_list_toimp[sing_rec].descrizion,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYRIPARTIZIONI_SPAZIALI':
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pyripartizioni_spaziali(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].id_rs,
+                            data_list_toimp[sing_rec].sito_rs,
+                            data_list_toimp[sing_rec].tip_rip,
+                            data_list_toimp[sing_rec].descr_rs,
+                            data_list_toimp[sing_rec].the_geom)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except Exception as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+            elif mapper_class_write == 'PYSEZIONI':
+                for sing_rec in range(len(data_list_toimp)):
+                    try:
+                        data = self.DB_MANAGER_write.insert_pysezioni(
+                            self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                             id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].id_sezione,
+                            data_list_toimp[sing_rec].sito,
+                            data_list_toimp[sing_rec].area,
+                            data_list_toimp[sing_rec].descr,
+                            data_list_toimp[sing_rec].the_geom,
+                            data_list_toimp[sing_rec].tipo_doc,
+                            data_list_toimp[sing_rec].nome_doc)
+                        self.DB_MANAGER_write.insert_data_session(data)
+                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
+                        self.progress_bar.setValue(value)
+                        QApplication.processEvents()
+                    except AssertionError as e :
+                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                        return 0
+                self.progress_bar.reset()
+                QMessageBox.information(self, "Message", "Data Loaded")
+    
     def on_pushButton_import_pressed(self):
-        id_table_class_mapper_conv_dict = {
-            'SITE': 'id_sito',
-            'ANC': 'id_anc',
-            'ART': 'id_art',
-            'UW': 'id_dive',
-            'POTTERY': 'id_rep',
-            'MEDIA': 'id_media',
-            'MEDIA_THUMB': 'id_media_thumb',
-            'MEDIATOENTITY':'id_mediaToEntity',
-            'EAMENA':'id_eamena'
-        }       
-        # creazione del cursore di lettura
-        # if os.name == 'posix':
-            # home = os.environ['HOME']
-        # elif os.name == 'nt':
-            # home = os.environ['HOMEPATH']
-        ####RICAVA I DATI IN LETTURA PER LA CONNESSIONE DALLA GUI
+        if self.L=='it':
+
+            msg = QMessageBox.warning(self, "Attenzione", "Il sistema aggiornerà le tabelle con i dati importati. Schiaccia Annulla per abortire altrimenti schiaccia Ok per contiunuare." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+
+        elif self.L=='de':
+
+            msg = QMessageBox.warning(self, "Warning", "Das System wird die tabellarisch mit den importierten Daten aktualisieren. Drücken Sie Abbrechen, um abzubrechen, oder drücken Sie Ok, um fortzufahren." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+
+        else:
+
+            msg = QMessageBox.warning(self, "Warning", "The system will update the tables with the imported data. Press Cancel to abort otherwise press Ok to contiunue." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+
+        if msg == QMessageBox.Cancel:
+            if self.L=='it':
+                QMessageBox.warning(self, "Attenzione", "Azione annullata" ,  QMessageBox.Ok)
+            elif self.L=='de':
+                QMessageBox.warning(self, "Warnung", "Aktion abgebrochen" ,  QMessageBox.Ok)
+
+            else:
+                QMessageBox.warning(self, "Warning", "Action aborted" ,  QMessageBox.Ok)
+
+        else:
+        
+            id_table_class_mapper_conv_dict = {
+                'SITE': 'id_sito',
+                'ANC': 'id_anc',
+                'ART': 'id_art',
+                'UW': 'id_dive',
+                'POTTERY': 'id_rep',
+                'MEDIA': 'id_media',
+                'MEDIA_THUMB': 'id_media_thumb',
+                'MEDIATOENTITY':'id_mediaToEntity',
+                'EAMENA':'id_eamena'
+            }       
+            # creazione del cursore di lettura
+            # if os.name == 'posix':
+                # home = os.environ['HOME']
+            # elif os.name == 'nt':
+                # home = os.environ['HOMEPATH']
+            ####RICAVA I DATI IN LETTURA PER LA CONNESSIONE DALLA GUI
         conn_str_dict_read = {
             "server": str(self.comboBox_server_rd.currentText()),
             "user": str(self.lineEdit_username_rd.text()),
@@ -1525,7 +2000,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
@@ -1593,7 +2068,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
@@ -1640,7 +2115,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Warning", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
@@ -1719,7 +2194,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")       
@@ -1778,7 +2253,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Warning", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
@@ -1836,7 +2311,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Warning", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
@@ -1863,7 +2338,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
@@ -1890,7 +2365,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     QApplication.processEvents()
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Warning", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
@@ -1917,7 +2392,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     QApplication.processEvents() 
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")

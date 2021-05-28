@@ -1004,6 +1004,15 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 search_dict = {'name_site'  : "'"+str(sing_tags[0])+"'"}
                 record_spm_list.append(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
 
+        if not record_spm_list[0]:
+            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            if result==QMessageBox.Ok:
+                rs= self.DB_MANAGER.insert_spm_records(str(sing_tags[0]), str(sing_tags[1]))
+                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                return  rs  
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
         spm_list = []
         for r in record_spm_list:
             spm_list.append([r[0].id_sito, 'SPM', 'site_table'])
@@ -1029,10 +1038,18 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 search_dict = {'divelog_id'  : "'"+str(sing_tags[0])+"'",
                                 'years': "'"+str(sing_tags[1])+"'"}
                 record_doc_list.append(self.DB_MANAGER.query_bool(search_dict, 'UW'))
-
+        if not record_doc_list[0]:
+            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            if result==QMessageBox.Ok:
+                rs= self.DB_MANAGER.insert_doc_records(str(sing_tags[0]),str(sing_tags[1]),str(sing_tags[2]))
+                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                return  rs  
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
         doc_list = []
         for r in record_doc_list:
-            doc_list.append([r[0].id_dive, 'DOC', 'dive_log'])
+            doc_list.append([r[0].id_dive,  'DOC', 'dive_log'])
         return doc_list 
         
     def remove_Doc_UW(self):
@@ -1057,6 +1074,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                                 'years': "'"+str(sing_tags[1])+"'"}
                 record_pe_list.append(self.DB_MANAGER.query_bool(search_dict, 'UW'))
 
+        if not record_pe_list[0]:
+            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            if result==QMessageBox.Ok:
+                rs= self.DB_MANAGER.insert_doc_records(str(sing_tags[0]),str(sing_tags[1]),str(sing_tags[2]))
+                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                return  rs  
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
+        
         pe_list = []
         for r in record_pe_list:
             pe_list.append([r[0].id_dive, 'PE', 'dive_log'])
@@ -1084,6 +1111,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                                 
                 record_ship_list.append(self.DB_MANAGER.query_bool(search_dict, 'SHIPWRECK'))
 
+        if not record_ship_list[0]:
+            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            if result==QMessageBox.Ok:
+                rs= self.DB_MANAGER.insert_ship_records(str(sing_tags[0]))
+                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                return  rs  
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
+        
         ship_list = []
         for r in record_ship_list:
             ship_list.append([r[0].id_shipwreck, 'SHIPWRECK', 'shipwreck_table'])
@@ -1111,6 +1148,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                                 
                 record_art_list.append(self.DB_MANAGER.query_bool(search_dict, 'ART'))
 
+        if not record_art_list[0]:
+            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            if result==QMessageBox.Ok:
+                rs= self.DB_MANAGER.insert_art_records(str(sing_tags[0]),str(sing_tags[1]))
+                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                return  rs  
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
+        
         art_list = []
         for r in record_art_list:
             art_list.append([r[0].id_art, 'ARTEFACT', 'artefact_log'])
@@ -1138,6 +1185,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 search_dict = {'anchors_id'  : "'"+str(sing_tags[0])+"'"}
                 record_anc_list.append(self.DB_MANAGER.query_bool(search_dict, 'ANC'))
 
+        if not record_anc_list[0]:
+            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            if result==QMessageBox.Ok:
+                rs= self.DB_MANAGER.insert_anc_records(str(sing_tags[0]),str(sing_tags[1]))
+                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                return  rs  
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
+        
         anc_list = []
         for r in record_anc_list:
             anc_list.append([r[0].id_anc, 'ANCHORS', 'anchor_table'])
@@ -1164,6 +1221,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 search_dict = {'artefact_id'  : "'"+str(sing_tags[0])+"'"}
                 record_pottery_list.append(self.DB_MANAGER.query_bool(search_dict, 'POTTERY'))
 
+        if not record_pottery_list[0]:
+            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            if result==QMessageBox.Ok:
+                rs= self.DB_MANAGER.insert_pottery_records(str(sing_tags[0]),str(sing_tags[1]))
+                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                return  rs  
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
+        
         pottery_list = []
         for r in record_pottery_list:
             pottery_list.append([r[0].id_rep, 'POTTERY', 'pottery_table'])
@@ -1191,6 +1258,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 search_dict = {'name_site'  : "'"+str(sing_tags[0])+"'"}
                 record_survey_list.append(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
 
+        if not record_survey_list[0]:
+            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            if result==QMessageBox.Ok:
+                rs= self.DB_MANAGER.insert_spm_records(str(sing_tags[0]),str(sing_tags[1]))
+                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                return  rs  
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
+        
         survey_list = []
         for r in record_survey_list:
             survey_list.append([r[0].id_sito, 'SITE', 'site_table'])
@@ -2107,8 +2184,8 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_remove_thumb_pressed(self):
         items_selected = self.iconListWidget.selectedItems()
         if bool (items_selected):
-            msg = QMessageBox.warning(self, "Attenzione!!!",
-                                      "Vuoi veramente eliminare la thumb selezionata? \n L'azione è irreversibile",
+            msg = QMessageBox.warning(self, "Warning!",
+                                      "Do you really want to delete the selected thumb? \The action is irreversible.",
                                       QMessageBox.Ok | QMessageBox.Cancel)
             if msg == QMessageBox.Cancel:
                 QMessageBox.warning(self, "Messaggio!!!", "Azione Annullata!")

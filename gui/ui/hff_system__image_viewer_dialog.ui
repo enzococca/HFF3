@@ -400,7 +400,7 @@
          </rect>
         </property>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>262</number>
+         <number>175</number>
         </attribute>
         <row>
          <property name="text">
@@ -415,6 +415,11 @@
         <column>
          <property name="text">
           <string>Year</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Name_site</string>
          </property>
         </column>
        </widget>
@@ -454,7 +459,7 @@
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>11</x>
@@ -527,7 +532,7 @@
          </rect>
         </property>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>262</number>
+         <number>175</number>
         </attribute>
         <row>
          <property name="text">
@@ -542,6 +547,11 @@
         <column>
          <property name="text">
           <string>Year</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Name site</string>
          </property>
         </column>
        </widget>
@@ -565,7 +575,7 @@
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>11</x>
@@ -631,7 +641,7 @@
          <enum>Qt::MoveAction</enum>
         </property>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>525</number>
+         <number>255</number>
         </attribute>
         <row>
          <property name="text">
@@ -641,6 +651,11 @@
         <column>
          <property name="text">
           <string>Artefact ID</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Name site</string>
          </property>
         </column>
        </widget>
@@ -677,7 +692,7 @@
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>11</x>
@@ -743,7 +758,7 @@
          </sizepolicy>
         </property>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>525</number>
+         <number>255</number>
         </attribute>
         <attribute name="verticalHeaderMinimumSectionSize">
          <number>25</number>
@@ -756,6 +771,11 @@
         <column>
          <property name="text">
           <string>Anchor ID</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Name site</string>
          </property>
         </column>
        </widget>
@@ -798,7 +818,7 @@
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>11</x>
@@ -870,7 +890,7 @@
          </rect>
         </property>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>525</number>
+         <number>255</number>
         </attribute>
         <row>
          <property name="text">
@@ -880,6 +900,11 @@
         <column>
          <property name="text">
           <string>Pottery ID</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Name site</string>
          </property>
         </column>
        </widget>
@@ -916,7 +941,7 @@
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>11</x>
@@ -1012,7 +1037,7 @@
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>11</x>
@@ -1072,7 +1097,7 @@
          </rect>
         </property>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>525</number>
+         <number>250</number>
         </attribute>
         <attribute name="horizontalHeaderMinimumSectionSize">
          <number>55</number>
@@ -1085,6 +1110,11 @@
         <column>
          <property name="text">
           <string>Name Site</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Location</string>
          </property>
         </column>
        </widget>
@@ -1108,7 +1138,7 @@
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>1</x>
@@ -1168,7 +1198,7 @@
          </rect>
         </property>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>525</number>
+         <number>250</number>
         </attribute>
         <row>
          <property name="text">
@@ -1178,6 +1208,11 @@
         <column>
          <property name="text">
           <string>Name Site</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Location</string>
          </property>
         </column>
        </widget>
@@ -1201,7 +1236,7 @@
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>11</x>
@@ -1802,7 +1837,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>11</x>

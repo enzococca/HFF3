@@ -1160,6 +1160,108 @@ class Hff_db_management(object):
         res = self.engine.execute(sql_query_string)
         return res
     
+    
+    def insert_spm_records(self, name_site, site):
+        id_site = self.max_num_id('SITE', 'id_sito')
+        
+        l=QgsSettings().value("locale/userLocale")[0:2]
+
+        
+        id_site += 1
+
+        data_ins = self.insert_site_values(id_site, site,'', '', '', '', '', '', '', '', '', '', name_site, '', '', '', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','')
+                                           
+        self.insert_data_session(data_ins)
+        
+        return
+    
+    
+    def insert_doc_records(self,  divelog_id,years,sito):
+        id_doc = self.max_num_id('UW', 'id_dive')
+        
+        l=QgsSettings().value("locale/userLocale")[0:2]
+
+        
+        id_doc += 1
+
+        data_ins = self.insert_uw_values(id_doc,divelog_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','','','','','','','',years,'','','',sito,'','','','')
+                                           
+        self.insert_data_session(data_ins)
+        
+        return
+    
+    # def insert_pe_records(self, sito, divelog_id,years):
+        # id_doc = self.max_num_id('UW', 'id_dive')
+        
+        # l=QgsSettings().value("locale/userLocale")[0:2]
+
+        
+        # id_doc += 1
+
+        # data_ins = self.insert_doc_records(divelog_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','','','','','','','','',years,'','','',sito,'','','','')
+                                           
+        # self.insert_data_session(data_ins)
+        
+        # return
+    
+    
+    def insert_ship_records(self, code):
+        id_s = self.max_num_id('SHIPWRECK', 'id_shipwreck')
+        
+        l=QgsSettings().value("locale/userLocale")[0:2]
+
+        
+        id_s += 1
+
+        data_ins = self.insert_shipwreck_values(id_s, code, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','', '', '', '', '', '', '', None, None, None, None, None, None, None, '', '', '','', '', '', '', '')
+                                           
+        self.insert_data_session(data_ins)
+        
+        return
+    
+    def insert_art_records(self, code,site):
+        id_art = self.max_num_id('ART', 'id_art')
+        
+        l=QgsSettings().value("locale/userLocale")[0:2]
+
+        
+        id_art += 1
+
+        data_ins = self.insert_art_values(id_art, '', code, '', '', '', '', '', '', '', '', '', '', '', None, '', None, None, None, None, None, None, '', '', '', '', site, '')
+                                           
+        self.insert_data_session(data_ins)
+        
+        return
+    def insert_anc_records(self, code,site):
+        id_anc = self.max_num_id('ANC', 'id_anc')
+        
+        l=QgsSettings().value("locale/userLocale")[0:2]
+
+        
+        id_anc += 1
+
+        data_ins = self.insert_anc_values(id_anc, site, '', code, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', None, '', '', '', None, None, None, None, None, None, None, None, None, None, None, None, None,None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, '', None, None, None, None, None, None, '')
+                                           
+        self.insert_data_session(data_ins)
+        
+        return
+    
+    def insert_pottery_records(self, code,site):
+        id_pottery = self.max_num_id('POTTERY', 'id_rep')
+        
+        l=QgsSettings().value("locale/userLocale")[0:2]
+
+        
+        id_pottery += 1
+
+        data_ins = self.insert_pottery_values(id_pottery, '', site, '', code, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','','','','','','','','','','','')
+                                           
+        self.insert_data_session(data_ins)
+        
+        return
+    
+    
+    
     # def query_in_contains(self, value_list, sitof, areaf):
         # self.value_list = value_list
 
